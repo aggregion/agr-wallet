@@ -60,6 +60,4 @@ yarn dist
 ```
 The packages will be available on the `/dist` folder.
 
-## Further help
 
-To get more help please contact our team at contact@eosrio.io or at our [Telegram channel](https://t.me/eosrio).
