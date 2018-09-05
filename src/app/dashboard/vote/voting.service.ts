@@ -1,6 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {EOSJSService} from '../../eosjs.service';
+import {AGRJSService} from '../../eosjs.service';
 import {Subject} from 'rxjs';
 import {AccountsService} from '../../accounts.service';
 
@@ -24,7 +24,7 @@ export class VotingService {
   data: any[];
   updateOptions: any;
 
-  constructor(private eos: EOSJSService, private http: HttpClient, private aService: AccountsService) {
+  constructor(private eos: AGRJSService, private http: HttpClient, private aService: AccountsService) {
     this.bps = [];
     this.data = [];
     this.initList = false;

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {EOSJSService} from './eosjs.service';
+import {AGRJSService} from './eosjs.service';
 import {HttpClient} from '@angular/common/http';
 import {BodyOutputType, Toast, ToasterService} from 'angular2-toaster';
 import {split} from 'ts-node';
@@ -22,8 +22,9 @@ export class AccountsService {
   totalAssetsSum = 0;
   loading = true;
 
-  static parseEOS(tk_string) {
-    if (tk_string.split(' ')[1] === 'EOS') {
+  static parseAGR(tk_string) {
+    console.log('Parse AGR', tk_string);
+    if (tk_string.split(' ')[1] === 'AGR') {
       return parseFloat(tk_string.split(' ')[0]);
     } else {
       return 0;
@@ -34,14 +35,14 @@ export class AccountsService {
     let balance = 0;
     if (acc.tokens) {
       acc.tokens.forEach((tk) => {
-        balance += AccountsService.parseEOS(tk);
+        balance += AccountsService.parseAGR(tk);
       });
     }
     let net = 0;
     let cpu = 0;
     if (acc['self_delegated_bandwidth']) {
-      net = AccountsService.parseEOS(acc['self_delegated_bandwidth']['net_weight']);
-      cpu = AccountsService.parseEOS(acc['self_delegated_bandwidth']['cpu_weight']);
+      net = AccountsService.parseAGR(acc['self_delegated_bandwidth']['net_weight']);
+      cpu = AccountsService.parseAGR(acc['self_delegated_bandwidth']['cpu_weight']);
       balance += net;
       balance += cpu;
     }
@@ -53,12 +54,12 @@ export class AccountsService {
     };
   }
 
-  constructor(private http: HttpClient, private eos: EOSJSService, private toaster: ToasterService) {
+  constructor(private http: HttpClient, private eos: AGRJSService, private toaster: ToasterService) {
     this.accounts = [];
     this.usd_rate = 10.00;
     this.allowed_actions = ['transfer', 'voteproducer', 'undelegatebw', 'delegatebw'];
     // this.fetchListings();
-    this.fetchEOSprice();
+    this.fetchAGRprice();
   }
 
   registerSymbol(data, contract) {
@@ -101,7 +102,7 @@ export class AccountsService {
         const contracts = Object.keys(data);
         this.loading = false;
         contracts.forEach((contract) => {
-          if (data[contract]['symbol'] !== 'EOS') {
+          if (data[contract]['symbol'] !== 'AGR') {
             this.registerSymbol(data[contract], contract);
           }
         });
@@ -146,10 +147,10 @@ export class AccountsService {
     let cpu = 0, net = 0, amount = 0;
 
     if (action_name === 'transfer') {
-      if (contract === 'eosio.token') {
+      if (contract === 'agrio.token') {
         // NATIVE TOKEN
         amount = act['data']['quantity']['split'](' ')[0];
-        symbol = 'EOS';
+        symbol = 'AGR';
       } else {
         // CUSTOM TOKEN
         amount = act['data']['quantity']['split'](' ')[0];
@@ -165,14 +166,14 @@ export class AccountsService {
       }
     }
 
-    if (contract === 'eosio' && action_name === 'voteproducer') {
+    if (contract === 'agrio' && action_name === 'voteproducer') {
       votedProducers = act['data']['producers'];
       proxy = act['data']['proxy'];
       voter = act['data']['voter'];
       type = 'vote';
     }
 
-    if (contract === 'eosio' && action_name === 'undelegatebw') {
+    if (contract === 'agrio' && action_name === 'undelegatebw') {
       cpu = parseFloat(act['data']['unstake_cpu_quantity'].split(' ')[0]);
       net = parseFloat(act['data']['unstake_net_quantity'].split(' ')[0]);
       amount = cpu + net;
@@ -180,7 +181,7 @@ export class AccountsService {
       type = 'unstaked';
     }
 
-    if (contract === 'eosio' && action_name === 'delegatebw') {
+    if (contract === 'agrio' && action_name === 'delegatebw') {
       cpu = parseFloat(act['data']['stake_cpu_quantity'].split(' ')[0]);
       net = parseFloat(act['data']['stake_net_quantity'].split(' ')[0]);
       amount = cpu + net;
@@ -190,7 +191,7 @@ export class AccountsService {
 
     let valid = true;
     if (action_name === 'transfer') {
-      if (act['data']['to'] === 'eosio.stake') {
+      if (act['data']['to'] === 'agrio.stake') {
         valid = false;
       }
     }
@@ -334,21 +335,21 @@ export class AccountsService {
               let ref_net = 0;
               let ref_cpu = 0;
               if (refunds.rows.length > 0) {
-                ref_net = AccountsService.parseEOS(refunds.rows[0]['cpu_amount']);
-                ref_cpu = AccountsService.parseEOS(refunds.rows[0]['cpu_amount']);
+                ref_net = AccountsService.parseAGR(refunds.rows[0]['cpu_amount']);
+                ref_cpu = AccountsService.parseAGR(refunds.rows[0]['cpu_amount']);
                 balance += ref_net;
                 balance += ref_cpu;
                 const tempDate = refunds.rows[0]['request_time'] + '.000Z';
                 ref_time = new Date(tempDate);
               }
               tokens.forEach((tk) => {
-                balance += AccountsService.parseEOS(tk);
+                balance += AccountsService.parseAGR(tk);
               });
               let net = 0;
               let cpu = 0;
               if (newdata['self_delegated_bandwidth']) {
-                net = AccountsService.parseEOS(newdata['self_delegated_bandwidth']['net_weight']);
-                cpu = AccountsService.parseEOS(newdata['self_delegated_bandwidth']['cpu_weight']);
+                net = AccountsService.parseAGR(newdata['self_delegated_bandwidth']['net_weight']);
+                cpu = AccountsService.parseAGR(newdata['self_delegated_bandwidth']['cpu_weight']);
                 balance += net;
                 balance += cpu;
               }
@@ -395,7 +396,7 @@ export class AccountsService {
           id = this.cmcListings[i].id;
         }
       }
-      if (id && symbol === 'EOSDAC') {
+      if (id && symbol === 'AGRDAC') {
         this.http.get('https://api.coinmarketcap.com/v2/ticker/' + id + '/').subscribe((result: any) => {
           resolve(parseFloat(result.data.quotes.USD['price']));
         }, (err) => {
@@ -407,7 +408,7 @@ export class AccountsService {
     });
   }
 
-  fetchEOSprice() {
+  fetchAGRprice() {
     this.http.get('https://api.coinmarketcap.com/v2/ticker/1765/').subscribe((result: any) => {
       this.usd_rate = parseFloat(result.data.quotes.USD['price']);
     });

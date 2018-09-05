@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
-import {EOSJSService} from '../eosjs.service';
+import {AGRJSService} from '../eosjs.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AccountsService} from '../accounts.service';
 import {Router} from '@angular/router';
@@ -34,7 +34,7 @@ export class LandingComponent implements OnInit {
   newAccountPayload = '';
   agreeKeys = false;
   check: boolean;
-  publicEOS: string;
+  publicAGR: string;
   checkerr: string;
   errormsg: string;
   accounts: any[];
@@ -61,15 +61,15 @@ export class LandingComponent implements OnInit {
   config: ToasterConfig;
   verifyPanel = false;
 
-  static parseEOS(tk_string) {
-    if (tk_string.split(' ')[1] === 'EOS') {
+  static parseAGR(tk_string) {
+    if (tk_string.split(' ')[1] === 'AGR') {
       return parseFloat(tk_string.split(' ')[0]);
     } else {
       return 0;
     }
   }
 
-  constructor(public eos: EOSJSService,
+  constructor(public eos: AGRJSService,
               private crypto: CryptoService,
               private fb: FormBuilder,
               private aService: AccountsService,
@@ -103,7 +103,7 @@ export class LandingComponent implements OnInit {
       this.busy = !status;
     });
 
-    this.publicEOS = '';
+    this.publicAGR = '';
 
     this.passform = this.fb.group({
       matchingPassword: this.fb.group({
@@ -316,10 +316,10 @@ export class LandingComponent implements OnInit {
 
   importCredentials() {
     if (this.passform.value.matchingPassword.pass1 === this.passform.value.matchingPassword.pass2) {
-      this.crypto.initKeys(this.publicEOS, this.passform.value.matchingPassword.pass1).then(() => {
-        this.crypto.encryptAndStore(this.pvtform.value.private_key, this.publicEOS).then(() => {
+      this.crypto.initKeys(this.publicAGR, this.passform.value.matchingPassword.pass1).then(() => {
+        this.crypto.encryptAndStore(this.pvtform.value.private_key, this.publicAGR).then(() => {
           this.aService.importAccounts(this.importedAccounts);
-          this.crypto.decryptKeys(this.publicEOS).then(() => {
+          this.crypto.decryptKeys(this.publicAGR).then(() => {
             this.router.navigate(['dashboard', 'vote']).catch((err) => {
               console.log(err);
             });
@@ -338,10 +338,10 @@ export class LandingComponent implements OnInit {
 
   importCredentialsExodus() {
     if (this.passformexodus.value.matchingPassword.pass1 === this.passformexodus.value.matchingPassword.pass2) {
-      this.crypto.initKeys(this.publicEOS, this.passformexodus.value.matchingPassword.pass1).then(() => {
-        this.crypto.encryptAndStore(this.pk, this.publicEOS).then(() => {
+      this.crypto.initKeys(this.publicAGR, this.passformexodus.value.matchingPassword.pass1).then(() => {
+        this.crypto.encryptAndStore(this.pk, this.publicAGR).then(() => {
           this.aService.importAccounts(this.importedAccounts);
-          this.crypto.decryptKeys(this.publicEOS).then(() => {
+          this.crypto.decryptKeys(this.publicAGR).then(() => {
             this.router.navigate(['dashboard', 'vote']).catch((err) => {
               console.log(err);
             });
@@ -361,7 +361,7 @@ export class LandingComponent implements OnInit {
   verifyPrivateKey(input, exodus, path) {
     if (input !== '') {
       this.eos.checkPvtKey(input).then((results) => {
-        this.publicEOS = results.publicKey;
+        this.publicAGR = results.publicKey;
         this.importedAccounts = [];
         this.importedAccounts = [...results.foundAccounts];
         this.importedAccounts.forEach((item) => {
@@ -421,16 +421,16 @@ export class LandingComponent implements OnInit {
     if (this.eos.ready) {
       this.check = true;
       this.accounts = [];
-      this.eos.loadPublicKey(this.publicEOS).then((account_data: any) => {
+      this.eos.loadPublicKey(this.publicAGR).then((account_data: any) => {
         account_data.foundAccounts.forEach((acc) => {
           let balance = 0;
           // Parse tokens and calculate balance
           acc['tokens'].forEach((tk) => {
-            balance += LandingComponent.parseEOS(tk);
+            balance += LandingComponent.parseAGR(tk);
           });
           // Add stake balance
-          balance += LandingComponent.parseEOS(acc['total_resources']['cpu_weight']);
-          balance += LandingComponent.parseEOS(acc['total_resources']['net_weight']);
+          balance += LandingComponent.parseAGR(acc['total_resources']['cpu_weight']);
+          balance += LandingComponent.parseAGR(acc['total_resources']['net_weight']);
           const accData = {
             name: acc['account_name'],
             full_balance: Math.round((balance) * 10000) / 10000

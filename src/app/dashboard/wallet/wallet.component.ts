@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {AccountsService} from '../../accounts.service';
-import {EOSJSService} from '../../eosjs.service';
+import {AGRJSService} from '../../eosjs.service';
 
 import * as moment from 'moment';
 
@@ -25,7 +25,7 @@ export class WalletComponent implements OnInit, AfterViewInit, OnDestroy {
     window['shell']['openExternal']('https://www.bloks.io/transaction/' + value);
   }
 
-  constructor(public aService: AccountsService, public eos: EOSJSService) {
+  constructor(public aService: AccountsService, public eos: AGRJSService) {
     this.moment = moment;
     this.actions = [];
     this.tokens = [];

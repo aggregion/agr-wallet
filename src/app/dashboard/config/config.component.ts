@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {EOSJSService} from '../../eosjs.service';
+import {AGRJSService} from '../../eosjs.service';
 import {AccountsService} from '../../accounts.service';
 import {VotingService} from '../vote/voting.service';
 import {NetworkService} from '../../network.service';
@@ -37,7 +37,7 @@ export class ConfigComponent implements OnInit {
               public voteService: VotingService,
               public network: NetworkService,
               private router: Router,
-              private eos: EOSJSService,
+              private eos: AGRJSService,
               private crypto: CryptoService,
               public aService: AccountsService,
               private toaster: ToasterService) {

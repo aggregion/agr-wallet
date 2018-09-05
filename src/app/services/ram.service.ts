@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {EOSJSService} from '../eosjs.service';
+import {AGRJSService} from '../eosjs.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RamService {
 
-  ramPriceEOS = 0;
+  ramPriceAGR = 0;
   total_ram_bytes_reserved = 0;
   total_ram_stake = 0;
   max_ram_size = 0;
@@ -15,7 +15,7 @@ export class RamService {
   rm_supply = 0;
   reloaderInterval = null;
 
-  constructor(private eos: EOSJSService) {
+  constructor(private eos: AGRJSService) {
   }
 
   reload() {
@@ -46,6 +46,6 @@ export class RamService {
   }
 
   updatePrice() {
-    this.ramPriceEOS = ((this.rm_quote) / this.rm_base) * 1024;
+    this.ramPriceAGR = ((this.rm_quote) / this.rm_base) * 1024;
   }
 }

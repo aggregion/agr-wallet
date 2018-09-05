@@ -1,4 +1,4 @@
-export interface EOSAccount {
+export interface AGRAccount {
   details: any;
   unstaked: number;
   unstaking: number;

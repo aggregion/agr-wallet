@@ -13,7 +13,7 @@
                                                                                     (click)="openRemoveAccModal(i,account)"></fa-icon>
                 </div>
                 <div style="font-size: 17px;">{{account.name}}</div>
-                <div class="value">{{account.full_balance}} EOS</div>
+                <div class="value">{{account.full_balance}} AGR</div>
               </ng-template>
             </mat-tab>
           </mat-tab-group>
@@ -77,7 +77,7 @@
       <section class="placeholder border-r">
         <div class="credits">Made with
           <fa-icon [icon]="['fas', 'heart']"></fa-icon>
-          by <a style="color: #d7d7d7;" [routerLink]="['about']">EOS Rio</a>
+          by <a style="color: #d7d7d7;" [routerLink]="['about']">Aggregion</a>
         </div>
         <div class="version">v0.6.4</div>
       </section>
@@ -141,7 +141,7 @@
     <h5 style="color: #a9a9a9">Choose your account name</h5>
     <h5 class="mt-0">12 characters. Allows all letters and numbers 1-5.</h5>
     <mat-form-field class="mt-1" style="display: block; width: 180px">
-      <input matInput #account placeholder="EOS account name" maxlength="12"
+      <input matInput #account placeholder="AGR account name" maxlength="12"
              (keyup.enter)="verifyAccountName(false)"
              [(ngModel)]="accountname">
       <mat-hint align="end">{{account.value.length}} / 12</mat-hint>
@@ -200,7 +200,7 @@
     <form [formGroup]="delegateForm" class="pt-0">
       <!--Amount to delegate-->
       <mat-form-field class="mt-1" style="width: 273px">
-        <input matInput type="text" placeholder="Amount to delegate (min = 1.0000 EOS)"
+        <input matInput type="text" placeholder="Amount to delegate (min = 1.0000 AGR)"
                [textMask]="{mask: numberMask}"
                formControlName="delegate_amount">
         <mat-error align="start" *ngIf="amounterror !== ''">
@@ -224,11 +224,11 @@
       <span style="margin: 0 12px;">=</span>
       <mat-form-field style="width: 100px">
         <input matInput placeholder="Price in eos" disabled readonly
-               value="{{ram.ramPriceEOS * (ramAmount.value/1024) | number: '1.0-4'}} EOS">
+               value="{{ram.ramPriceAGR * (ramAmount.value/1024) | number: '1.0-4'}} AGR">
       </mat-form-field>
       <!--Amount to Gift-->
       <mat-form-field class="mt-1" style="width: 273px">
-        <input matInput placeholder="EOS Amount to gift (optional)" [textMask]="{mask: numberMask}"
+        <input matInput placeholder="AGR Amount to gift (optional)" [textMask]="{mask: numberMask}"
                formControlName="gift_amount" type="text">
       </mat-form-field>
     </form>
@@ -324,7 +324,7 @@
     <form [formGroup]="pvtform">
       <mat-form-field class="mt-1" style="width: 100%;">
         <input #pkField matInput type="password" formControlName="private_key"
-               placeholder="EOS Active Private key">
+               placeholder="AGR Active Private key">
         <fa-icon matSuffix *ngIf="pkField.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
                  (click)="pkField.type = 'text'"></fa-icon>
         <fa-icon matSuffix *ngIf="pkField.type === 'text'" [icon]="['far', 'eye-slash']" size="lg" class="copy"
@@ -386,9 +386,9 @@
   </h3>
   <div class="modal-body" *ngIf="selectedAccRem">
     <p style="margin-bottom: 20px; color: #b1b1b1;">Are you sure you want do remove the account <span class="blue">{{selectedAccRem.name}}</span>
-      from SimplEOS?</p>
+      from SimplAGR?</p>
     <p style="margin-bottom: 20px;">*This will NOT delete your account from the blockchain, it will just remove it from
-      SimplEOS. Should you want to import it again, just click on the "ADD ACCOUNT" button.</p>
+      SimplAGR. Should you want to import it again, just click on the "ADD ACCOUNT" button.</p>
   </div>
   <div class="modal-footer">
     <button class="btn btn-danger-outline" (click)="deleteAccModal = false">Cancel</button>

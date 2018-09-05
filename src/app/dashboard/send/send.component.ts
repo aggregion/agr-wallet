@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AccountsService} from '../../accounts.service';
-import {EOSJSService} from '../../eosjs.service';
+import {AGRJSService} from '../../eosjs.service';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {createNumberMask} from 'text-mask-addons/dist/textMaskAddons';
 import {BodyOutputType, Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
 import {CryptoService} from '../../services/crypto.service';
-import {EOSAccount} from '../../interfaces/account';
+import {AGRAccount} from '../../interfaces/account';
 
 import * as moment from 'moment';
 
@@ -59,7 +59,7 @@ export class SendComponent implements OnInit {
   fromAccount: string;
   token_balance = 0.0000;
   selectedToken = {
-    name: 'EOS',
+    name: 'AGR',
     price: 1.0000
   };
   selectedEditContact = null;
@@ -72,7 +72,7 @@ export class SendComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               public aService: AccountsService,
-              public eos: EOSJSService,
+              public eos: AGRJSService,
               private crypto: CryptoService,
               private toaster: ToasterService) {
     this.sendModal = false;
@@ -81,7 +81,7 @@ export class SendComponent implements OnInit {
     this.fromAccount = '';
     this.busy = false;
     this.sendForm = this.fb.group({
-      token: ['EOS', Validators.required],
+      token: ['AGR', Validators.required],
       to: ['', Validators.required],
       amount: ['', Validators.required],
       memo: [''],
@@ -139,7 +139,7 @@ export class SendComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.aService.selected.asObservable().subscribe((sel: EOSAccount) => {
+    this.aService.selected.asObservable().subscribe((sel: AGRAccount) => {
       if (sel) {
         this.fullBalance = sel.full_balance;
         this.staked = sel.staked;
@@ -152,14 +152,14 @@ export class SendComponent implements OnInit {
       this.sendForm.patchValue({
         amount: ''
       });
-      if (symbol !== 'EOS') {
+      if (symbol !== 'AGR') {
         const tk_idx = this.aService.tokens.findIndex((val) => {
           return val.name === symbol;
         });
         this.selectedToken = this.aService.tokens[tk_idx];
         this.token_balance = this.selectedToken['balance'];
       } else {
-        this.selectedToken = {name: 'EOS', price: 1.0000};
+        this.selectedToken = {name: 'AGR', price: 1.0000};
       }
     });
     this.filteredContacts = this.sendForm.get('to').valueChanges.pipe(startWith(''), map(value => this.filter(value, false)));
@@ -183,7 +183,7 @@ export class SendComponent implements OnInit {
 
   setMax() {
     this.sendForm.patchValue({
-      amount: this.sendForm.get('token').value === 'EOS' ? this.unstaked : this.token_balance
+      amount: this.sendForm.get('token').value === 'AGR' ? this.unstaked : this.token_balance
     });
   }
 
@@ -192,7 +192,7 @@ export class SendComponent implements OnInit {
       this.sendForm.controls['amount'].setErrors({'incorrect': true});
       this.amounterror = 'invalid amount';
     } else {
-      const max = this.sendForm.get('token').value === 'EOS' ? this.unstaked : this.token_balance;
+      const max = this.sendForm.get('token').value === 'AGR' ? this.unstaked : this.token_balance;
       if (parseFloat(this.sendForm.value.amount) > max) {
         this.sendForm.controls['amount'].setErrors({'incorrect': true});
         this.amounterror = 'invalid amount';
@@ -399,12 +399,12 @@ export class SendComponent implements OnInit {
       this.crypto.authenticate(this.confirmForm.get('pass').value, publicKey).then((res) => {
         // console.log(res);
         if (res) {
-          let contract = 'eosio.token';
+          let contract = 'agrio.token';
           const tk_name = this.sendForm.get('token').value;
           // console.log(tk_name);
           // console.log(this.aService.tokens);
           let precision = 4;
-          if (tk_name !== 'EOS') {
+          if (tk_name !== 'AGR') {
             const idx = this.aService.tokens.findIndex((val) => {
               return val.name === tk_name;
             });

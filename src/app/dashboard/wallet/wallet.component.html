@@ -14,15 +14,15 @@
   <div class="row flex-items-xs-between" style="height: 100%;">
     <div class="col-md-10 text-center flex-column animate" *ngIf="aService.selected !== undefined"
          style="padding: 39px;">
-      <div class="balance">EOS BALANCE (${{(fullBalance * aService.usd_rate) | number: '1.2-2'}})</div>
-      <div class="eos">{{fullBalance | number: '1.2-4'}} EOS</div>
+      <div class="balance">AGR BALANCE (${{(fullBalance * aService.usd_rate) | number: '1.2-2'}})</div>
+      <div class="eos">{{fullBalance | number: '1.2-4'}} AGR</div>
       <div class="infos">
         <span style="padding-right: 15px">
-          <fa-icon [icon]="['far', 'lock']"></fa-icon>&nbsp;Staked {{staked | number: '1.0-4'}} EOS
+          <fa-icon [icon]="['far', 'lock']"></fa-icon>&nbsp;Staked {{staked | number: '1.0-4'}} AGR
         </span>
         |
         <span style="padding-left: 15px">
-          <fa-icon [icon]="['far', 'lock-open']"></fa-icon>&nbsp;Unstaked {{unstaked | number: '1.0-4'}} EOS
+          <fa-icon [icon]="['far', 'lock-open']"></fa-icon>&nbsp;Unstaked {{unstaked | number: '1.0-4'}} AGR
         </span>
       </div>
       <div class="text-right" (click)="refresh()">
@@ -83,7 +83,7 @@
                   <span *ngIf="item.type === 'sent'">-</span>
                   {{item.amount}} <span class="blue">{{item.symbol}}</span>
                 </span>
-                <ng-container *ngIf="item.symbol === 'EOS'">
+                <ng-container *ngIf="item.symbol === 'AGR'">
                   (${{item.amount * aService.usd_rate | number}})
                 </ng-container>
               </ng-container>
@@ -94,7 +94,7 @@
                 <span class="white">
                   <span *ngIf="item.type === 'staked'">+</span>
                   {{item.amount}}
-                </span> EOS (${{item.amount * aService.usd_rate | number}})
+                </span> AGR (${{item.amount * aService.usd_rate | number}})
               </ng-container>
             </td>
 
@@ -172,7 +172,7 @@
       <div class="tokens-panel-body">
         <ul>
           <li class="tokens-pad">
-            <h5 class="gray mt-0">EOS</h5>
+            <h5 class="gray mt-0">AGR</h5>
             <div style="color: #2e7db2;">{{fullBalance}}</div>
             <span *ngIf="aService.usd_rate !== null" style="color: #696969">
                 ${{(fullBalance * aService.usd_rate) | number:'1.2-2'}} @{{aService.usd_rate | number: '1.2-2'}}

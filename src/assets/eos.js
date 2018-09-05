@@ -206,7 +206,7 @@ var charidx = function charidx(ch) {
   return idx;
 };
 
-/** Original Name encode and decode logic is in github.com/eosio/eos  native.hpp */
+/** Original Name encode and decode logic is in github.com/agrio/eos  native.hpp */
 
 /**
   Encode a name (a base32 string) to a number.
@@ -538,7 +538,7 @@ var _typeof3 = _interopRequireDefault(_typeof2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ecc = require('eosjs-ecc');
+var ecc = require('@aggregion/agrjs-ecc');
 var Fcbuffer = require('fcbuffer');
 var EosApi = require('eosjs-api');
 var assert = require('assert');
@@ -783,7 +783,7 @@ var defaultSignProvider = function defaultSignProvider(eos, config) {
                 // normalize format (WIF => PVT_K1_base58privateKey)
                 return { private: ecc.PrivateKey(key).toString() };
               } catch (e) {
-                // normalize format (EOSKey => PUB_K1_base58publicKey)
+                // normalize format (AGRKey => PUB_K1_base58publicKey)
                 return { public: ecc.PublicKey(key).toString() };
               }
               assert(false, 'expecting public or private keys from keyProvider');
@@ -933,7 +933,7 @@ var defaultSignProvider = function defaultSignProvider(eos, config) {
                 for (var _iterator3 = required_keys[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
                   var requiredKey = _step3.value;
 
-                  // normalize (EOSKey.. => PUB_K1_Key..)
+                  // normalize (AGRKey.. => PUB_K1_Key..)
                   requiredKey = ecc.PublicKey(requiredKey).toString();
 
                   var wif = keyMap.get(requiredKey);
@@ -1018,7 +1018,7 @@ function checkChainId(network, chainId, logger) {
     }
   });
 }
-},{"./abi-cache":1,"./format":2,"./schema":7,"./structs":8,"./write-api":9,"assert":10,"babel-runtime/helpers/typeof":16,"babel-runtime/regenerator":17,"eosjs-api":134,"eosjs-ecc":143,"fcbuffer":152}],4:[function(require,module,exports){
+},{"./abi-cache":1,"./format":2,"./schema":7,"./structs":8,"./write-api":9,"assert":10,"babel-runtime/helpers/typeof":16,"babel-runtime/regenerator":17,"eosjs-api":134,"@aggregion/agrjs-ecc":143,"fcbuffer":152}],4:[function(require,module,exports){
 module.exports={
   "name": "uint64",
   "checksum160": "fixed_bytes20",
@@ -1226,7 +1226,7 @@ module.exports={
   "nonce": {
     "action": {
       "name": "nonce",
-      "account": "eosio.null"
+      "account": "agrio.null"
     },
     "fields": {
       "value": "string"
@@ -1251,7 +1251,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "bidname",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "bidder": "account_name",
@@ -1285,7 +1285,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "buyram",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "payer": "account_name",
@@ -1297,7 +1297,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "buyrambytes",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "payer": "account_name",
@@ -1309,7 +1309,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "canceldelay",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "canceling_auth": "permission_level",
@@ -1320,7 +1320,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "claimrewards",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "owner": "account_name"
@@ -1337,7 +1337,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "delegatebw",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "from": "account_name",
@@ -1360,14 +1360,14 @@ module.exports={
     "base": "",
     "action": {
       "name": "deleteauth",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "account": "account_name",
       "permission": "permission_name"
     }
   },
-  "eosio_global_state": {
+  "agrio_global_state": {
     "base": "blockchain_parameters",
     "fields": {
       "max_ram_size": "uint64",
@@ -1404,7 +1404,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "linkauth",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "account": "account_name",
@@ -1426,7 +1426,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "newaccount",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "creator": "account_name",
@@ -1439,7 +1439,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "onerror",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "sender_id": "uint128",
@@ -1485,7 +1485,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "refund",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "owner": "account_name"
@@ -1504,7 +1504,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "regproducer",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "producer": "account_name",
@@ -1517,7 +1517,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "regproxy",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "proxy": "account_name",
@@ -1528,7 +1528,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "reqauth",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "from": "account_name"
@@ -1538,7 +1538,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "rmvproducer",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "producer": "account_name"
@@ -1548,7 +1548,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "sellram",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "account": "account_name",
@@ -1559,7 +1559,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "setalimits",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "account": "account_name",
@@ -1572,7 +1572,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "setglimits",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "cpu_usec_per_period": "int64"
@@ -1582,7 +1582,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "setprods",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "schedule": "producer_key[]"
@@ -1592,7 +1592,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "setabi",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "account": "account_name",
@@ -1603,7 +1603,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "setcode",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "account": "account_name",
@@ -1616,7 +1616,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "setparams",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "params": "blockchain_parameters"
@@ -1626,7 +1626,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "setpriv",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "account": "account_name",
@@ -1637,7 +1637,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "setram",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "max_ram_size": "uint64"
@@ -1657,7 +1657,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "undelegatebw",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "from": "account_name",
@@ -1670,7 +1670,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "unlinkauth",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "account": "account_name",
@@ -1682,7 +1682,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "unregprod",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "producer": "account_name"
@@ -1692,7 +1692,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "updateauth",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "account": "account_name",
@@ -1714,7 +1714,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "voteproducer",
-      "account": "eosio"
+      "account": "agrio"
     },
     "fields": {
       "voter": "account_name",
@@ -1756,7 +1756,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "create",
-      "account": "eosio.token"
+      "account": "agrio.token"
     },
     "fields": {
       "issuer": "account_name",
@@ -1775,7 +1775,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "issue",
-      "account": "eosio.token"
+      "account": "agrio.token"
     },
     "fields": {
       "to": "account_name",
@@ -1787,7 +1787,7 @@ module.exports={
     "base": "",
     "action": {
       "name": "transfer",
-      "account": "eosio.token"
+      "account": "agrio.token"
     },
     "fields": {
       "from": "account_name",
@@ -1800,10 +1800,10 @@ module.exports={
 },{}],7:[function(require,module,exports){
 'use strict';
 
-var schema = Object.assign({}, require('./chain_types.json'), require('./eosio_system.json'), require('./eosio_token.json'));
+var schema = Object.assign({}, require('./chain_types.json'), require('./agrio_system.json'), require('./agrio_token.json'));
 
 module.exports = schema;
-},{"./chain_types.json":4,"./eosio_system.json":5,"./eosio_token.json":6}],8:[function(require,module,exports){
+},{"./chain_types.json":4,"./agrio_system.json":5,"./agrio_token.json":6}],8:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 
@@ -1817,7 +1817,7 @@ var _typeof3 = _interopRequireDefault(_typeof2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _require = require('eosjs-ecc'),
+var _require = require('@aggregion/agrjs-ecc'),
     Signature = _require.Signature,
     PublicKey = _require.PublicKey;
 
@@ -1837,7 +1837,7 @@ var _require2 = require('./format'),
     printAsset = _require2.printAsset,
     parseAsset = _require2.parseAsset;
 
-/** Configures Fcbuffer for EOS specific structs and types. */
+/** Configures Fcbuffer for AGR specific structs and types. */
 
 
 module.exports = function () {
@@ -1845,7 +1845,7 @@ module.exports = function () {
   var extendedSchema = arguments[1];
 
   var structLookup = function structLookup(lookupName, account) {
-    var cachedCode = new Set(['eosio', 'eosio.token', 'eosio.null']);
+    var cachedCode = new Set(['agrio', 'agrio.token', 'agrio.null']);
     if (cachedCode.has(account)) {
       return structs[lookupName];
     }
@@ -2046,7 +2046,7 @@ var PublicKeyEcc = function PublicKeyEcc(validation) {
     },
     toObject: function toObject(value) {
       if (validation.defaults && value == null) {
-        return 'EOS6MRy..';
+        return 'AGR6MRy..';
       }
       return value;
     }
@@ -2360,7 +2360,7 @@ var ExtendedAsset = function ExtendedAsset(validation, baseTypes, customTypes) {
           amount: '1.0000',
           precision: 4,
           symbol: 'SYS',
-          contract: 'eosio.token'
+          contract: 'agrio.token'
         };
       }
 
@@ -2408,7 +2408,7 @@ var SignatureType = function SignatureType(validation, baseTypes) {
 };
 
 var authorityOverride = {
-  /** shorthand `EOS6MRyAj..` */
+  /** shorthand `AGR6MRyAj..` */
   'authority.fromObject': function authorityFromObject(value) {
     if (PublicKey.fromString(value)) {
       return {
@@ -2458,7 +2458,7 @@ var abiOverride = function abiOverride(structLookup) {
           object = _ref.object,
           b = _ref.b;
 
-      var ser = structLookup('abi_def', 'eosio');
+      var ser = structLookup('abi_def', 'agrio');
       var b2 = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN);
 
       if (Buffer.isBuffer(object.abi)) {
@@ -2603,7 +2603,7 @@ var actionDataOverride = function actionDataOverride(structLookup, forceActionDa
   };
 };
 }).call(this,require("buffer").Buffer)
-},{"./format":2,"./schema":7,"assert":10,"babel-runtime/helpers/slicedToArray":15,"babel-runtime/helpers/typeof":16,"buffer":44,"bytebuffer":45,"eosjs-ecc":143,"fcbuffer":152}],9:[function(require,module,exports){
+},{"./format":2,"./schema":7,"assert":10,"babel-runtime/helpers/slicedToArray":15,"babel-runtime/helpers/typeof":16,"buffer":44,"bytebuffer":45,"@aggregion/agrjs-ecc":143,"fcbuffer":152}],9:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 
@@ -2622,7 +2622,7 @@ var _typeof3 = _interopRequireDefault(_typeof2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var assert = require('assert');
-var ecc = require('eosjs-ecc');
+var ecc = require('@aggregion/agrjs-ecc');
 var Fcbuffer = require('fcbuffer');
 var createHash = require('create-hash');
 
@@ -2805,7 +2805,7 @@ function WriteApi(Network, network, config, Transaction) {
               abiPromises = [];
               // Eos contract operations are cached (efficient and offline transactions)
 
-              cachedCode = new Set(['eosio', 'eosio.token', 'eosio.null']);
+              cachedCode = new Set(['agrio', 'agrio.token', 'agrio.null']);
 
               accounts.forEach(function (account) {
                 if (!cachedCode.has(account)) {
@@ -2945,7 +2945,7 @@ function WriteApi(Network, network, config, Transaction) {
   }
 
   function genMethod(type, definition, transactionArg) {
-    var account = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'eosio.token';
+    var account = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'agrio.token';
     var name = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : type;
 
     return function () {
@@ -3400,7 +3400,7 @@ function usage(type, definition, Network, account, config) {
   out();
 
   var struct = void 0;
-  if (account === 'eosio' || account === 'eosio.token') {
+  if (account === 'agrio' || account === 'agrio.token') {
     var _Structs = Structs(Object.assign({ defaults: true, network: Network }, config)),
         structs = _Structs.structs;
 
@@ -3456,7 +3456,7 @@ function schemaFields(schema, type) {
   return def;
 }
 }).call(this,require("buffer").Buffer)
-},{"./structs":8,"assert":10,"babel-runtime/helpers/slicedToArray":15,"babel-runtime/helpers/typeof":16,"babel-runtime/regenerator":17,"buffer":44,"create-hash":119,"eosjs-api":134,"eosjs-ecc":143,"fcbuffer":152}],10:[function(require,module,exports){
+},{"./structs":8,"assert":10,"babel-runtime/helpers/slicedToArray":15,"babel-runtime/helpers/typeof":16,"babel-runtime/regenerator":17,"buffer":44,"create-hash":119,"eosjs-api":134,"@aggregion/agrjs-ecc":143,"fcbuffer":152}],10:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -5884,7 +5884,7 @@ module.exports={
   },
   "_requiredBy": [
     "/ecurve",
-    "/eosjs-ecc"
+    "/@aggregion/agrjs-ecc"
   ],
   "_resolved": "https://registry.npmjs.org/bigi/-/bigi-1.4.2.tgz",
   "_spec": "1.4.2",
@@ -18600,14 +18600,14 @@ module.exports = {
     bit-wise AND operation is used to keep this value with the size of a Uint16
     size (a block num in the last 2^16 blocks).  Example:
     `get_info.last_irreversible_block_num & 0xFFFF`
-  
+
     @property {number} ref_block_prefix - get_block.ref_block_prefix .. This is
     a 32 bit number identifier (identify the same block referenced in `ref_block_num`).
-  
+
     @property {string} expiration - This is based on the head block time from the
     blockchain.  Be careful to suffix a Z if required (as with Firefox and JavaScript)
     to ensure this date string is interpreted as Zulu time.
-  
+
     Example: `new Date(new Date(info.head_block_time + 'Z').getTime() + expireInSeconds * 1000).toISOString().split('.')[0]`
   */
 
@@ -18615,11 +18615,11 @@ module.exports = {
     Consult the blockchain and gather information for use in a new signed transaction.
     For Transaction as Proof of Stake (TaPOS), 32 bits of a recent block Id is included.
     Because all transactions use TaPOS, this solves the nothing at stake attack.
-  
+
     This is usually called for every transaction or maybe cached per block.  Although
     longer caching is possible, a longer cache time increases the risk of a
     transaction replay attack.
-  
+
     @arg {number} expireInSeconds - How many seconds until expiration
     @arg {function(error, headers)} callback {@link headers}
     @see {headers}
@@ -18846,13 +18846,13 @@ module.exports = {
 
     /**
         Spec: http://localhost:3002/steem/@dantheman/how-to-encrypt-a-memo-when-transferring-steem
-    
+
         @throws {Error|TypeError} - "Invalid Key, ..."
-    
+
         @arg {PrivateKey} private_key - required and used for decryption
         @arg {PublicKey} public_key - required and used to calcualte the shared secret
         @arg {string} [nonce = uniqueNonce()] - assigned a random unique uint64
-    
+
         @return {object}
         @property {string} nonce - random or unique uint64, provides entropy when re-using the same private/public keys.
         @property {Buffer} message - Plain text message
@@ -19011,7 +19011,7 @@ var hash = require("./hash");
     @typedef {string} wif
 */
 /**
-    EOSKey..
+    AGRKey..
     @typedef {string} pubkey
 */
 
@@ -19044,7 +19044,7 @@ var ecc = {
          @example
     ecc.randomKey().then(privateKey => {
     console.log('Private Key:\t', privateKey) // wif
-    console.log('Public Key:\t', ecc.privateToPublic(privateKey)) // EOSkey...
+    console.log('Public Key:\t', ecc.privateToPublic(privateKey)) // AGRkey...
     })
     */
     randomKey: function randomKey(cpuEntropyBits) {
@@ -19066,17 +19066,17 @@ var ecc = {
 
     /**
         @arg {wif} wif
-        @arg {string} [pubkey_prefix = 'EOS'] - public key prefix
+        @arg {string} [pubkey_prefix = 'AGR'] - public key prefix
          @return {pubkey}
          @example ecc.privateToPublic(wif) === pubkey
     */
     privateToPublic: function privateToPublic(wif) {
-        var pubkey_prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'EOS';
+        var pubkey_prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'AGR';
         return PrivateKey(wif).toPublic().toString(pubkey_prefix);
     },
 
     /**
-        @arg {pubkey} pubkey - like EOSKey..
+        @arg {pubkey} pubkey - like AGRKey..
         @return {boolean} valid
          @example ecc.isValidPublic(pubkey) === true
     */
@@ -19159,7 +19159,7 @@ var ecc = {
 
     /**
         Recover the public key used to create the signature.
-         @arg {String|Buffer} signature (EOSbase58sig.., Hex, Buffer)
+         @arg {String|Buffer} signature (AGRbase58sig.., Hex, Buffer)
         @arg {String|Buffer} data - full data
         @arg {String} [encoding = 'utf8'] - data encoding (if data is a string)
          @return {pubkey}
@@ -19180,7 +19180,7 @@ var ecc = {
     },
 
     /**
-        @arg {String|Buffer} signature (EOSbase58sig.., Hex, Buffer)
+        @arg {String|Buffer} signature (AGRbase58sig.., Hex, Buffer)
         @arg {String|Buffer} dataSha256 - sha256 hash 32 byte buffer or hex string
         @arg {String} [encoding = 'hex'] - dataSha256 encoding (if dataSha256 is a string)
          @return {PublicKey}
@@ -19722,7 +19722,7 @@ module.exports = PrivateKey;
 
 /**
   @typedef {string} wif - https://en.bitcoin.it/wiki/Wallet_import_format
-  @typedef {string} pubkey - EOSKey..
+  @typedef {string} pubkey - AGRKey..
   @typedef {ecurve.Point} Point
 */
 
@@ -19999,9 +19999,9 @@ function unitTest() {
 
     var pub = pvt.toPublic();
     var pubError = 'pubkey string comparison test failed on a known public key';
-    assert.equal(pub.toString(), 'EOS859gxfnXyUriMgUeThh1fWv3oqcpLFyHa3TfFYC4PK2HqhToVM', pubError);
+    assert.equal(pub.toString(), 'AGR859gxfnXyUriMgUeThh1fWv3oqcpLFyHa3TfFYC4PK2HqhToVM', pubError);
     // assert.equal(pub.toString(), 'PUB_K1_859gxfnXyUriMgUeThh1fWv3oqcpLFyHa3TfFYC4PK2Ht7beeX', pubError)
-    // assert.equal(pub.toStringLegacy(), 'EOS859gxfnXyUriMgUeThh1fWv3oqcpLFyHa3TfFYC4PK2HqhToVM', pubError)
+    // assert.equal(pub.toStringLegacy(), 'AGR859gxfnXyUriMgUeThh1fWv3oqcpLFyHa3TfFYC4PK2HqhToVM', pubError)
 
     doesNotThrow(function () {
         return PrivateKey.fromString(pvt.toWif());
@@ -20084,10 +20084,10 @@ function PublicKey(Q) {
     // }
 
     /** @todo rename to toStringLegacy
-     * @arg {string} [pubkey_prefix = 'EOS'] - public key prefix
+     * @arg {string} [pubkey_prefix = 'AGR'] - public key prefix
     */
     function toString() {
-        var pubkey_prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'EOS';
+        var pubkey_prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'AGR';
 
         return pubkey_prefix + keyUtils.checkEncode(toBuffer());
     }
@@ -20158,11 +20158,11 @@ PublicKey.fromPoint = function (point) {
 
 /**
     @arg {string} public_key - like PUB_K1_base58pubkey..
-    @arg {string} [pubkey_prefix = 'EOS'] - public key prefix
+    @arg {string} [pubkey_prefix = 'AGR'] - public key prefix
     @return PublicKey or `null` (invalid)
 */
 PublicKey.fromString = function (public_key) {
-    var pubkey_prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'EOS';
+    var pubkey_prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'AGR';
 
     try {
         return PublicKey.fromStringOrThrow(public_key, pubkey_prefix);
@@ -20173,14 +20173,14 @@ PublicKey.fromString = function (public_key) {
 
 /**
     @arg {string} public_key - like PUB_K1_base58pubkey..
-    @arg {string} [pubkey_prefix = 'EOS'] - public key prefix
+    @arg {string} [pubkey_prefix = 'AGR'] - public key prefix
 
     @throws {Error} if public key is invalid
 
     @return PublicKey
 */
 PublicKey.fromStringOrThrow = function (public_key) {
-    var pubkey_prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'EOS';
+    var pubkey_prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'AGR';
 
     assert.equal(typeof public_key === 'undefined' ? 'undefined' : _typeof(public_key), 'string', 'public_key');
     var match = public_key.match(/^PUB_([A-Za-z0-9]+)_([A-Za-z0-9]+)$/);
@@ -20537,7 +20537,7 @@ function Signature(r, s, i) {
     /**
         Verify signed data.
          @arg {String|Buffer} data - full data
-        @arg {pubkey|PublicKey} pubkey - EOSKey..
+        @arg {pubkey|PublicKey} pubkey - AGRKey..
         @arg {String} [encoding = 'utf8'] - data encoding (if data is a string)
          @return {boolean}
     */
@@ -20555,7 +20555,7 @@ function Signature(r, s, i) {
     /**
         Verify a buffer of exactally 32 bytes in size (sha256(text))
          @arg {String|Buffer} dataSha256 - 32 byte buffer or string
-        @arg {String|PublicKey} pubkey - EOSKey..
+        @arg {String|PublicKey} pubkey - AGRKey..
         @arg {String} [encoding = 'hex'] - dataSha256 encoding (if string)
          @return {boolean}
     */
@@ -21467,7 +21467,7 @@ var create = Fcbuffer.create;
 */
 
 /**
-  @arg {object} definitions - examples https://github.com/EOSIO/eosjs-json/blob/master/schema
+  @arg {object} definitions - examples https://github.com/AGRIO/eosjs-json/blob/master/schema
   @arg {SerializerConfig} config
   @return {CreateStruct}
 */

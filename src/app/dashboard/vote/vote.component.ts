@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {VotingService} from './voting.service';
 import {AccountsService} from '../../accounts.service';
-import {EOSJSService} from '../../eosjs.service';
+import {AGRJSService} from '../../eosjs.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {BodyOutputType, Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
 import {createNumberMask} from 'text-mask-addons/dist/textMaskAddons';
@@ -68,7 +68,7 @@ export class VoteComponent implements OnInit, AfterViewInit {
   constructor(public voteService: VotingService,
               private http: HttpClient,
               public aService: AccountsService,
-              public eos: EOSJSService,
+              public eos: AGRJSService,
               public crypto: CryptoService,
               private fb: FormBuilder,
               private toaster: ToasterService) {
@@ -128,7 +128,7 @@ export class VoteComponent implements OnInit, AfterViewInit {
       animationEasingUpdate: 'quinticInOut',
       series: [
         {
-          name: 'EOS',
+          name: 'AGR',
           type: 'graph',
           coordinateSystem: 'geo',
           symbol: 'pin',
@@ -191,7 +191,7 @@ export class VoteComponent implements OnInit, AfterViewInit {
     const nextStakeInt = Math.round(nextStakeFloat * 10000);
     const diff = nextStakeInt - prevStake;
     this.stakingDiff = diff;
-    this.stakingHRV = (Math.abs(this.stakingDiff) / 10000) + ' EOS';
+    this.stakingHRV = (Math.abs(this.stakingDiff) / 10000) + ' AGR';
     if (diff === 0) {
       this.stakerr = 'Value has not changed';
     } else {

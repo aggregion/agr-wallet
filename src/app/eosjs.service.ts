@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 
-import * as EOSJS from '../assets/eos.js';
+import * as AGRJS from '../assets/eos.js';
 import {BehaviorSubject, Subject} from 'rxjs';
 
 @Injectable()
-export class EOSJSService {
-  eosio: any;
+export class AGRJSService {
+  agrio: any;
   tokens: any;
   public ecc: any;
   format: any;
@@ -34,9 +34,9 @@ export class EOSJSService {
   public eos: any;
 
   constructor() {
-    this.eosio = null;
-    this.ecc = EOSJS.modules['ecc'];
-    this.format = EOSJS.modules['format'];
+    this.agrio = null;
+    this.ecc = AGRJS.modules['ecc'];
+    this.format = AGRJS.modules['format'];
     this.ready = false;
     this.txh = [];
     this.actionHistory = [];
@@ -44,7 +44,7 @@ export class EOSJSService {
 
   reloadInstance() {
     this.auth = true;
-    this.eos = EOSJS(this.baseConfig);
+    this.eos = AGRJS(this.baseConfig);
     setTimeout(() => {
       this.baseConfig.keyProvider = [];
     }, 1000);
@@ -52,7 +52,7 @@ export class EOSJSService {
 
   clearInstance() {
     this.baseConfig.keyProvider = [];
-    this.eos = EOSJS(this.baseConfig);
+    this.eos = AGRJS(this.baseConfig);
   }
 
   init(url, chain) {
@@ -60,7 +60,7 @@ export class EOSJSService {
     return new Promise((resolve, reject) => {
       this.baseConfig.chainId = this.chainID;
       this.baseConfig.httpEndpoint = url;
-      this.eos = EOSJS(this.baseConfig);
+      this.eos = AGRJS(this.baseConfig);
       this.eos['getInfo']({}).then(result => {
         this.ready = true;
         this.online.next(result['head_block_num'] - result['last_irreversible_block_num'] < 400);
@@ -70,8 +70,8 @@ export class EOSJSService {
           savedAcc = JSON.parse(savedpayload).accounts;
           this.loadHistory();
         }
-        this.eos['contract']('eosio').then(contract => {
-          this.eosio = contract;
+        this.eos['contract']('agrio').then(contract => {
+          this.agrio = contract;
           resolve(savedAcc);
         });
       }).catch((err) => {
@@ -92,8 +92,8 @@ export class EOSJSService {
     if (this.eos) {
       return this.eos['getTableRows']({
         json: true,
-        code: 'eosio',
-        scope: 'eosio',
+        code: 'agrio',
+        scope: 'agrio',
         table: 'global'
       });
     } else {
@@ -107,8 +107,8 @@ export class EOSJSService {
     if (this.eos) {
       return this.eos['getTableRows']({
         json: true,
-        code: 'eosio',
-        scope: 'eosio',
+        code: 'agrio',
+        scope: 'agrio',
         table: 'rammarket'
       });
     } else {
@@ -121,7 +121,7 @@ export class EOSJSService {
   getRefunds(account): Promise<any> {
     return this.eos['getTableRows']({
       json: true,
-      code: 'eosio',
+      code: 'agrio',
       scope: account,
       table: 'refunds'
     });
@@ -129,7 +129,7 @@ export class EOSJSService {
 
   claimRefunds(account, k): Promise<any> {
     this.baseConfig.keyProvider = [k];
-    const tempEos = EOSJS(this.baseConfig);
+    const tempEos = AGRJS(this.baseConfig);
     return tempEos['refund']({owner: account}, {
       broadcast: true,
       sign: true,
@@ -201,7 +201,8 @@ export class EOSJSService {
   }
 
   getTokens(name) {
-    return this.eos['getCurrencyBalance']('eosio.token', name);
+    console.log('getTokens', name);
+    return this.eos['getCurrencyBalance']('agrio.token', name);
   }
 
   getTransaction(hash) {
@@ -215,7 +216,7 @@ export class EOSJSService {
   }
 
   getConstitution() {
-    this.eos['getCode']('eosio').then((code) => {
+    this.eos['getCode']('agrio').then((code) => {
       const temp = code['abi']['ricardian_clauses'][0]['body'];
       this.constitution = temp.replace(/(?:\r\n|\r|\n)/g, '<br>');
     });
@@ -232,7 +233,7 @@ export class EOSJSService {
 
   async transfer(contract, from, to, amount, memo): Promise<any> {
     if (this.auth) {
-      if (contract === 'eosio.token') {
+      if (contract === 'agrio.token') {
         return new Promise((resolve, reject) => {
           this.eos['transfer'](from, to, amount, memo, (err, trx) => {
             console.log(err, trx);
@@ -298,15 +299,15 @@ export class EOSJSService {
         tr['buyrambytes']({payer: creator, receiver: name, bytes: rambytes});
         tr['delegatebw']({
           from: creator, receiver: name,
-          stake_net_quantity: (delegateAmount * 0.3).toFixed(4) + ' EOS',
-          stake_cpu_quantity: (delegateAmount * 0.7).toFixed(4) + ' EOS',
+          stake_net_quantity: (delegateAmount * 0.3).toFixed(4) + ' AGR',
+          stake_cpu_quantity: (delegateAmount * 0.7).toFixed(4) + ' AGR',
           transfer: transfer ? 1 : 0
         });
         if (giftAmount > 0) {
           tr['transfer']({
             from: creator,
             to: name,
-            quantity: giftAmount.toFixed(4) + ' EOS',
+            quantity: giftAmount.toFixed(4) + ' AGR',
             memo: giftMemo
           });
         }
@@ -377,7 +378,7 @@ export class EOSJSService {
             resolve(res);
           }
         };
-        this.eosio['voteproducer'](voter, '', currentVotes, cb);
+        this.agrio['voteproducer'](voter, '', currentVotes, cb);
       });
     } else {
       return new Error('Cannot cast more than 30 votes!');
@@ -392,8 +393,8 @@ export class EOSJSService {
         this.eos['delegatebw']({
           from: account,
           receiver: account,
-          stake_net_quantity: split + ' EOS',
-          stake_cpu_quantity: split + ' EOS',
+          stake_net_quantity: split + ' AGR',
+          stake_cpu_quantity: split + ' AGR',
           transfer: 0
         }, (err, result) => {
           if (err) {
@@ -419,8 +420,8 @@ export class EOSJSService {
           this.eos['undelegatebw']({
             from: account,
             receiver: account,
-            unstake_net_quantity: split + ' EOS',
-            unstake_cpu_quantity: split + ' EOS'
+            unstake_net_quantity: split + ' AGR',
+            unstake_cpu_quantity: split + ' AGR'
           }, (err, result) => {
             if (err) {
               console.log(err);

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {EOSJSService} from '../../eosjs.service';
+import {AGRJSService} from '../../eosjs.service';
 import {AccountsService} from '../../accounts.service';
 import {CryptoService} from '../../services/crypto.service';
 import {ToasterService} from 'angular2-toaster';
@@ -13,7 +13,7 @@ export class RamMarketComponent implements OnInit {
 
   myRamAlloc = 0;
   totalRamAlloc = 0;
-  ramPriceEOS = 0;
+  ramPriceAGR = 0;
   amountbytes = 1024;
   total_ram_bytes_reserved = 0;
   total_ram_stake = 0;
@@ -23,7 +23,7 @@ export class RamMarketComponent implements OnInit {
   rm_supply = 0;
 
   constructor(
-    private eos: EOSJSService,
+    private eos: AGRJSService,
     private aService: AccountsService,
     private crypto: CryptoService,
     private toaster: ToasterService
@@ -55,7 +55,7 @@ export class RamMarketComponent implements OnInit {
   }
 
   updatePrice() {
-    this.ramPriceEOS = ((this.rm_quote) / this.rm_base) * 1024;
+    this.ramPriceAGR = ((this.rm_quote) / this.rm_base) * 1024;
   }
 
   sell() {

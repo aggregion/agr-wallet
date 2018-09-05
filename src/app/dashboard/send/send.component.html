@@ -4,22 +4,22 @@
     <div class="col-md-6 text-center animate" style="align-self: center;">
       <div class="content-area" style="padding-top: 0; overflow-x: hidden;">
         <div class="balance">
-          <ng-container *ngIf="sendForm.value.token === 'EOS'">
+          <ng-container *ngIf="sendForm.value.token === 'AGR'">
             <fa-icon [icon]="['far', 'lock-open']"></fa-icon>&nbsp;FREE (${{unstaked * aService.usd_rate | number :
             '1.2-2'}})
           </ng-container>
-          <ng-container *ngIf="sendForm.value.token !== 'EOS' && selectedToken.price !== null">
+          <ng-container *ngIf="sendForm.value.token !== 'AGR' && selectedToken.price !== null">
             ${{token_balance * selectedToken.price | number :'1.2-2'}}
           </ng-container>
         </div>
-        <ng-container *ngIf="sendForm.value.token === 'EOS'">
-          <div class="eos">{{unstaked | number : '1.2-4'}} EOS</div>
+        <ng-container *ngIf="sendForm.value.token === 'AGR'">
+          <div class="eos">{{unstaked | number : '1.2-4'}} AGR</div>
           <div *ngIf="unstaking > 0">
             <fa-icon [icon]="['far', 'lock']"></fa-icon>&nbsp;Will be {{(unstaked + unstaking) | number :
-            '1.2-4'}} EOS {{unstakeTime}}
+            '1.2-4'}} AGR {{unstakeTime}}
           </div>
         </ng-container>
-        <ng-container *ngIf="sendForm.value.token !== 'EOS'">
+        <ng-container *ngIf="sendForm.value.token !== 'AGR'">
           <div class="eos">{{token_balance | number : '1.2-4'}} {{sendForm.value.token}}</div>
         </ng-container>
         <form [formGroup]="sendForm">
@@ -28,8 +28,8 @@
               <input type="text" placeholder="Token" matInput formControlName="token" [matAutocomplete]="auto1">
               <fa-icon matSuffix [icon]="['fas', 'caret-down']"></fa-icon>
               <mat-autocomplete #auto1="matAutocomplete">
-                <mat-option value="EOS">
-                  EOS
+                <mat-option value="AGR">
+                  AGR
                 </mat-option>
                 <mat-option *ngFor="let token of aService.tokens" [value]="token.name">
                   {{ token.name }}
@@ -143,22 +143,22 @@
   <div class="modal-body">
     <h3 class="blue">{{ sendForm.value.to }}</h3>
     <h5 class="mt-0" *ngIf="sendForm.value.alias !== ''">{{ sendForm.value.alias }}</h5>
-    <p-accordion *ngIf="sendForm.value.token === 'EOS'">
-      <p-accordionTab header="By submiting this transaction, you agree to the EOS Transfer Terms & Conditions">
+    <p-accordion *ngIf="sendForm.value.token === 'AGR'">
+      <p-accordionTab header="By submiting this transaction, you agree to the AGR Transfer Terms & Conditions">
         I, {{fromAccount}}, certify the following to be true to the best of my knowledge:
         <br><br>
-        &#9; 1. I certify that {{sendForm.value.amount | number : '1.2-4'}} EOS is not the proceeds of fraudulent or
+        &#9; 1. I certify that {{sendForm.value.amount | number : '1.2-4'}} AGR is not the proceeds of fraudulent or
         violent activities.<br>
         2. I certify that, to the best of my knowledge, {{sendForm.value.to}} is not supporting initiation of violence
         against others.<br>
         3. I have disclosed any contractual terms & conditions with respect to {{sendForm.value.amount | number :
-        '1.2-4'}} EOS to {{sendForm.value.to}}.<br>
+        '1.2-4'}} AGR to {{sendForm.value.to}}.<br>
         4. I understand that funds transfers are not reversible after the seconds or other delay as configured by
         {{fromAccount}}'s permissions.<br>
         <br><br>
         If this action fails to be irreversibly confirmed after receiving goods or services from
         '{{sendForm.value.to}}', I agree to either return the goods or services or resend {{sendForm.value.amount |
-        number : '1.2-4'}} EOS in a timely manner.
+        number : '1.2-4'}} AGR in a timely manner.
       </p-accordionTab>
     </p-accordion>
   </div>
@@ -188,7 +188,7 @@
   <div class="modal-body">
     <form [formGroup]="contactForm">
       <mat-form-field>
-        <input matInput #addAccount type="text" formControlName="account" placeholder="EOS Account name"
+        <input matInput #addAccount type="text" formControlName="account" placeholder="AGR Account name"
                class="text-lowercase" maxlength="12" (blur)="checkAccountModal()">
         <mat-error align="start" *ngIf="adderrormsg !== ''">
           {{adderrormsg}}
@@ -214,7 +214,7 @@
   <div class="modal-body">
     <form [formGroup]="contactForm">
       <mat-form-field>
-        <input matInput type="text" formControlName="account" placeholder="EOS Account name"
+        <input matInput type="text" formControlName="account" placeholder="AGR Account name"
                class="text-lowercase" maxlength="12" readonly>
       </mat-form-field>
       <mat-form-field>

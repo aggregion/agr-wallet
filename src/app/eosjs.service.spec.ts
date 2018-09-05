@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { EOSJSService } from './eosjs.service';
+import { AGRJSService } from './eosjs.service';
 
-describe('EOSJSService', () => {
+describe('AGRJSService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [EOSJSService]
+      providers: [AGRJSService]
     });
   });
 
-  it('should be created', inject([EOSJSService], (service: EOSJSService) => {
+  it('should be created', inject([AGRJSService], (service: AGRJSService) => {
     expect(service).toBeTruthy();
   }));
 });

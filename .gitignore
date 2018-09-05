@@ -41,3 +41,4 @@ Thumbs.db
 /.sync
 /archive
 .npmrc
+/ng-dist

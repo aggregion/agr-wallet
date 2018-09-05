@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {TextEncoder} from 'text-encoding-shim';
-import {EOSJSService} from '../eosjs.service';
+import {AGRJSService} from '../eosjs.service';
 
 import * as CryptoJS from 'crypto-js';
 import {Router} from '@angular/router';
@@ -16,7 +16,7 @@ export class CryptoService {
   private basePublicKey = '';
   public locked = true;
 
-  constructor(private eosjs: EOSJSService, private router: Router) {
+  constructor(private eosjs: AGRJSService, private router: Router) {
   }
 
   static concatUint8Array(...arrays: Uint8Array[]): Uint8Array {

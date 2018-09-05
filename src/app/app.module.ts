@@ -5,7 +5,7 @@ import {AppComponent} from './app.component';
 import {ClarityModule} from '@clr/angular';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LandingComponent} from './landing/landing.component';
-import {EOSJSService} from './eosjs.service';
+import {AGRJSService} from './eosjs.service';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {AppRoutingModule} from './app-routing.module';
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -84,7 +84,7 @@ library.add(far, fas, fab, fal);
     TooltipModule,
     AppRoutingModule
   ],
-  providers: [EOSJSService, AccountsService, NetworkService, CryptoService, RamService],
+  providers: [AGRJSService, AccountsService, NetworkService, CryptoService, RamService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

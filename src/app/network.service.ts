@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AccountsService} from './accounts.service';
-import {EOSJSService} from './eosjs.service';
+import {AGRJSService} from './eosjs.service';
 import {Router} from '@angular/router';
 
 import * as Eos from '../assets/eos.js';
@@ -20,11 +20,11 @@ export class NetworkService {
 
   publicEndpoints: Endpoint[];
   eos: any;
-  mainnetId = 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906';
-  genesistx = 'ad77575a8b4f52e477682e712b1cbd884299468db6a94d909f90c6961cea9b02';
-  voteref = 'b23f537e8ab29fbcec8b533081ef7e12b146899ca42a3fc9eb608258df9983d9';
-  txrefBlock = 191;
-  voterefBlock = 572278;
+  mainnetId = 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f';
+  genesistx = '55fa847b17500c2d3e3349331f001f774ea67e12ecb1b0a6a3124043a59b9818'; // Change
+  voteref = 'a8471a22897be3687ea2c7fa1704e53d57d3c3e56ecdbae191249cb66dc3d763'; // Change
+  txrefBlock = 1196995;
+  voterefBlock = 1197057;
   baseConfig = {
     httpEndpoint: '',
     expireInSeconds: 60,
@@ -39,12 +39,9 @@ export class NetworkService {
   selectedEndpoint = new BehaviorSubject<Endpoint>(null);
   networkingReady = new BehaviorSubject<boolean>(false);
 
-  constructor(private eosjs: EOSJSService, private router: Router, public aService: AccountsService) {
+  constructor(private eosjs: AGRJSService, private router: Router, public aService: AccountsService) {
     this.publicEndpoints = [
-      {url: 'https://api.eosrio.io', owner: 'EOS Rio', latency: 0, filters: []},
-      {url: 'https://hapi.eosrio.io', owner: 'EOS Rio', latency: 0, filters: []},
-      {url: 'https://eu.eosdac.io', owner: 'eosDAC', latency: 0, filters: []},
-      {url: 'http://api.eosnewyork.io', owner: 'EOS NY', latency: 0, filters: []}
+      {url: 'https://devnet.blockchain.aggregion.com', owner: 'Aggregion', latency: 0, filters: []}
     ];
     this.validEndpoints = [];
     this.status = '';
@@ -128,9 +125,9 @@ export class NetworkService {
           resolve1();
         } else {
           if (txInfo['block_num'] === this.txrefBlock) {
-            server.filters.push('eosio.token:transfer');
+            server.filters.push('agrio.token:transfer');
           } else {
-            console.log('eosio.token:transfer filter is disabled on ' + server.url);
+            console.log('agrio.token:transfer filter is disabled on ' + server.url);
           }
           resolve1();
         }
@@ -143,9 +140,9 @@ export class NetworkService {
           resolve1();
         } else {
           if (txInfo['block_num'] === this.voterefBlock) {
-            server.filters.push('eosio:voteproducer');
+            server.filters.push('agrio:voteproducer');
           } else {
-            console.log('eosio:voteproducer filter is disabled on ' + server.url);
+            console.log('agrio:voteproducer filter is disabled on ' + server.url);
           }
           resolve1();
         }

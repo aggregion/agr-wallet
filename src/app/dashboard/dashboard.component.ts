@@ -1,5 +1,5 @@
 import {Component, OnInit, NgZone, ViewChild} from '@angular/core';
-import {EOSJSService} from '../eosjs.service';
+import {AGRJSService} from '../eosjs.service';
 import {AccountsService} from '../accounts.service';
 import {LandingComponent} from '../landing/landing.component';
 import {ClrWizard} from '@clr/angular';
@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
   importedPublicKey = '';
 
   constructor(
-    public eos: EOSJSService,
+    public eos: AGRJSService,
     private fb: FormBuilder,
     public aService: AccountsService,
     private toaster: ToasterService,
@@ -385,10 +385,10 @@ export class DashboardComponent implements OnInit {
         const acc = this.eos.accounts.getValue()[name];
         let balance = 0;
         acc['tokens'].forEach((tk) => {
-          balance += LandingComponent.parseEOS(tk);
+          balance += LandingComponent.parseAGR(tk);
         });
-        const net = LandingComponent.parseEOS(acc['total_resources']['net_weight']);
-        const cpu = LandingComponent.parseEOS(acc['total_resources']['cpu_weight']);
+        const net = LandingComponent.parseAGR(acc['total_resources']['net_weight']);
+        const cpu = LandingComponent.parseAGR(acc['total_resources']['cpu_weight']);
         balance += net;
         balance += cpu;
         const accData = {
@@ -450,7 +450,7 @@ export class DashboardComponent implements OnInit {
   //         this.sendForm.controls['amount'].setErrors({'incorrect': true});
   //         this.amounterror = 'invalid amount';
   //     } else {
-  //         const max = this.sendForm.get('token').value === 'EOS' ? this.unstaked : this.token_balance;
+  //         const max = this.sendForm.get('token').value === 'AGR' ? this.unstaked : this.token_balance;
   //         if (parseFloat(this.sendForm.value.amount) > max) {
   //             this.sendForm.controls['amount'].setErrors({'incorrect': true});
   //             this.amounterror = 'invalid amount';

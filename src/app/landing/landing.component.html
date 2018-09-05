@@ -12,7 +12,7 @@
             (animCreated)="handleAnimation($event)">
           </lottie-animation-view>
         </div>
-        <div class="slogan">Your simple and secure EOS wallet</div>
+        <div class="slogan">Your simple and secure AGR wallet</div>
         <ng-container *ngIf="busy && network.status === ''">
           <fa-layers class="mt-2 mb-1">
             <fa-icon [icon]="['far', 'spinner']" [spin]="true" size="2x"></fa-icon>
@@ -48,7 +48,7 @@
             <ng-container *ngIf="checkerr === ''">
               <div class="card-footer" *ngFor="let account of accounts">
                                 <span style="float: left;">You have: <span
-                                  class="blue">{{account.full_balance}} EOS</span></span>
+                                  class="blue">{{account.full_balance}} AGR</span></span>
                 <span style="float: right;">Account name: <span
                   class="blue">{{account.name}}</span></span>
               </div>
@@ -89,19 +89,19 @@
             <div class="card-block">
               <div class="info">You can do a quick check of your account here</div>
               <mat-form-field class="public-input">
-                <input matInput type="text" placeholder="EOS Public key" [(ngModel)]="publicEOS">
+                <input matInput type="text" placeholder="AGR Public key" [(ngModel)]="publicAGR">
                 <mat-hint align="start">
                   ctrl c + ctrl v to copy & paste
                 </mat-hint>
               </mat-form-field>
-              <button class="btn btn-inverse btn-check" (click)="checkAccount()" [disabled]="!publicEOS">
+              <button class="btn btn-inverse btn-check" (click)="checkAccount()" [disabled]="!publicAGR">
                 Check
               </button>
             </div>
             <ng-container *ngIf="checkerr === ''">
               <div class="card-footer" *ngFor="let account of accounts">
                                 <span style="float: left;">You have: <span
-                                  class="blue">{{account.full_balance}} EOS</span></span>
+                                  class="blue">{{account.full_balance}} AGR</span></span>
                 <span style="float: right;">Account name: <span
                   class="blue">{{account.name}}</span></span>
               </div>
@@ -138,7 +138,7 @@
     <form [formGroup]="pvtform">
       <mat-form-field class="mt-1" style="width: 100%;">
         <input #pkField matInput type="password" formControlName="private_key"
-               placeholder="EOS Active Private key">
+               placeholder="AGR Active Private key">
         <fa-icon matSuffix *ngIf="pkField.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
                  (click)="pkField.type = 'text'"></fa-icon>
         <fa-icon matSuffix *ngIf="pkField.type === 'text'" [icon]="['far', 'eye-slash']" size="lg" class="copy"
@@ -191,7 +191,7 @@
   </clr-wizard-page>
   <clr-wizard-page [clrWizardPageNextDisabled]="!agree">
     <ng-template clrPageTitle>Step 3</ng-template>
-    <h5 style="color: #bebebe;">EOS Constitution</h5>
+    <h5 style="color: #bebebe;">AGR Constitution</h5>
     <div class="constitution" [innerHTML]="eos.constitution"></div>
     <mat-checkbox [(ngModel)]="agree">I abide by the constitution</mat-checkbox>
   </clr-wizard-page>
@@ -199,7 +199,7 @@
     <ng-template clrPageTitle>Step 4 - optional</ng-template>
     <h5 style="margin-bottom: 15px">
       <span style="color: #c3c3c3;">Lockscreen pin.</span>
-      Do you want to define a small privacy pin used to unlock the screen next time you enter SimplEOS?
+      Do you want to define a small privacy pin used to unlock the screen next time you enter SimplAGR?
     </h5>
     <h5 style="margin-bottom: 18px">*This <strong>does not</strong> replace your password used to confirm
       transactions</h5>
@@ -233,7 +233,7 @@
       <h5 class="main-item">1. On your Exodus wallet, open the Developer Menu:</h5>
       <div>1.1 Windows & Linux: (CTRL + SHIFT + D )</div>
       <div>1.2 MacOS: Exodus menu next to the Apple Symbol</div>
-      <h5 class="main-item">2. Choose Developer > Assets > EOS Mainnet > Export Private Keys </h5>
+      <h5 class="main-item">2. Choose Developer > Assets > AGR Mainnet > Export Private Keys </h5>
     </div>
     <div class="remaining-height" *ngIf="!exodusValid">
       <span *ngIf="errormsg === ''">
@@ -293,7 +293,7 @@
   </clr-wizard-page>
   <clr-wizard-page [clrWizardPageNextDisabled]="!agree2">
     <ng-template clrPageTitle>Step 3</ng-template>
-    <h5 style="color: #bebebe;">EOS Constitution</h5>
+    <h5 style="color: #bebebe;">AGR Constitution</h5>
     <div class="constitution" [innerHTML]="eos.constitution"></div>
     <mat-checkbox [(ngModel)]="agree2">I abide by the constitution</mat-checkbox>
   </clr-wizard-page>
@@ -301,7 +301,7 @@
     <ng-template clrPageTitle>Step 4 - optional</ng-template>
     <h5 style="margin-bottom: 15px">
       <span style="color: #c3c3c3;">Lockscreen pin.</span>
-      Do you want to define a small privacy pin used to unlock the screen next time you enter SimplEOS?
+      Do you want to define a small privacy pin used to unlock the screen next time you enter SimplAGR?
     </h5>
     <h5 style="margin-bottom: 18px">*This <strong>does not</strong> replace your password used to confirm
       transactions</h5>
@@ -334,7 +334,7 @@
     <h5>Block producers are working on a solution for this, but until then, we don't want to deprive
       users of creating new accounts. So we thought on an organic approach to this :)</h5>
     <h5>At the end of this process, a code will be generated. You will have to send this code to a friend that has eos
-      on the mainnet, so he can create your account using SimplEOS.</h5>
+      on the mainnet, so he can create your account using SimplAGR.</h5>
     <h5><strong>This code DOES NOT contain your private keys</strong>, only your public keys and the desired account
       name.</h5>
   </clr-wizard-page>
@@ -345,10 +345,10 @@
                    (clrWizardPagePrevious)="wizardnew.previous()"
                    (clrWizardPageOnCancel)="resetAndClose()">
     <ng-template clrPageTitle>Step 1</ng-template>
-    <h5 style="color: #a9a9a9">Choose your EOS account name</h5>
+    <h5 style="color: #a9a9a9">Choose your AGR account name</h5>
     <h5 class="mt-0">12 characters. Allows all letters and numbers 1-5</h5>
     <mat-form-field class="mt-1" style="display: block; width: 180px">
-      <input matInput #account placeholder="EOS account name" maxlength="12" (keyup.enter)="verifyAccountName(false)"
+      <input matInput #account placeholder="AGR account name" maxlength="12" (keyup.enter)="verifyAccountName(false)"
              [(ngModel)]="accountname">
       <mat-hint align="end">{{account.value.length}} / 12</mat-hint>
     </mat-form-field>
@@ -400,7 +400,7 @@
   </clr-wizard-page>
   <clr-wizard-page [clrWizardPageNextDisabled]="!payloadValid" (clrWizardPageOnLoad)="makePayload()">
     <ng-template clrPageTitle>Step 3</ng-template>
-    <h5 style="color: #ABABAB;">Send the account creation code to a friend to create your account for you on simplEOS.
+    <h5 style="color: #ABABAB;">Send the account creation code to a friend to create your account for you on simplAGR.
       <strong>This
         code does not
         contain your private key</strong> :)
