@@ -4,13 +4,8 @@
     <div class="row animate fadeInDown">
 
       <div class="col-md-12 text-center">
-        <div class="anim-logo">
-          <lottie-animation-view
-            [options]="lottieConfig"
-            [width]="300"
-            [height]="'auto'"
-            (animCreated)="handleAnimation($event)">
-          </lottie-animation-view>
+        <div class="">
+          <img src="assets/aggregion.png">
         </div>
         <div class="slogan">Your simple and secure AGR wallet</div>
         <ng-container *ngIf="busy && network.status === ''">
@@ -329,11 +324,11 @@
   <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
   <clr-wizard-page>
     <ng-template clrPageTitle>Intro</ng-template>
-    <h5 class="mt-0">In eos, creation of new accounts costs a little of eos, because the account must have an
+    <h5 class="mt-0">In agr, creation of new accounts costs a little of agr, because the account must have an
       initial stake do perform actions.</h5>
     <h5>Block producers are working on a solution for this, but until then, we don't want to deprive
       users of creating new accounts. So we thought on an organic approach to this :)</h5>
-    <h5>At the end of this process, a code will be generated. You will have to send this code to a friend that has eos
+    <h5>At the end of this process, a code will be generated. You will have to send this code to a friend that has agr
       on the mainnet, so he can create your account using SimplAGR.</h5>
     <h5><strong>This code DOES NOT contain your private keys</strong>, only your public keys and the desired account
       name.</h5>

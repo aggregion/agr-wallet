@@ -154,13 +154,13 @@ export class LandingComponent implements OnInit {
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.anim.pause();
-    }, 10);
-
-    setTimeout(() => {
-      this.anim.play();
-    }, 900);
+    // setTimeout(() => {
+    //   this.anim.pause();
+    // }, 10);
+    //
+    // setTimeout(() => {
+    //   this.anim.play();
+    // }, 900);
   }
 
   setPin(exodus) {

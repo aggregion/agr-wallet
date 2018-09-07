@@ -52,10 +52,7 @@
     </div>
     <nav class="sidenav">
       <section class="sidenav-header">
-        <lottie-animation-view
-          [options]="lottieConfig" [width]="'auto'" [height]="'auto'"
-          (animCreated)="handleAnimation($event)">
-        </lottie-animation-view>
+        <img src="assets/aggregion.png">
       </section>
       <section #sidenavContent class="sidenav-content">
         <a class="nav-link" routerLinkActive="active" [routerLink]="['wallet']">
@@ -77,7 +74,7 @@
       <section class="placeholder border-r">
         <div class="credits">Made with
           <fa-icon [icon]="['fas', 'heart']"></fa-icon>
-          by <a style="color: #d7d7d7;" [routerLink]="['about']">Aggregion</a>
+          by <a style="color: #d7d7d7;">Aggregion</a>
         </div>
         <div class="version">v0.6.4</div>
       </section>
@@ -223,7 +220,7 @@
       </mat-form-field>
       <span style="margin: 0 12px;">=</span>
       <mat-form-field style="width: 100px">
-        <input matInput placeholder="Price in eos" disabled readonly
+        <input matInput placeholder="Price in agr" disabled readonly
                value="{{ram.ramPriceAGR * (ramAmount.value/1024) | number: '1.0-4'}} AGR">
       </mat-form-field>
       <!--Amount to Gift-->
