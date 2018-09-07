@@ -175,7 +175,7 @@
             <h5 class="gray mt-0">AGR</h5>
             <div style="color: #2e7db2;">{{fullBalance}}</div>
             <span *ngIf="aService.usd_rate !== null" style="color: #696969">
-                ${{(fullBalance * aService.usd_rate) | number:'1.2-2'}} @{{aService.usd_rate | number: '1.2-2'}}
+                ${{(fullBalance * aService.usd_rate) | number:'1.2-2'}} @{{aService.usd_rate | number: '1.2-3'}}
               </span>
           </li>
           <li *ngFor="let token of aService.tokens" class="tokens-pad">

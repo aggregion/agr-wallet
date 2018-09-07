@@ -409,8 +409,9 @@ export class AccountsService {
   }
 
   fetchAGRprice() {
-    this.http.get('https://api.coinmarketcap.com/v2/ticker/1765/').subscribe((result: any) => {
-      this.usd_rate = parseFloat(result.data.quotes.USD['price']);
-    });
+    this.usd_rate = 0.025;
+    // this.http.get('https://api.coinmarketcap.com/v2/ticker/1765/').subscribe((result: any) => {
+    //   this.usd_rate = parseFloat(result.data.quotes.USD['price']);
+    // });
   }
 }

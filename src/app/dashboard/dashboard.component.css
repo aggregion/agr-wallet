@@ -102,6 +102,7 @@
 }
 
 .credits {
+    cursor: default;
     text-align: center;
     font-size: 15px;
     margin-bottom: -4px;
