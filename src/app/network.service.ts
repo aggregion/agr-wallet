@@ -21,10 +21,10 @@ export class NetworkService {
   publicEndpoints: Endpoint[];
   eos: any;
   mainnetId = 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f';
-  genesistx = '55fa847b17500c2d3e3349331f001f774ea67e12ecb1b0a6a3124043a59b9818'; // Change
-  voteref = 'a8471a22897be3687ea2c7fa1704e53d57d3c3e56ecdbae191249cb66dc3d763'; // Change
-  txrefBlock = 1196995;
-  voterefBlock = 1197057;
+  genesistx = 'c408b0b3ce1785e2f384cc2a15375b2b510f5dd4d428ba827b113c0b55a44408'; // Change
+  voteref = 'c408b0b3ce1785e2f384cc2a15375b2b510f5dd4d428ba827b113c0b55a44408'; // Change
+  txrefBlock = 14227;
+  voterefBlock = 14227;
   baseConfig = {
     httpEndpoint: '',
     expireInSeconds: 60,
