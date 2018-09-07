@@ -23,8 +23,8 @@ export class NetworkService {
   mainnetId = 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f';
   genesistx = 'c408b0b3ce1785e2f384cc2a15375b2b510f5dd4d428ba827b113c0b55a44408'; // Change
   voteref = 'c408b0b3ce1785e2f384cc2a15375b2b510f5dd4d428ba827b113c0b55a44408'; // Change
-  txrefBlock = 14227;
-  voterefBlock = 14227;
+  txrefBlock = 14229;
+  voterefBlock = 14229;
   baseConfig = {
     httpEndpoint: '',
     expireInSeconds: 60,
@@ -79,6 +79,7 @@ export class NetworkService {
   }
 
   extractValidNode() {
+    console.warn('extractValidNode');
     for (const node of this.publicEndpoints) {
       if (node.filters.length === 2) {
         this.validEndpoints.push(node);
@@ -88,6 +89,7 @@ export class NetworkService {
   }
 
   selectEndpoint() {
+    console.warn('selectEndpoint');
     let latency = 2000;
     this.validEndpoints.forEach((node) => {
       if (node.latency < latency) {

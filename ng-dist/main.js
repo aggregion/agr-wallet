@@ -4901,8 +4901,8 @@ var NetworkService = /** @class */ (function () {
         this.mainnetId = 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f';
         this.genesistx = 'c408b0b3ce1785e2f384cc2a15375b2b510f5dd4d428ba827b113c0b55a44408'; // Change
         this.voteref = 'c408b0b3ce1785e2f384cc2a15375b2b510f5dd4d428ba827b113c0b55a44408'; // Change
-        this.txrefBlock = 14227;
-        this.voterefBlock = 14227;
+        this.txrefBlock = 14229;
+        this.voterefBlock = 14229;
         this.baseConfig = {
             httpEndpoint: '',
             expireInSeconds: 60,
@@ -4968,6 +4968,7 @@ var NetworkService = /** @class */ (function () {
         });
     };
     NetworkService.prototype.extractValidNode = function () {
+        console.warn('extractValidNode');
         for (var _i = 0, _a = this.publicEndpoints; _i < _a.length; _i++) {
             var node = _a[_i];
             if (node.filters.length === 2) {
@@ -4978,6 +4979,7 @@ var NetworkService = /** @class */ (function () {
     };
     NetworkService.prototype.selectEndpoint = function () {
         var _this = this;
+        console.warn('selectEndpoint');
         var latency = 2000;
         this.validEndpoints.forEach(function (node) {
             if (node.latency < latency) {
