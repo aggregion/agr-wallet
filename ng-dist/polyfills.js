@@ -5505,7 +5505,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/denisbezrukov/projects/web/aggregion/agr-wallet/src/polyfills.ts */"./src/polyfills.ts");
+module.exports = __webpack_require__(/*! D:\work\blockchain\agr-wallet\src\polyfills.ts */"./src/polyfills.ts");
 
 
 /***/ })
