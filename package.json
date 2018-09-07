@@ -1,7 +1,7 @@
 {
-  "name": "simpleos",
+  "name": "simplagr",
   "version": "0.6.4",
-  "productName": "simpleos",
+  "productName": "simplagr",
   "description": "EOS Blockchain Interface & Wallet",
   "author": {
     "name": "EOSRio",
@@ -31,7 +31,7 @@
   "private": true,
   "main": "index.js",
   "build": {
-    "appId": "simpleos",
+    "appId": "simplagr",
     "files": [
       "ng-dist",
       "index.js",

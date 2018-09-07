@@ -65,7 +65,7 @@ export class AGRJSService {
         this.ready = true;
         this.online.next(result['head_block_num'] - result['last_irreversible_block_num'] < 400);
         let savedAcc = [];
-        const savedpayload = localStorage.getItem('simpleos.accounts.' + this.chainID);
+        const savedpayload = localStorage.getItem('simplagr.accounts.' + this.chainID);
         if (savedpayload) {
           savedAcc = JSON.parse(savedpayload).accounts;
           this.loadHistory();
@@ -188,10 +188,10 @@ export class AGRJSService {
     if (accounts) {
       if (accounts.length > 0) {
         this.accounts.next(accounts);
-        const payload = JSON.parse(localStorage.getItem('simpleos.accounts.' + this.chainID));
+        const payload = JSON.parse(localStorage.getItem('simplagr.accounts.' + this.chainID));
         payload.updatedOn = new Date();
         payload.accounts = accounts;
-        localStorage.setItem('simpleos.accounts.' + this.chainID, JSON.stringify(payload));
+        localStorage.setItem('simplagr.accounts.' + this.chainID, JSON.stringify(payload));
       }
     }
   }
@@ -228,7 +228,7 @@ export class AGRJSService {
 
   saveHistory() {
     const payload = JSON.stringify(this.txh);
-    localStorage.setItem('simpleos.txhistory.' + this.chainID, payload);
+    localStorage.setItem('simplagr.txhistory.' + this.chainID, payload);
   }
 
   async transfer(contract, from, to, amount, memo): Promise<any> {

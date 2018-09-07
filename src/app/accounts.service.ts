@@ -269,22 +269,22 @@ export class AccountsService {
       updatedOn: new Date(),
       accounts: accounts
     };
-    localStorage.setItem('simpleos.accounts.' + chain_id, JSON.stringify(payload));
+    localStorage.setItem('simplagr.accounts.' + chain_id, JSON.stringify(payload));
     this.loadLocalAccounts(accounts);
   }
 
   appendNewAccount(account) {
     const chain_id = this.eos.chainID;
-    const payload = JSON.parse(localStorage.getItem('simpleos.accounts.' + chain_id));
+    const payload = JSON.parse(localStorage.getItem('simplagr.accounts.' + chain_id));
     payload.accounts.push(account);
     payload.updatedOn = new Date();
-    localStorage.setItem('simpleos.accounts.' + chain_id, JSON.stringify(payload));
+    localStorage.setItem('simplagr.accounts.' + chain_id, JSON.stringify(payload));
     this.loadLocalAccounts(payload.accounts);
   }
 
   appendAccounts(accounts) {
     const chain_id = this.eos.chainID;
-    const payload = JSON.parse(localStorage.getItem('simpleos.accounts.' + chain_id));
+    const payload = JSON.parse(localStorage.getItem('simplagr.accounts.' + chain_id));
     accounts.forEach((account) => {
       const idx = payload.accounts.findIndex((el) => {
         return el.name === account.account_name || el.account_name === account.account_name;
@@ -304,7 +304,7 @@ export class AccountsService {
       }
     });
     payload.updatedOn = new Date();
-    localStorage.setItem('simpleos.accounts.' + chain_id, JSON.stringify(payload));
+    localStorage.setItem('simplagr.accounts.' + chain_id, JSON.stringify(payload));
     this.loadLocalAccounts(payload.accounts);
   }
 

@@ -34,7 +34,7 @@ export class LockscreenComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (localStorage.getItem('simpleos-hash') === null) {
+        if (localStorage.getItem('simplagr-hash') === null) {
             this.router.navigate(['landing']).catch(() => {
                 alert('cannot navigate :(');
             });
@@ -67,7 +67,7 @@ export class LockscreenComponent implements OnInit {
         } else {
             const arr = [];
             for (let i = 0; i < localStorage.length; i++) {
-                if (localStorage.key(i) !== 'simpleos.contacts') {
+                if (localStorage.key(i) !== 'simplagr.contacts') {
                     arr.push(localStorage.key(i));
                 }
             }

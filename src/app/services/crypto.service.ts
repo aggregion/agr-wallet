@@ -64,7 +64,7 @@ export class CryptoService {
   }
 
   async changePass(publickey, newpass): Promise<boolean> {
-    const store = JSON.parse(localStorage.getItem('eos_keys.' + this.eosjs.chainID));
+    const store = JSON.parse(localStorage.getItem('agr_keys.' + this.eosjs.chainID));
     if (store) {
       const payload = store[publickey]['private'];
       if (payload) {
@@ -90,14 +90,14 @@ export class CryptoService {
   async encryptAndStore(data, publickey): Promise<void> {
     const encryptedData = await this.encrypt(data);
     let store = {};
-    const oldData = JSON.parse(localStorage.getItem('eos_keys.' + this.eosjs.chainID));
+    const oldData = JSON.parse(localStorage.getItem('agr_keys.' + this.eosjs.chainID));
     if (oldData) {
       store = oldData;
     }
     store[publickey] = {
       private: this.bufferToBase64(encryptedData)
     };
-    localStorage.setItem('eos_keys.' + this.eosjs.chainID, JSON.stringify(store));
+    localStorage.setItem('agr_keys.' + this.eosjs.chainID, JSON.stringify(store));
   }
 
   private async encrypt(data): Promise<Uint8Array> {
@@ -137,7 +137,7 @@ export class CryptoService {
   }
 
   async decryptKeys(publickey): Promise<boolean> {
-    const store = JSON.parse(localStorage.getItem('eos_keys.' + this.eosjs.chainID));
+    const store = JSON.parse(localStorage.getItem('agr_keys.' + this.eosjs.chainID));
     if (store) {
       const payload = store[publickey]['private'];
       if (payload) {
@@ -168,15 +168,15 @@ export class CryptoService {
       this.locked = false;
       const salt = CryptoJS.lib.WordArray['random'](128 / 8);
       const hash = CryptoJS.PBKDF2(pin, salt, {keySize: 512 / 32, iterations: 1000}).toString();
-      localStorage.setItem('simpleos-salt', JSON.stringify(salt));
-      localStorage.setItem('simpleos-hash', hash);
+      localStorage.setItem('simplagr-salt', JSON.stringify(salt));
+      localStorage.setItem('simplagr-hash', hash);
     }
     // this.lock();
   }
 
   unlock(pin: string, target: string[]): boolean {
-    const saved_hash = localStorage.getItem('simpleos-hash');
-    const salt = JSON.parse(localStorage.getItem('simpleos-salt'));
+    const saved_hash = localStorage.getItem('simplagr-hash');
+    const salt = JSON.parse(localStorage.getItem('simplagr-salt'));
     const hash = CryptoJS.PBKDF2(pin, salt, {keySize: 512 / 32, iterations: 1000}).toString();
     if (hash === saved_hash) {
       this.locked = false;
@@ -206,8 +206,8 @@ export class CryptoService {
   }
 
   removePIN() {
-    localStorage.removeItem('simpleos-salt');
-    localStorage.removeItem('simpleos-hash');
+    localStorage.removeItem('simplagr-salt');
+    localStorage.removeItem('simplagr-hash');
     this.locked = false;
   }
 
