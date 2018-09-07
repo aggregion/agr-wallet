@@ -2,12 +2,7 @@
   "name": "simplagr",
   "version": "0.6.4",
   "productName": "simplagr",
-  "description": "EOS Blockchain Interface & Wallet",
-  "author": {
-    "name": "EOSRio",
-    "email": "contact@eosrio.io"
-  },
-  "repository": "https://github.com/eosrio/simpleos",
+  "description": "Blockchain Interface & Wallet",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -61,13 +56,6 @@
     "win": {
       "target": [
         "nsis"
-      ],
-      "publish": [
-        {
-          "provider": "github",
-          "owner": "eosrio",
-          "repo": "simpleos"
-        }
       ],
       "icon": "256x256.png"
     }
