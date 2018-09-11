@@ -19,7 +19,6 @@ import {createNumberMask} from 'text-mask-addons/dist/textMaskAddons';
 export class DashboardComponent implements OnInit {
   @ViewChild('newAccountWizard') wizardaccount: ClrWizard;
   @ViewChild('importAccountWizard') importwizard: ClrWizard;
-  lottieConfig: Object;
   anim: any;
   busy = false;
 
@@ -133,12 +132,6 @@ export class DashboardComponent implements OnInit {
     });
     this.errormsg = '';
     this.importedAccounts = [];
-
-    this.lottieConfig = {
-      path: 'assets/logoanim2.json',
-      autoplay: true,
-      loop: false
-    };
   }
 
   openTXID() {

@@ -13,14 +13,14 @@
           </ng-container>
         </div>
         <ng-container *ngIf="sendForm.value.token === 'AGR'">
-          <div class="eos">{{unstaked | number : '1.2-4'}} AGR</div>
+          <div class="agr">{{unstaked | number : '1.2-4'}} AGR</div>
           <div *ngIf="unstaking > 0">
             <fa-icon [icon]="['far', 'lock']"></fa-icon>&nbsp;Will be {{(unstaked + unstaking) | number :
             '1.2-4'}} AGR {{unstakeTime}}
           </div>
         </ng-container>
         <ng-container *ngIf="sendForm.value.token !== 'AGR'">
-          <div class="eos">{{token_balance | number : '1.2-4'}} {{sendForm.value.token}}</div>
+          <div class="agr">{{token_balance | number : '1.2-4'}} {{sendForm.value.token}}</div>
         </ng-container>
         <form [formGroup]="sendForm">
           <div>

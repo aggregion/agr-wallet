@@ -104,4 +104,3 @@ app.on('activate', () => {
     createWindow()
   }
 });
-

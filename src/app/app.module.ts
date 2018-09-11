@@ -27,7 +27,6 @@ import {
 } from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TableModule} from 'primeng/table';
-import {LottieAnimationViewModule} from 'ng-lottie';
 import {ConfigComponent} from './dashboard/config/config.component';
 import {HttpClientModule} from '@angular/common/http';
 import {AccordionModule, TooltipModule} from 'primeng/primeng';
@@ -67,7 +66,6 @@ library.add(far, fas, fab, fal);
     FontAwesomeModule,
     FormsModule,
     HttpClientModule,
-    LottieAnimationViewModule.forRoot(),
     MatAutocompleteModule,
     MatCheckboxModule,
     MatFormFieldModule,

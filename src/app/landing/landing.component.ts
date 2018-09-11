@@ -18,7 +18,6 @@ export class LandingComponent implements OnInit {
   @ViewChild('wizardexists') exisitswizard: ClrWizard;
   @ViewChild('wizardnew') wizardnew: ClrWizard;
   @ViewChild('wizardexodus') wizard: ClrWizard;
-  lottieConfig: Object;
   anim: any;
   busy: boolean;
   existingWallet: boolean;
@@ -93,11 +92,6 @@ export class LandingComponent implements OnInit {
     this.importedAccounts = [];
     this.checkerr = '';
     this.errormsg = '';
-    this.lottieConfig = {
-      path: 'assets/logoanim.json',
-      autoplay: true,
-      loop: false
-    };
 
     this.network.networkingReady.asObservable().subscribe((status) => {
       this.busy = !status;

@@ -15,7 +15,7 @@
     <div class="col-md-10 text-center flex-column animate" *ngIf="aService.selected !== undefined"
          style="padding: 39px;">
       <div class="balance">AGR BALANCE (${{(fullBalance * aService.usd_rate) | number: '1.2-2'}})</div>
-      <div class="eos">{{fullBalance | number: '1.2-4'}} AGR</div>
+      <div class="agr">{{fullBalance | number: '1.2-4'}} AGR</div>
       <div class="infos">
         <span style="padding-right: 15px">
           <fa-icon [icon]="['far', 'lock']"></fa-icon>&nbsp;Staked {{staked | number: '1.0-4'}} AGR

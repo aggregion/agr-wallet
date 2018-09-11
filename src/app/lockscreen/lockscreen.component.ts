@@ -16,7 +16,6 @@ export class LockscreenComponent implements OnInit {
     logoutModal: boolean;
     clearContacts: boolean;
     anim: any;
-    lottieConfig: Object;
 
     static resetApp() {
         window['remote']['app']['relaunch']();
@@ -26,11 +25,6 @@ export class LockscreenComponent implements OnInit {
     constructor(private crypto: CryptoService, private router: Router, private network: NetworkService) {
         this.logoutModal = false;
         this.clearContacts = false;
-        this.lottieConfig = {
-            path: 'assets/logoanim.json',
-            autoplay: true,
-            loop: false
-        };
     }
 
     ngOnInit() {

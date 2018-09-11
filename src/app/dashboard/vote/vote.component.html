@@ -5,7 +5,7 @@
       <div class="card info-card">
         <div class="card-block text-center">
           <div class="total">TOTAL (${{(totalBalance * aService.usd_rate) | number: '1.2-2'}})</div>
-          <div class="blue eos">{{(totalBalance > 10000) ? ((totalBalance / 1000) |
+          <div class="blue agr">{{(totalBalance > 10000) ? ((totalBalance / 1000) |
             number: '1.2-4') + "K" : ((totalBalance) | number: '1.2-4') }} AGR
           </div>
         </div>
@@ -13,7 +13,7 @@
       <div class="card info-card">
         <div class="card-block text-center">
           <div class="total">STAKED (${{(stakedBalance * aService.usd_rate) | number: '1.2-2'}})</div>
-          <div class="blue eos">{{(stakedBalance > 10000) ? ((stakedBalance / 1000) |
+          <div class="blue agr">{{(stakedBalance > 10000) ? ((stakedBalance / 1000) |
             number: '1.2-4') + "K" : ((stakedBalance) | number: '1.2-4') }} AGR
           </div>
         </div>
