@@ -5,10 +5,6 @@
 /*@import "~@fortawesome/fontawesome-pro/css/solid.css";*/
 
 html, body {
-  /*background: url("assets/rio.jpg") fixed;*/
-  /*background-size: cover;*/
-  background: -webkit-linear-gradient(to right, #232526, #414345); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #232526, #414345);
 }
 
 html {
@@ -116,12 +112,10 @@ body {
 
 .btn-info-outline:hover {
   background-color: #0077b7 !important;
-  color: white !important;
 }
 
 .btn-danger-outline:hover {
   background-color: #c92100 !important;
-  color: white !important;
 }
 
 .btn:focus {
@@ -211,7 +205,6 @@ body {
 input {
     border-bottom: none !important;
     background: none !important;
-    color: white !important;
 }
 
 input:not([readonly]):focus {

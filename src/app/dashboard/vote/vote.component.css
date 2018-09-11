@@ -201,7 +201,6 @@ a:visited {
 }
 
 .a-white:hover {
-    color: white !important;
     cursor: pointer;
 }
 
