@@ -4,6 +4,11 @@
   "productName": "simplagr",
   "description": "Blockchain Interface & Wallet",
   "license": "MIT",
+  "homepage": "http://test.org",
+  "author": {
+    "name": "agr",
+    "email": "1@1.ru"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 7777",
