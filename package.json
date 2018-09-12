@@ -1,12 +1,13 @@
 {
-  "name": "simplagr",
-  "version": "0.6.5",
-  "productName": "simplagr",
+  "name": "agr-wallet",
+  "version": "0.7.0",
+  "productName": "Aggregion Wallet",
   "description": "Blockchain Interface & Wallet",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 7777",
+    "start:prod": "ng serve --port 7777 --prod",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "pack": "electron-builder --dir",
@@ -16,7 +17,7 @@
     "start:electron-prod": "electron index.js",
     "publish:win": "electron-builder build --win --ia32 --x64 -p always",
     "publish:linux": "electron-builder build --linux -p always",
-    "publish:mac": "electron-builder build --mac -p always",
+    "publish:mac": "CSC_IDENTITY_AUTO_DISCOVERY=false CSC_NAME=7ZMDDPX39X electron-builder build --mac -p always",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -26,7 +27,7 @@
   "private": true,
   "main": "index.js",
   "build": {
-    "appId": "simplagr",
+    "appId": "agg-wallet",
     "files": [
       "ng-dist",
       "index.js",

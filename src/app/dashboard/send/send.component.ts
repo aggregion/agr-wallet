@@ -368,11 +368,11 @@ export class SendComponent implements OnInit {
   }
 
   storeContacts() {
-    localStorage.setItem('simplagr.contacts', JSON.stringify(this.contacts));
+    localStorage.setItem('Aggregion Wallet.contacts', JSON.stringify(this.contacts));
   }
 
   loadContacts() {
-    const contacts = localStorage.getItem('simplagr.contacts');
+    const contacts = localStorage.getItem('Aggregion Wallet.contacts');
     if (contacts) {
       this.contacts = JSON.parse(contacts);
     } else {

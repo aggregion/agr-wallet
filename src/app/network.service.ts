@@ -6,6 +6,8 @@ import {Router} from '@angular/router';
 import * as Eos from '../assets/eos.js';
 import {BehaviorSubject} from 'rxjs';
 
+import {mainnetId, genesistx, voteref, txrefBlock, voterefBlock, endpoint} from './config';
+
 export interface Endpoint {
   url: string;
   owner: string;
@@ -20,11 +22,11 @@ export class NetworkService {
 
   publicEndpoints: Endpoint[];
   eos: any;
-  mainnetId = 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f';
-  genesistx = 'c408b0b3ce1785e2f384cc2a15375b2b510f5dd4d428ba827b113c0b55a44408'; // Change
-  voteref = 'c408b0b3ce1785e2f384cc2a15375b2b510f5dd4d428ba827b113c0b55a44408'; // Change
-  txrefBlock = 14229;
-  voterefBlock = 14229;
+  mainnetId = mainnetId;
+  genesistx = genesistx; // Change
+  voteref = voteref; // Change
+  txrefBlock = txrefBlock;
+  voterefBlock = voterefBlock;
   baseConfig = {
     httpEndpoint: '',
     expireInSeconds: 60,
@@ -41,7 +43,7 @@ export class NetworkService {
 
   constructor(private eosjs: AGRJSService, private router: Router, public aService: AccountsService) {
     this.publicEndpoints = [
-      {url: 'https://devnet.blockchain.aggregion.com', owner: 'Aggregion', latency: 0, filters: []}
+      {url: endpoint, owner: 'Aggregion', latency: 0, filters: []}
     ];
     this.validEndpoints = [];
     this.status = '';
@@ -69,7 +71,7 @@ export class NetworkService {
         this.networkingReady.next(false);
         this.connectionTimeout = null;
       }
-    }, 10000);
+    }, 20000);
   }
 
   async scanNodes() {

@@ -7,7 +7,7 @@
         <div class="">
           <img src="assets/aggregion.png">
         </div>
-        <div class="slogan">Your simple and secure AGR wallet</div>
+        <div class="slogan">Your simple and secure Aggregion Wallet</div>
         <ng-container *ngIf="busy && network.status === ''">
           <fa-layers class="mt-2 mb-1">
             <fa-icon [icon]="['far', 'spinner']" [spin]="true" size="2x"></fa-icon>
@@ -186,15 +186,142 @@
   </clr-wizard-page>
   <clr-wizard-page [clrWizardPageNextDisabled]="!agree">
     <ng-template clrPageTitle>Step 3</ng-template>
-    <h5 style="color: #bebebe;">AGR Constitution</h5>
-    <div class="constitution" [innerHTML]="eos.constitution"></div>
-    <mat-checkbox [(ngModel)]="agree">I abide by the constitution</mat-checkbox>
+    <h5 style="color: #bebebe;">Aggregion Terms of Use</h5>
+    <div class="constitution">
+      <p>
+        Aggregion Licence and Services Agreement<br>
+        <br>
+        This Licence and Services Agreement (“Agreement”) is concluded between Aggregion LTD. (“Aggregion”, “We” or “Us”) and the person who downloads, installs or uses the Aggregion Player or A-Store.io application or any other application indicated by Aggregion  (each called “the App”) or any part thereof (including e.g. a plug-in connecting to it).<br>
+        <br>
+        By downloading, installing or using the App, the user (“You” or the “User”) agrees to be bound by the terms of this Agreement. If You do not agree to any term hereof, then You may not install or use the App.<br>
+        <br>
+        Capitalized terms are defined at the end of this Agreement.<br>
+        <br>
+        1. Grant of licence<br>
+        <br>
+        Aggregion grants you a personal, non-transferable, non-exclusive licence (“Licence”) to install and run one copy of the App on one device identified by the technical specifications of the App.<br>
+        <br>
+        2. User Account<br>
+        <br>
+        In order to use the App properly, you must set up a User Account, by providing the information required by Us. Any User Account may be used by one person only. You must provide Us with a valid email address and a password for your User Account, or the relevant data from the social media profiles allowed. You are responsible for maintaining the security of your User Account, and you are fully responsible for all activities that occur under that User Account. You will immediately notify Us of any unauthorized uses of your User Account or any other breaches of security.<br>
+        <br>
+        3. Access to Services<br>
+        <br>
+        Opening of a User Account gives You access to some or more aspects or functionality of the Services. Such access includes a limited, non-transferable, non-exclusive right to access the Services for Your own internal purpose.<br>
+        <br>
+        Services include the use of the App and the provision of access to Content through the functionalities of the App. To the extent as required or authorized by the functionalities of the App, Services may include access to the Website. Any use of the Website is subject to the Terms of Use thereof.<br>
+        <br>
+        4. Access to Content<br>
+        <br>
+        Through the use of the App or the Services, a User may gain access to Content. Any access to Content is conditional upon the User complying with the level of usage rights to such Content, as stipulated by the Content Provider.<br>
+        <br>
+        5. Limited use of the App, Services and Content<br>
+        <br>
+        Any use of the App, Services or any Content provided is limited to the rights as set out in this Agreement and the limited access rights to Content as set out by the relevant Content Provider.<br>
+        <br>
+        Any other use (including but not limited to use of the App or Service to provide other services to third parties), or use for data mining, use of spiders, crawlers, bots, etc. is excluded. You may not reverse engineer, decompile or disassemble the App or the Services, or create derivative works of the App or the Services (other than through the operation of functionality provided through the App or the Services).<br>
+        <br>
+        You may not use, copy, create derivative works, or in any other way use any Content other than as set out in the limited rights provided to You by the Content Provider. You may not use any Content for any other purpose than the purpose set out by the relevant Content Provider, or, if no such purpose is specified, for your own personal use. Any other use (including but not limited to commercial use) is prohibited to the maximum extent permitted by applicable law.<br>
+        <br>
+        You may not in any way decrypt, modify, prevent or limit the application of the technical aspects of the limitation of usage rights of any Content provided through or made available through the App, the Services or the Website, or attempt or facilitate to do any of the above.<br>
+        <br>
+        6. Privacy, Data protection, use of data and security<br>
+        <br>
+        We are committed to preserving your privacy and complying with relevant Data Protection Law. The appropriate rules are as set out in our Privacy Policy http://aggregion.com/privacy-policy , which is incorporated herein by reference.<br>
+        <br>
+        You agree that, as an essential condition of this Agreement, We are entitled to collect any data related to your purchase and use of any usage rights in Content. This includes, but is not limited to, data related to purchase and use of Content, including any metadata in relation thereto (“Content Related Data”). You agree that we are entitled to use, without any limitation, Content Related Data for the purpose of verifying your use of Content. This includes but is not limited to exchanging Content Related Data with the relevant Content Provider(s).<br>
+        <br>
+        User shall never, either itself or through a third party:
+        Violate or attempt to violate the technical or data security of the App, the Services or the Website;
+        Go beyond the limitations of use applicable to its User Account;
+        Attempt to probe, scan or test the vulnerability of the Aggregion App, systems, networks or Website;
+        Attempt to interfere with the provision of  the Services or the Website, including but not limited to hacking, introducing virus or malware, denial of service attacks or any other technical act that could or risks to impede the functionality of the App, the Services or the Website.<br>
+        <br>
+
+        7. Intellectual Property Rights<br>
+        <br>
+        Any Intellectual Property Rights in the App, the Service or the Website are and remain with Aggregion. The Agreement or any use of the App, the Services or the Website does not transfer or assign any Intellectual Property Right from Us or our licensors or suppliers to you, and all rights are reserved.<br>
+        <br>
+        Any Intellectual Property Rights in any Content are and remain with the relevant Content Provider or its licensors. The Agreement or any use of the App, the Services or the Website does not transfer or assign any Intellectual Property Right in Content to you, and all rights are reserved.<br>
+        <br>
+        8. Support<br>
+        <br>
+        Any questions or comments in respect of the functioning of the App, the Services or the Website must be directed to Aggregion support https://aggregion.freshdesk.com/helpdesk.<br>
+        <br>
+        We will use reasonable endeavors to reply to any questions in respect of the functioning of the App, the Services or the Website.<br>
+        <br>
+        Any questions in respect of Content will be transmitted to the Content Provider, and are not Aggregion’s responsibility.<br>
+        <br>
+        9. Warranties<br>
+        <br>
+        The App, the Services and the Website are provided "as is".  Aggregion and its suppliers and licensors hereby disclaim all warranties of any kind, express or implied, including, without limitation, the warranties of merchantability, fitness for a particular purpose and non-infringement. Neither Aggregion nor its suppliers and licensors, makes any warranty that the App, the Services or the Website will be error free or that access thereto will be continuous or uninterrupted. You understand that you obtain or use the App, any Content, Services or the Website at your own discretion and risk.<br>
+        <br>
+        You acknowledge that Aggregion acts as a “mere conduit”, and has no obligation to verify in any systematic or other way any Content. Aggregion does not represent or warrant that any Content or Services are accurate, complete, reliable, current, or error-free, whether or not it infringes any third party rights, or that it is free of any harmful components.<br>
+        <br>
+        Aggregion does not warrant that Content is or will remain available; this is the sole responsibility of the relevant Content Provider.<br>
+        <br>
+        10. Limitation of liability<br>
+        <br>
+        To the fullest extent permissible under applicable law, Aggregion will have no liability, and any User waives any claim, based on the App, the Website, any Services or any Content, or any transaction, service or functionality transacted or made available through the App, the Services or the Website.<br>
+        <br>
+        Aggregion will never be liable for any breakdown of the App, the Services or the Website, or interruption, malfunction or technical issues related to the operation of the App, the Website or the Services.<br>
+        <br>
+        Users specifically waive any liability of Aggregion for any Content accessed or received through the App, the Services or the Website.<br>
+        <br>
+        Under no circumstances will Aggregion be liable for any indirect losses, including any loss of business or loss of profit.<br>
+        <br>
+        To the extent permitted by applicable law, in any event will Aggregion liability be limited the total value of monetary value paid by a User during the three months preceding the cause of liability.<br>
+        <br>
+        11. General provisions<br>
+        <br>
+        We reserve the right to change any part of the Agreement. We advise Users to regularly check the Agreement. If you continue to use the App, the Website or the Services after We post changes to the Agreement, you are confirming your acceptance of the new Agreement. We will clearly indicate version numbers at the end of the Agreement.<br>
+        <br>
+        This Agreement constitutes the entire agreement between Aggregion and the User. It may only be modified in accordance with its terms.<br>
+        <br>
+        If any part of this Agreement is held invalid or unenforceable, that part will be construed to reflect the parties' original intent, and the remaining portions will remain in full force and effect.<br>
+        <br>
+        A waiver by Aggregion of any term or condition of this Agreement or any breach thereof, in any one instance, will not waive such term or condition or any subsequent breach thereof.<br>
+        <br>
+        Aggregion may assign its rights under this Agreement without condition. This Agreement will be binding upon and will inure to the benefit of the parties, their successors and permitted assigns. Users are not allowed to assign their rights under this Agreement without Aggregion’s prior written authorization, which Aggregion may withhold in its discretion, without incurring any liability.<br>
+        <br>
+        This Agreement is subject to the laws of England and Wales. Only English Courts have will have juridisction.<br>
+        <br>
+        12. Definitions<br>
+        <br>
+        12.1. “Aggregion” means (Aggregion, LTD, a company registered at 11 Hoffmanns Way, Chelmsford, Essex CM1 1GU, United Kingdom)<br>
+        <br>
+        12.2. “App” means the software application downloaded or installed accompanied by this Agreement, including those functionalities that are available online or in-App (e.g. the A-Store.io wallet).<br>
+        <br>
+        12.3. “Agreement” means this agreement, including any annexes or documents inserted by reference.<br>
+        <br>
+        12.4. “Licence” means the right to download, install, run and use the App as set out in and limited by the Agreement.<br>
+        <br>
+        12.5. “Content” means any content, such as books, e-books, audiovisual content such as music, films, podcasts, and in general any content that can be accessed or consumed through the operations of the App.<br>
+        <br>
+        12.6. “Content Provider” means the provider (including, for the avoidance of doubt, the distributors thereof) of any Content.<br>
+        <br>
+        12.7. “Intellectual Property Rights” means rights of exclusive or restrictive use, such as patents, designs, models, drawings, copyrights, software rights, database rights, trademarks, services marks, know-how, web domain names, trade names (all whether registered or not, and including any applications thereto) and in general all rights of a same or similar nature, anywhere in the world including all extensions, reversions, revivals and renewals thereof<br>
+        <br>
+        12.8. “User” means the person who has downloaded or installed the App.<br>
+        <br>
+        12.9. “User Account” means the account held by a User, and identified through the username and password, or social media profile, provided by the User<br>
+        <br>
+        12.10. “Services” means any services provided by Aggregion to Users, either through the App or the Website.<br>
+        <br>
+        12.11. “Website” means any Aggregion website through which Aggregion interacts with or provides Services to Users connected <br>to the App (e.g. the wallet function of the A-Store.io)
+        <br>
+        This is version 1.0 of the Agreement, dated 1 October 2015.<br>
+        <br>
+        END
+      </p>
+    </div>
+    <mat-checkbox [(ngModel)]="agree">I agree to Terms of Use</mat-checkbox>
   </clr-wizard-page>
   <clr-wizard-page (clrWizardPageOnCommit)="importCredentials()">
     <ng-template clrPageTitle>Step 4 - optional</ng-template>
     <h5 style="margin-bottom: 15px">
       <span style="color: #c3c3c3;">Lockscreen pin.</span>
-      Do you want to define a small privacy pin used to unlock the screen next time you enter SimplAGR?
+      Do you want to define a small privacy pin used to unlock the screen next time you enter Aggregion Wallet?
     </h5>
     <h5 style="margin-bottom: 18px">*This <strong>does not</strong> replace your password used to confirm
       transactions</h5>
@@ -296,7 +423,7 @@
     <ng-template clrPageTitle>Step 4 - optional</ng-template>
     <h5 style="margin-bottom: 15px">
       <span style="color: #c3c3c3;">Lockscreen pin.</span>
-      Do you want to define a small privacy pin used to unlock the screen next time you enter SimplAGR?
+      Do you want to define a small privacy pin used to unlock the screen next time you enter Aggregion Wallet?
     </h5>
     <h5 style="margin-bottom: 18px">*This <strong>does not</strong> replace your password used to confirm
       transactions</h5>
@@ -329,7 +456,7 @@
     <h5>Block producers are working on a solution for this, but until then, we don't want to deprive
       users of creating new accounts. So we thought on an organic approach to this :)</h5>
     <h5>At the end of this process, a code will be generated. You will have to send this code to a friend that has agr
-      on the mainnet, so he can create your account using SimplAGR.</h5>
+      on the mainnet, so he can create your account using Aggregion Wallet.</h5>
     <h5><strong>This code DOES NOT contain your private keys</strong>, only your public keys and the desired account
       name.</h5>
   </clr-wizard-page>
@@ -395,7 +522,7 @@
   </clr-wizard-page>
   <clr-wizard-page [clrWizardPageNextDisabled]="!payloadValid" (clrWizardPageOnLoad)="makePayload()">
     <ng-template clrPageTitle>Step 3</ng-template>
-    <h5 style="color: #ABABAB;">Send the account creation code to a friend to create your account for you on simplAGR.
+    <h5 style="color: #ABABAB;">Send the account creation code to a friend to create your account for you on Aggregion Wallet.
       <strong>This
         code does not
         contain your private key</strong> :)

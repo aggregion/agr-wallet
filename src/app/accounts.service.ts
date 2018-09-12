@@ -269,22 +269,22 @@ export class AccountsService {
       updatedOn: new Date(),
       accounts: accounts
     };
-    localStorage.setItem('simplagr.accounts.' + chain_id, JSON.stringify(payload));
+    localStorage.setItem('Aggregion Wallet.accounts.' + chain_id, JSON.stringify(payload));
     this.loadLocalAccounts(accounts);
   }
 
   appendNewAccount(account) {
     const chain_id = this.eos.chainID;
-    const payload = JSON.parse(localStorage.getItem('simplagr.accounts.' + chain_id));
+    const payload = JSON.parse(localStorage.getItem('Aggregion Wallet.accounts.' + chain_id));
     payload.accounts.push(account);
     payload.updatedOn = new Date();
-    localStorage.setItem('simplagr.accounts.' + chain_id, JSON.stringify(payload));
+    localStorage.setItem('Aggregion Wallet.accounts.' + chain_id, JSON.stringify(payload));
     this.loadLocalAccounts(payload.accounts);
   }
 
   appendAccounts(accounts) {
     const chain_id = this.eos.chainID;
-    const payload = JSON.parse(localStorage.getItem('simplagr.accounts.' + chain_id));
+    const payload = JSON.parse(localStorage.getItem('Aggregion Wallet.accounts.' + chain_id));
     accounts.forEach((account) => {
       const idx = payload.accounts.findIndex((el) => {
         return el.name === account.account_name || el.account_name === account.account_name;
@@ -304,7 +304,7 @@ export class AccountsService {
       }
     });
     payload.updatedOn = new Date();
-    localStorage.setItem('simplagr.accounts.' + chain_id, JSON.stringify(payload));
+    localStorage.setItem('Aggregion Wallet.accounts.' + chain_id, JSON.stringify(payload));
     this.loadLocalAccounts(payload.accounts);
   }
 
@@ -409,7 +409,7 @@ export class AccountsService {
   }
 
   fetchAGRprice() {
-    this.usd_rate = 0.025;
+    this.usd_rate = 0.05;
     // this.http.get('https://api.coinmarketcap.com/v2/ticker/1765/').subscribe((result: any) => {
     //   this.usd_rate = parseFloat(result.data.quotes.USD['price']);
     // });
