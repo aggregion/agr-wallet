@@ -41,7 +41,7 @@ require('electron-context-menu')({
 
 function createWindow() {
   win = new BrowserWindow({
-    title: 'simplAgr',
+    title: 'Aggregion Wallet',
     darkTheme: true,
     width: 1440,
     height: 800,

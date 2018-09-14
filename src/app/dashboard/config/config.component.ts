@@ -90,7 +90,7 @@ export class ConfigComponent implements OnInit {
     } else {
       const arr = [];
       for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i) !== 'simplagr.contacts') {
+        if (localStorage.key(i) !== 'Aggregion Wallet.contacts') {
           arr.push(localStorage.key(i));
         }
       }
@@ -152,7 +152,7 @@ export class ConfigComponent implements OnInit {
 
   setPIN() {
     if (this.pinForm.value.pin !== '') {
-      if (localStorage.getItem('simplagr-hash')) {
+      if (localStorage.getItem('Aggregion Wallet-hash')) {
         this.crypto.updatePIN(this.pinForm.value.pin);
       } else {
         this.crypto.createPIN(this.pinForm.value.pin);

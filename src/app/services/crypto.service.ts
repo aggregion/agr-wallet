@@ -168,15 +168,15 @@ export class CryptoService {
       this.locked = false;
       const salt = CryptoJS.lib.WordArray['random'](128 / 8);
       const hash = CryptoJS.PBKDF2(pin, salt, {keySize: 512 / 32, iterations: 1000}).toString();
-      localStorage.setItem('simplagr-salt', JSON.stringify(salt));
-      localStorage.setItem('simplagr-hash', hash);
+      localStorage.setItem('Aggregion Wallet-salt', JSON.stringify(salt));
+      localStorage.setItem('Aggregion Wallet-hash', hash);
     }
     // this.lock();
   }
 
   unlock(pin: string, target: string[]): boolean {
-    const saved_hash = localStorage.getItem('simplagr-hash');
-    const salt = JSON.parse(localStorage.getItem('simplagr-salt'));
+    const saved_hash = localStorage.getItem('Aggregion Wallet-hash');
+    const salt = JSON.parse(localStorage.getItem('Aggregion Wallet-salt'));
     const hash = CryptoJS.PBKDF2(pin, salt, {keySize: 512 / 32, iterations: 1000}).toString();
     if (hash === saved_hash) {
       this.locked = false;
@@ -206,8 +206,8 @@ export class CryptoService {
   }
 
   removePIN() {
-    localStorage.removeItem('simplagr-salt');
-    localStorage.removeItem('simplagr-hash');
+    localStorage.removeItem('Aggregion Wallet-salt');
+    localStorage.removeItem('Aggregion Wallet-hash');
     this.locked = false;
   }
 

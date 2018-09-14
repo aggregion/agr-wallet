@@ -255,7 +255,7 @@ export class DashboardComponent implements OnInit {
         this.eos.createAccount(
           this.final_creator, this.final_name, this.final_owner,
           this.final_active, delegate_amount, ram_amount,
-          delegate_transfer, gift_amount, 'created with simplagr').then((txdata) => {
+          delegate_transfer, gift_amount, 'created with Aggregion Wallet').then((txdata) => {
           console.log(txdata);
           if (this.newAccOptions === 'newpk') {
             setTimeout(() => {

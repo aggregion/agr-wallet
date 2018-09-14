@@ -28,7 +28,7 @@ export class LockscreenComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (localStorage.getItem('simplagr-hash') === null) {
+        if (localStorage.getItem('Aggregion Wallet-hash') === null) {
             this.router.navigate(['landing']).catch(() => {
                 alert('cannot navigate :(');
             });
@@ -61,7 +61,7 @@ export class LockscreenComponent implements OnInit {
         } else {
             const arr = [];
             for (let i = 0; i < localStorage.length; i++) {
-                if (localStorage.key(i) !== 'simplagr.contacts') {
+                if (localStorage.key(i) !== 'Aggregion Wallet.contacts') {
                     arr.push(localStorage.key(i));
                 }
             }
