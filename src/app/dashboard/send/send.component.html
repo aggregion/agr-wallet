@@ -55,7 +55,7 @@
             <mat-form-field class="field-width">
               <input matInput formControlName="amount" [textMask]="{mask: numberMask}" type="text"
                      placeholder="Amount ({{selectedToken.name}})" (blur)="checkAmount();">
-              <button mat-button matSuffix mat-icon-button class="btn btn-inverse btn-sm btn-max"
+              <button mat-button matSuffix mat-icon-button class="btn btn-sm btn-max"
                       (click)="setMax()">
                 MAX
               </button>
@@ -127,7 +127,7 @@
         </ng-container>
       </div>
       <div class="contacts-panel-footer">
-        <button class="btn btn-inverse btn-block newContactBtn" (click)="newContactModal = true">
+        <button class="btn btn-block newContactBtn" (click)="newContactModal = true">
           <fa-icon [icon]="['far', 'plus']"></fa-icon>&nbsp;&nbsp;NEW CONTACT
         </button>
       </div>

@@ -82,7 +82,6 @@
 }
 
 .check-card {
-  box-shadow: 4px 6px 5px 0 rgba(0, 0, 0, 0.34);
   border: none;
   background-color: rgba(162, 162, 162, 0.12);
   margin-top: 31px;
@@ -109,7 +108,6 @@
 }
 
 .card-footer {
-  border-top: 1px solid #050505;
   overflow: hidden;
   font-size: 16px;
  }
