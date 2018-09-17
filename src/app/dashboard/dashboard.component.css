@@ -1,42 +1,54 @@
 .header {
-    flex: 0 0 4.5rem;
-    height: 4.5rem;
+  flex: 0 0 4.5rem;
+  height: 4.5rem;
 }
 
 .content-area {
-    padding: 0 !important;
+  padding: 0 !important;
+}
+
+.toolbar {
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  margin: 0;
 }
 
 .sidenav-header {
-    flex: 0 0 auto;
-    padding: 17px 20px 17px 20px;
-    text-align: center;
-    border-right: 1px solid #535353;
+  flex: 0 0 auto;
+  padding: 17px 20px 17px 20px;
+  text-align: center;
 }
 
 .sidenav {
-    border: none;
+  background: #fff;
+  border: none;
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 }
 
 .sidenav-content {
-    /*display: table-row;*/
-    flex: 0 1 auto;
-    padding-bottom: 0;
+  flex: 0 1 auto;
+  padding-bottom: 0;
 }
 
-.sidenav .sidenav-content>.nav-link {
-    border-right: 1px solid #535353;
-    color: #b1b1b1;
-    margin: 0;
-    padding: 20px 0 20px 25px;
+.sidenav-content > .nav-link {
+  color: #525a60;
+  margin: 0;
+  padding: 20px 0 20px 25px;
+}
+
+.sidenav-content > .nav-link.active,
+.sidenav-content > .nav-link:hover {
+  background: #fee8d2;
+}
+
+.sidenav-content fa-icon {
+  color: #f68c1e;
 }
 
 .placeholder {
-    border-right: 1px solid #535353;
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .value {
