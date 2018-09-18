@@ -137,7 +137,7 @@
 
 
 <clr-modal [(clrModalOpen)]="sendModal">
-  <h3 class="modal-title text-white"><span class="blue">{{ fromAccount }}</span> sends <span class="blue">{{ sendForm.value.amount | number : '1.2-4' }} {{sendForm.value.token}}</span>
+  <h3 class="modal-title"><span class="blue">{{ fromAccount }}</span> sends <span class="blue">{{ sendForm.value.amount | number : '1.2-4' }} {{sendForm.value.token}}</span>
     to
   </h3>
   <div class="modal-body">
@@ -182,7 +182,7 @@
 
 
 <clr-modal [(clrModalOpen)]="newContactModal" [clrModalSize]="'sm'">
-  <h3 class="modal-title text-white">
+  <h3 class="modal-title">
     <fa-icon [icon]="['far', 'user-plus']"></fa-icon>&nbsp;&nbsp;New contact
   </h3>
   <div class="modal-body">
@@ -208,7 +208,7 @@
 </clr-modal>
 
 <clr-modal [(clrModalOpen)]="editContactModal" [clrModalSize]="'sm'">
-  <h3 class="modal-title text-white">
+  <h3 class="modal-title">
     <fa-icon [icon]="['far', 'user-edit']"></fa-icon>&nbsp;&nbsp;Edit contact
   </h3>
   <div class="modal-body">
@@ -230,7 +230,7 @@
 </clr-modal>
 
 <clr-modal [(clrModalOpen)]="deleteContactModal" [clrModalSize]="'sm'">
-  <h3 class="modal-title text-white">
+  <h3 class="modal-title">
     <fa-icon [icon]="['far', 'user-minus']"></fa-icon>&nbsp;&nbsp;<span class="blue">Delete</span> contact?
   </h3>
   <div class="modal-body">

@@ -85,7 +85,7 @@
 </div>
 
 <clr-modal [(clrModalOpen)]="logoutModal" [clrModalSize]="'sm'">
-  <h3 class="modal-title text-white">
+  <h3 class="modal-title">
     Are you <span class="blue">sure</span> ?
   </h3>
   <div class="modal-body">
@@ -105,7 +105,7 @@
 </clr-modal>
 
 <clr-modal [(clrModalOpen)]="endpointModal" [clrModalSize]="'md'">
-  <h3 class="modal-title text-white">
+  <h3 class="modal-title">
     Connect to another endpoint, enter url below:
   </h3>
   <div class="modal-body">
@@ -121,7 +121,7 @@
 </clr-modal>
 
 <clr-modal [(clrModalOpen)]="confirmModal" [clrModalSize]="'md'">
-  <h3 class="modal-title text-white" *ngIf="selectedEndpoint">
+  <h3 class="modal-title" *ngIf="selectedEndpoint">
     Connect to <span class="blue">{{selectedEndpoint.url}}</span> ?
   </h3>
   <div class="modal-body">
@@ -135,7 +135,7 @@
 </clr-modal>
 
 <clr-modal [(clrModalOpen)]="changePassModal" [clrModalSize]="'md'">
-  <h3 class="modal-title text-white">
+  <h3 class="modal-title">
     <fa-icon [icon]="['fas','key']"></fa-icon>&nbsp;&nbsp;Change Password
   </h3>
   <div class="modal-body">
@@ -177,7 +177,7 @@
 </clr-modal>
 
 <clr-modal [(clrModalOpen)]="pinModal" [clrModalSize]="'sm'">
-  <h3 class="modal-title text-white">
+  <h3 class="modal-title">
     Set lockscreen pin
   </h3>
   <div class="modal-body" style="overflow-y: -webkit-paged-x !important;">
@@ -202,7 +202,7 @@
 </clr-modal>
 
 <clr-modal [(clrModalOpen)]="clearPinModal" [clrModalSize]="'sm'">
-  <h3 class="modal-title text-white">
+  <h3 class="modal-title">
     Are you <span class="blue">sure</span> ?
   </h3>
   <div class="modal-body">
