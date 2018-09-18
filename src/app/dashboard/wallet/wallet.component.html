@@ -78,7 +78,7 @@
 
             <td class="text-center">
               <ng-container *ngIf="item.action_name === 'transfer'">
-                <span class="white">
+                <span>
                   <span *ngIf="item.type === 'received'">+</span>
                   <span *ngIf="item.type === 'sent'">-</span>
                   {{item.amount}} <span class="blue">{{item.symbol}}</span>
@@ -91,7 +91,7 @@
                 Voted on {{item.votedProducers.length}} BPs
               </ng-container>
               <ng-container *ngIf="item.action_name === 'undelegatebw' || item.action_name === 'delegatebw'">
-                <span class="white">
+                <span>
                   <span *ngIf="item.type === 'staked'">+</span>
                   {{item.amount}}
                 </span> AGR (${{item.amount * aService.usd_rate | number}})

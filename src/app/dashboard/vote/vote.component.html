@@ -314,11 +314,11 @@
 </div>
 
 <clr-modal [(clrModalOpen)]="stakeModal">
-  <h3 *ngIf="stakingDiff > 0" class="modal-title text-white">Stake <span class="blue">+{{stakingHRV}}</span> ?</h3>
-  <h3 *ngIf="stakingDiff < 0" class="modal-title text-white">Unstake <span class="blue">{{stakingHRV}}</span> ?</h3>
+  <h3 *ngIf="stakingDiff > 0" class="modal-title">Stake <span class="blue">+{{stakingHRV}}</span> ?</h3>
+  <h3 *ngIf="stakingDiff < 0" class="modal-title">Unstake <span class="blue">{{stakingHRV}}</span> ?</h3>
   <div class="modal-body">
-    <h4 class="text-white">Total staked will be: <span class="blue">{{valuetoStake | number: '1.4-4'}}</span></h4>
-    <h4 class="text-white mt-0">Voting power will be: <span class="blue">{{percenttoStake | number}}%</span></h4>
+    <h4>Total staked will be: <span class="blue">{{valuetoStake | number: '1.4-4'}}</span></h4>
+    <h4 class="mt-0">Voting power will be: <span class="blue">{{percenttoStake | number}}%</span></h4>
     <h5 *ngIf="stakingDiff > 0" class="mt-0">After staking, this tokens will be locked for at least 3 days.</h5>
     <h5 *ngIf="stakingDiff < 0" class="mt-0">Your tokens will be free for transfers after 3 days.</h5>
     <p-accordion *ngIf="stakingDiff > 0">
@@ -368,9 +368,9 @@
 </clr-modal>
 
 <clr-modal [(clrModalOpen)]="voteModal" [clrModalStaticBackdrop]="true">
-  <h3 class="modal-title text-white">Confirm <span class="blue">vote</span></h3>
+  <h3 class="modal-title">Confirm <span class="blue">vote</span></h3>
   <div class="modal-body">
-    <h4 class="text-white">Do you confirm voting on the following BPs?</h4>
+    <h4>Do you confirm voting on the following BPs?</h4>
     <h5 class="mt-0">{{selectedBPs.join(', ')}}</h5>
     <p-accordion>
       <p-accordionTab header="By submiting this action, you agree to the voteproducer Terms & Conditions">
