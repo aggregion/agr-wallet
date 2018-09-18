@@ -98,11 +98,15 @@ body {
   transition-property: color, background-color;
 }
 
-.btn, .btn.btn-info-outline {
+.btn,
+.btn.btn-info-outline,
+.btn.btn-outline {
   border-color: #00a199;
   color: #00a199;
 }
-.btn:hover, .btn.btn-info-outline:hover {
+.btn:hover,
+.btn.btn-info-outline:hover,
+.btn.btn-outline:hover {
   background-color: #00a199;
   color: #fff;
 }
