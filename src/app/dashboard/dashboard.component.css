@@ -138,6 +138,10 @@
   background-color: #00a199;
 }
 
+/deep/ .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color: rgba(0, 161, 153,.26);
+}
+
 #textarea {
   background: #b1b1b1;
   border: 2px solid #00a199;

@@ -238,16 +238,20 @@ input:not([readonly]) {
 /*texts hints below input below*/
 
 .mat-checkbox-frame {
-    border-color: #00a199 !important;
+  border-color: #00a199;
 }
 
 .mat-checkbox-label {
-    font-family: Metropolis,Avenir Next,Helvetica Neue,Arial, sans-serif !important;
-    color: #00a199;
+  font-family: Metropolis,Avenir Next,Helvetica Neue,Arial, sans-serif;
+  color: #00a199;
 }
 
 .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-    background-color: #00a199 !important;
+  background-color: #00a199;
+}
+
+.mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element {
+  background-color: rgba(0, 161, 153,.26);
 }
 
 .copy {
