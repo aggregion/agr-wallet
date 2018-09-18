@@ -7,7 +7,7 @@ import {ClrWizard} from '@clr/angular';
 import {NetworkService} from '../network.service';
 import {CryptoService} from '../services/crypto.service';
 import {BodyOutputType, Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
-import {endpoint} from '../config';
+import {endpoints} from '../config';
 
 @Component({
   selector: 'app-landing',
@@ -55,7 +55,7 @@ export class LandingComponent implements OnInit {
   lockscreen2: boolean;
   importedAccounts: any[];
   exodusValid = false;
-  endpoint = endpoint;
+  endpoint = endpoints[0];
   payloadValid = false;
   generated = false;
   config: ToasterConfig;
