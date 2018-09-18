@@ -42,3 +42,5 @@ Thumbs.db
 /archive
 .npmrc
 /ng-dist
+.env
+AggCodeSign.p12

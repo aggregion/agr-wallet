@@ -20,7 +20,7 @@
     "release": "npm run build:prod && CSC_IDENTITY_AUTO_DISCOVERY=false CSC_NAME=7ZMDDPX39X electron-builder",
     "start:electron-dev": "electron index.js --devtools",
     "start:electron-prod": "electron index.js",
-    "publish:win": "electron-builder build --win --ia32 --x64 -p always",
+    "publish:win": "CSC_LINK=AggCodeSign.p12 electron-builder build --win --ia32 --x64 -p always",
     "publish:linux": "electron-builder build --linux -p always",
     "publish:mac": "CSC_IDENTITY_AUTO_DISCOVERY=false CSC_NAME=7ZMDDPX39X electron-builder build --mac -p always",
     "test": "ng test",
