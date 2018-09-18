@@ -97,20 +97,20 @@ export class AccountsService {
 
   fetchTokens(account) {
     // if (!this.sessionTokens[this.selectedIdx]) {
-      this.sessionTokens[this.selectedIdx] = [];
-      this.http.get('https://hapi.eosrio.io/data/tokens/' + account).subscribe((data) => {
-        const contracts = Object.keys(data);
-        this.loading = false;
-        contracts.forEach((contract) => {
-          if (data[contract]['symbol'] !== 'AGR') {
-            this.registerSymbol(data[contract], contract);
-          }
-        });
-        this.tokens.sort((a: any, b: any) => {
-          return a.usd_value < b.usd_value ? 1 : -1;
-        });
-        this.accounts[this.selectedIdx]['tokens'] = this.tokens;
+    this.sessionTokens[this.selectedIdx] = [];
+    this.loading = false;
+    /*this.http.get('https://hapi.eosrio.io/data/tokens/' + account).subscribe((data) => {
+      const contracts = Object.keys(data);
+      contracts.forEach((contract) => {
+        if (data[contract]['symbol'] !== 'AGR') {
+          this.registerSymbol(data[contract], contract);
+        }
       });
+      this.tokens.sort((a: any, b: any) => {
+        return a.usd_value < b.usd_value ? 1 : -1;
+      });
+      this.accounts[this.selectedIdx]['tokens'] = this.tokens;
+    });*/
     // } else {
     //   this.loading = false;
     // }
@@ -128,9 +128,9 @@ export class AccountsService {
 
   appendRecentActions(account) {
     this.eos['eos']['getActions']({
-      account_name: account,
+      account_name: account/*,
       offset: -2,
-      pos: -1
+      pos: -1*/
     }).then((data) => {
       data.actions.forEach((action) => {
         this.processAction(action.action_trace.act, action.action_trace.trx_id, action.block_num, action.block_time, true);
@@ -217,7 +217,11 @@ export class AccountsService {
   }
 
   reloadActions(account) {
-    this.http.get('https://hapi.eosrio.io/data/actions_limited/' + account).subscribe((actions: any[]) => {
+    console.log('reloadActions');
+    this.accounts[this.selectedIdx]['actions'] = [];
+    this.appendRecentActions(account);
+    this.calcTotalAssets();
+    /*this.http.get('https://hapi.eosrio.io/data/actions_limited/' + account).subscribe((actions: any[]) => {
       this.actions = [];
       actions.forEach((item) => {
         const act = item['transaction']['trx']['transaction']['action'];
@@ -229,7 +233,7 @@ export class AccountsService {
       this.accounts[this.selectedIdx]['actions'] = this.actions;
       this.appendRecentActions(account);
       this.calcTotalAssets();
-    });
+    });*/
   }
 
   select(index) {

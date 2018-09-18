@@ -6,4 +6,11 @@ export const txrefBlock = environment.production ? 2 : 359098;
 export const voterefBlock = txrefBlock;
 export const voteref = genesistx;
 
-export const endpoint = environment.production ? 'https://mainnet-node1.blockchain.aggregion.com' : 'https://devnet.blockchain.aggregion.com';
+export const endpoints = environment.production ?
+  [
+    'https://mainnet-amzn1.blockchain.aggregion.com',
+    'https://mainnet-node1.blockchain.aggregion.com'
+  ] :
+  [
+    'https://devnet.blockchain.aggregion.com'
+  ];

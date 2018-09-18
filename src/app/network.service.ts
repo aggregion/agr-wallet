@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import * as Eos from '../assets/eos.js';
 import {BehaviorSubject} from 'rxjs';
 
-import {mainnetId, genesistx, voteref, txrefBlock, voterefBlock, endpoint} from './config';
+import {mainnetId, genesistx, voteref, txrefBlock, voterefBlock, endpoints} from './config';
 
 export interface Endpoint {
   url: string;
@@ -42,9 +42,12 @@ export class NetworkService {
   networkingReady = new BehaviorSubject<boolean>(false);
 
   constructor(private eosjs: AGRJSService, private router: Router, public aService: AccountsService) {
-    this.publicEndpoints = [
-      {url: endpoint, owner: 'Aggregion', latency: 0, filters: []}
-    ];
+    this.publicEndpoints = endpoints.map(e => ({
+      url: e,
+      owner: 'Aggregion',
+      latency: 0,
+      filters: []
+    }));
     this.validEndpoints = [];
     this.status = '';
     this.connectionTimeout = null;
