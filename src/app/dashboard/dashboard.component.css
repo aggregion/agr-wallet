@@ -12,10 +12,17 @@
   margin: 0;
 }
 
-.sidenav-header {
+/* .sidenav-header {
   flex: 0 0 auto;
   padding: 17px 20px 17px 20px;
   text-align: center;
+} */
+.logo-container {
+  padding: 20px 0 20px 25px;
+}
+
+#logo {
+  max-height: 43px;
 }
 
 .sidenav {
@@ -83,7 +90,7 @@
 
 .navbar-btn:hover {
     cursor: pointer;
-    color: #007cbb;
+    color: #00a199;
 }
 
 .credits {
@@ -129,11 +136,11 @@
 }
 
 /deep/ .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-    border-color: #007CBB;
+    border-color: #00a199;
 }
 
 /deep/ .mat-radio-button.mat-accent .mat-radio-inner-circle {
-    background-color: #007CBB;
+    background-color: #00a199;
 }
 
 #textarea {

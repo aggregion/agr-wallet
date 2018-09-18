@@ -25,15 +25,15 @@
 
 /*meterial's slider*/
 /deep/ .mat-accent .mat-slider-thumb {
-    background-color: #0094d2;
+    background-color: #00a199;
 }
 
 /deep/ .mat-accent .mat-slider-track-fill {
-    background-color: #0094d2;
+    background-color: #00a199;
 }
 
 /deep/ .mat-accent .mat-slider-thumb-label {
-    background-color: #0094d2;
+    background-color: #00a199;
 }
 
 /deep/ .mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb {
@@ -111,8 +111,8 @@
 }
 
 /deep/ .ui-state-active {
-    border-color: #0094d2;
-    background: #0094d2;
+    border-color: #00a199;
+    background: #00a199;
     color: #ffffff;
 }
 /*prime's table end*/
@@ -177,7 +177,7 @@ li:last-child {
 }
 
 a:visited {
-    color: #0094d2;
+    color: #00a199;
     text-decoration: none;
 }
 
