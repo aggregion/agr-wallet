@@ -81,7 +81,6 @@ export class NetworkService {
   }
 
   extractValidNode() {
-    console.warn('extractValidNode');
     for (const node of this.publicEndpoints) {
       if (node.filters.length === 2) {
         this.validEndpoints.push(node);
@@ -91,7 +90,6 @@ export class NetworkService {
   }
 
   selectEndpoint() {
-    console.warn('selectEndpoint');
     let latency = 2000;
     this.validEndpoints.forEach((node) => {
       if (node.latency < latency) {

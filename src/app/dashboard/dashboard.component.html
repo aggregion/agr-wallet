@@ -2,8 +2,8 @@
 <div class="main-container">
   <div class="content-container">
     <div class="content-area">
-      <div class="row" style="margin-right: 0;">
-        <div class="col-xs col-md max-width" style="padding-right: 0">
+      <div class="row toolbar">
+        <div class="col-xs col-md max-width" style="padding: 0">
           <mat-tab-group id="header-tabs" (selectedIndexChange)="selectAccount($event)" [selectedIndex]="selectedTab">
             <mat-tab *ngFor="let account of aService.accounts; let i = index">
               <ng-template mat-tab-label>
@@ -51,8 +51,8 @@
       </div>
     </div>
     <nav class="sidenav">
-      <section class="sidenav-header">
-        <img src="assets/aggregion.png" height="100%" width="100%">
+      <section class="logo-container">
+        <img src="assets/logo.png" id="logo" alt="Aggregion">
       </section>
       <section #sidenavContent class="sidenav-content">
         <a class="nav-link" routerLinkActive="active" [routerLink]="['wallet']">

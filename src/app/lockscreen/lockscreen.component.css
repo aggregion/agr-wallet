@@ -6,7 +6,6 @@
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    background-image: url("../../assets/fundosimpleos.png");
     background-size: cover;
 }
 

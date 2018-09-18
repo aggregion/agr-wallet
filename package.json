@@ -4,6 +4,11 @@
   "productName": "Aggregion Wallet",
   "description": "Blockchain Interface & Wallet",
   "license": "MIT",
+  "homepage": "http://test.org",
+  "author": {
+    "name": "agr",
+    "email": "1@1.ru"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 7777",
@@ -40,7 +45,7 @@
         "dmg",
         "zip"
       ],
-      "icon": "icon.png"
+      "icon": "src/assets/aggregion_256px.png"
     },
     "dmg": {
       "icon": "src/assets/icons/256x256.icns",
@@ -51,14 +56,14 @@
         "appImage",
         "deb"
       ],
-      "icon": "256x256.png",
+      "icon": "src/assets/aggregion_256px.png",
       "category": "Network"
     },
     "win": {
       "target": [
         "nsis"
       ],
-      "icon": "256x256.png"
+      "icon": "src/assets/aggregion_256px.png"
     }
   },
   "devDependencies": {
@@ -84,7 +89,6 @@
     "hammerjs": "^2.0.8",
     "jquery": "^3.3.1",
     "moment": "^2.22.2",
-    "ng-lottie": "^0.3.1",
     "ngx-echarts": "^3.2.0",
     "npm-run-all": "^4.1.3",
     "popper.js": "^1.14.3",

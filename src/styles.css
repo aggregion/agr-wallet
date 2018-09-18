@@ -4,13 +4,6 @@
 /*@import "~@fortawesome/fontawesome-pro/css/regular.css";*/
 /*@import "~@fortawesome/fontawesome-pro/css/solid.css";*/
 
-html, body {
-  /*background: url("assets/rio.jpg") fixed;*/
-  /*background-size: cover;*/
-  background: -webkit-linear-gradient(to right, #232526, #414345); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #232526, #414345);
-}
-
 html {
   height: 100%;
 }
@@ -47,16 +40,8 @@ body {
   opacity: 1 !important;
 }
 
-.mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus {
-  background-color: #3b3b3b;
-}
-
-.mat-tab-label-active {
-  color: #e3e3e3;
-}
-
 .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-    background-color: #0094d2;
+    background-color: #00a199;
 }
 
 .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
@@ -75,7 +60,6 @@ body {
 
 /*material's autocomplete*/
 .mat-autocomplete-panel {
-  background: #303030;
   color: white;
 }
 
@@ -90,7 +74,7 @@ body {
 }
 
 .mat-form-field.mat-focused .mat-form-field-label {
-  color: #0094d2;
+  color: #00a199;
 }
 
 .mat-form-field-appearance-legacy .mat-form-field-underline {
@@ -98,11 +82,11 @@ body {
 }
 
 .mat-form-field.mat-focused .mat-form-field-ripple {
-  background-color: #0094d2;
+  background-color: #00a199;
 }
 
 .mat-input-element {
-  caret-color: #0094d2;
+  caret-color: #00a199;
 }
 /*material's input end*/
 
@@ -114,14 +98,33 @@ body {
   transition-property: color, background-color;
 }
 
-.btn-info-outline:hover {
-  background-color: #0077b7 !important;
-  color: white !important;
+.btn, .btn.btn-info-outline {
+  border-color: #00a199;
+  color: #00a199;
+}
+.btn:hover, .btn.btn-info-outline:hover {
+  background-color: #00a199;
+  color: #fff;
 }
 
-.btn-danger-outline:hover {
+.btn.btn-link {
+  color: #00a199;
+}
+.btn.btn-link:hover {
+  color: #008079; 
+}
+
+.btn.btn-primary {
+  border-color: #00a199;
+  background-color: #00a199;
+}
+.btn.btn-primary:hover {
+  background-color: #008079;
+}
+
+.btn.btn-danger-outline:hover {
   background-color: #c92100 !important;
-  color: white !important;
+  color: #fff;
 }
 
 .btn:focus {
@@ -131,23 +134,24 @@ body {
 
 /*clarity's toggle*/
 .toggle-switch input[type=checkbox]:checked+label:before {
-  border-color: #0094d2 !important;
-  background-color: #0094d2 !important;
+  border-color: #00a199 !important;
+  background-color: #00a199 !important;
 }
 /*clarity's toggle end*/
 
 /*clarity's modal*/
-.modal-dialog .modal-content {
-  background-color: #191919 !important;
-}
-
 .close:focus {
   box-shadow: none !important;
 }
 /*clarity's modal end*/
 
 .blue {
-  color: #0094d2;
+  /* color: #0094d2; */
+  color: #00a199;
+}
+
+.green {
+  color: #00a199;
 }
 
 .white {
@@ -164,10 +168,6 @@ body {
 }
 
 /*scroll bar*/
-::-webkit-scrollbar-track {
-  background-color: #191919;
-}
-
 ::-webkit-scrollbar {
   width: 6px;
   background-color: #F5F5F5;
@@ -175,8 +175,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-  background-color: #555;
+  background-color: #b1b1b1;
 }
 /*scroll bar end*/
 
@@ -211,7 +210,6 @@ body {
 input {
     border-bottom: none !important;
     background: none !important;
-    color: white !important;
 }
 
 input:not([readonly]):focus {
@@ -223,48 +221,6 @@ input:not([readonly]) {
 }
 /*clarity's input end*/
 
-/*clarity's wizard*/
-.clr-wizard .clr-wizard-stepnav-wrapper {
-    border-right: 1px solid #535353 !important;
-    background-color: #272727 !important;
-}
-
-.clr-wizard .clr-wizard-title {
-    color: #e3e3e3 !important;
-}
-
-.clr-wizard .modal-title {
-    color: #e3e3e3 !important;
-}
-
-.clr-wizard .clr-wizard-stepnav-item.active .clr-wizard-stepnav-link {
-    background-color: #535353 !important;
-}
-
-.clr-wizard .clr-wizard-stepnav-item.complete {
-    box-shadow: inset 0.16667rem 0 0 #0094d2 !important;
-}
-
-.clr-wizard .clr-wizard-stepnav-item {
-    box-shadow: inset 0.16667rem 0 0 #535353 !important;
-    color:  #c2c2c2 !important;
-}
-
-.clr-wizard .clr-wizard-stepnav-item.active {
-    color: #c2c2c2 !important;
-}
-
-.clr-wizard-btn.btn-success {
-    border-color: #ffffff !important;
-    background-color: transparent !important;
-    color: #fff !important;
-}
-
-.clr-wizard-btn.btn-success:hover {
-    background-color: #d8d8d8 !important;
-    color: #000 !important;
-}
-/*clarity's wizard end*/
 
 /*texts hints below input*/
 .mat-hint {
@@ -278,16 +234,16 @@ input:not([readonly]) {
 /*texts hints below input below*/
 
 .mat-checkbox-frame {
-    border-color: #0094d2 !important;
+    border-color: #00a199 !important;
 }
 
 .mat-checkbox-label {
     font-family: Metropolis,Avenir Next,Helvetica Neue,Arial, sans-serif !important;
-    color: #0094d2;
+    color: #00a199;
 }
 
 .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-    background-color: #0094d2 !important;
+    background-color: #00a199 !important;
 }
 
 .copy {
@@ -305,22 +261,41 @@ input:not([readonly]) {
 
 /*Prime's accordion*/
 .ui-accordion .ui-accordion-header a {
-    padding: 0.5em 0 0.5em 0 !important;
+  padding: 0.5em 0 0.5em 0 !important;
 }
 
 .ui-accordion .ui-accordion-header {
-    margin-top: 11px !important;
+  margin-top: 11px !important;
 }
 
 .ui-accordion .ui-state-default {
-    border: none;
-    background-color: transparent;
-    color: #eeeeee;
+  border: none;
+  background-color: transparent;
+  color: #eeeeee;
 }
 
-.ui-accordion .ui-accordion-header:not(.ui-state-active):not(.ui-state-disabled):hover {
-    border-color: #0094d2;
-    background-color: #0094d2;
-    color: #ffffff;
+body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #00a199;
+  border: 1px solid #00a199;
+}
+body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active:hover a {
+  border: 1px solid #008079;
+  background-color: #008079;
 }
 /*Prime's accordion end*/
+
+body .ui-table .ui-sortable-column.ui-state-highlight,
+body .ui-table .ui-table-tbody > tr.ui-state-highlight,
+body .ui-table .ui-table-tbody > tr.ui-contextmenu-selected,
+body .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight,
+body .ui-table .ui-table-tbody > tr:nth-child(even).ui-contextmenu-selected,
+body .ui-table .ui-column-resizer-helper {
+  background-color: #00a199;
+}
+body .ui-table .ui-editable-column input:focus {
+  outline: 1px solid #00a199;
+}
+
+body .ui-paginator .ui-paginator-pages .ui-paginator-page.ui-state-active {
+  background-color: #00a199;
+}
