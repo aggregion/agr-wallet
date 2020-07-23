@@ -1,518 +1,668 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AccountsService} from '../../accounts.service';
-import {AGRJSService} from '../../eosjs.service';
-import {Observable} from 'rxjs';
+import {AccountsService} from '../../services/accounts.service';
+import {Observable, Subscription} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {createNumberMask} from 'text-mask-addons/dist/textMaskAddons';
-import {BodyOutputType, Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
-import {CryptoService} from '../../services/crypto.service';
-import {AGRAccount} from '../../interfaces/account';
+import {ToasterConfig, ToasterService} from 'angular2-toaster';
+import {CryptoService} from '../../services/crypto/crypto.service';
+import {LedgerService} from '../../services/ledger/ledger.service';
+import {NetworkService} from '../../services/network.service';
 
 import * as moment from 'moment';
+import {TransactionFactoryService} from '../../services/eosio/transaction-factory.service';
+import {Eosjs2Service} from '../../services/eosio/eosjs2.service';
+import {ElectronService} from "ngx-electron";
+import {start} from "repl";
+
 
 export interface Contact {
-  name: string;
-  type: string;
-  account?: string;
-  default_memo?: string;
+    name: string;
+    type: string;
+    account?: string;
+    default_memo?: string;
 }
 
 @Component({
-  selector: 'app-send',
-  templateUrl: './send.component.html',
-  styleUrls: ['./send.component.css'],
+    selector: 'app-send',
+    templateUrl: './send.component.html',
+    styleUrls: ['./send.component.css'],
 })
-export class SendComponent implements OnInit {
-  contacts: Contact[];
-  sendForm: FormGroup;
-  contactForm: FormGroup;
-  searchForm: FormGroup;
-  confirmForm: FormGroup;
-  sendModal: boolean;
-  newContactModal: boolean;
-  editContactModal: boolean;
-  deleteContactModal: boolean;
-  accountvalid: boolean;
-  busy: boolean;
-  add: boolean;
-  errormsg: string;
-  adderrormsg: string;
-  amounterror: string;
-  wrongpass: string;
-  fullBalance: number;
-  staked: number;
-  unstaked: number;
-  unstaking: number;
-  unstakeTime: string;
-  contactExist: boolean;
-  search: string;
-  filteredContacts: Observable<Contact[]>;
-  searchedContacts: Observable<Contact[]>;
-  numberMask = createNumberMask({
-    prefix: '',
-    allowDecimal: true,
-    includeThousandsSeparator: false,
-    decimalLimit: 4,
-  });
-  config: ToasterConfig;
-  fromAccount: string;
-  token_balance = 0.0000;
-  selectedToken = {
-    name: 'AGR',
-    price: 1.0000
-  };
-  selectedEditContact = null;
+export class SendComponent implements OnInit, OnDestroy {
 
-  knownExchanges = [
-    'bitfinexdep1', 'krakenkraken', 'chainceoneos',
-    'huobideposit', 'zbeoscharge1', 'okbtothemoon',
-    'gateiowallet', 'eosusrwallet', 'binancecleos'];
-  memoMsg = 'optional';
+    contacts: Contact[];
+    sendForm: FormGroup;
+    contactForm: FormGroup;
+    searchForm: FormGroup;
+    confirmForm: FormGroup;
+    sendModal: boolean;
+    newContactModal: boolean;
+    editContactModal: boolean;
+    deleteContactModal: boolean;
+    accountvalid: boolean;
+    busy: boolean;
+    add: boolean;
+    precision: string;
+    errormsg: string;
+    adderrormsg: string;
+    amounterror: string;
+    wrongpass: string;
+    fullBalance: number;
+    staked: number;
+    unstaked: number;
+    unstaking: number;
+    unstakeTime: string;
+    contactExist: boolean;
+    search: string;
+    filteredContacts: Observable<Contact[]>;
+    searchedContacts: Observable<Contact[]>;
+    filteredTokens: Observable<any[]>;
+    numberMask = createNumberMask({
+        prefix: '',
+        allowDecimal: true,
+        includeThousandsSeparator: false,
+        decimalLimit: 4,
+    });
+    config: ToasterConfig;
+    fromAccount: string;
+    token_balance = 0.0000;
+    selectedToken = {} as any;
+    selectedEditContact = null;
+    selectedDeleteContact = null;
 
-  constructor(private fb: FormBuilder,
-              public aService: AccountsService,
-              public eos: AGRJSService,
-              private crypto: CryptoService,
-              private toaster: ToasterService) {
-    this.sendModal = false;
-    this.newContactModal = false;
-    this.contactExist = true;
-    this.fromAccount = '';
-    this.busy = false;
-    this.sendForm = this.fb.group({
-      token: ['AGR', Validators.required],
-      to: ['', Validators.required],
-      amount: ['', Validators.required],
-      memo: [''],
-      add: [false],
-      alias: [''],
-    });
-    this.contactForm = this.fb.group({
-      account: ['', Validators.required],
-      name: ['', Validators.required],
-    });
-    this.searchForm = this.fb.group({
-      search: ['']
-    });
-    this.confirmForm = this.fb.group({
-      pass: ['', [Validators.required, Validators.minLength(10)]]
-    });
-    this.contacts = [];
-    this.loadContacts();
-    this.sortContacts();
-    this.errormsg = '';
-    this.adderrormsg = '';
-    this.amounterror = '';
-    this.wrongpass = '';
-    this.accountvalid = false;
-    this.unstaking = 0;
-    this.unstakeTime = '';
-  }
+    mode: string;
 
-  filter(val: string, indexed): Contact[] {
-    return this.contacts.filter(contact => {
-      if (contact.type === 'contact') {
-        return contact.name.toLowerCase().includes(val.toLowerCase()) || contact.account.toLowerCase().includes(val.toLowerCase());
-      } else {
-        if (indexed) {
-          return contact.type === 'letter';
-        } else {
-          return false;
-        }
-      }
-    });
-  }
+    knownExchanges = [
+        'bitfinexdep1', 'krakenkraken', 'chainceoneos',
+        'huobideposit', 'zbeoscharge1', 'okbtothemoon',
+        'gateiowallet', 'eosusrwallet', 'binancecleos',
+        'novadaxstore', 'floweosaccnt', 'coinwwallet1'];
+    memoMsg = 'optional';
 
-  checkExchangeAccount() {
-    const memo = this.sendForm.get('memo');
-    const acc = this.sendForm.get('to').value;
-    if (this.knownExchanges.includes(acc)) {
-      this.memoMsg = 'required';
-      memo.setValidators([Validators.required]);
-      memo.updateValueAndValidity();
-    } else {
-      this.memoMsg = 'optional';
-      memo.setValidators(null);
-      memo.updateValueAndValidity();
-    }
-  }
+    private selectedAccountName = '';
+    private subscriptions: Subscription[] = [];
 
-  ngOnInit() {
-    this.aService.selected.asObservable().subscribe((sel: AGRAccount) => {
-      if (sel) {
-        this.fullBalance = sel.full_balance;
-        this.staked = sel.staked;
-        this.unstaked = sel.full_balance - sel.staked - sel.unstaking;
-        this.unstaking = sel.unstaking;
-        this.unstakeTime = moment.utc(sel.unstakeTime).add(72, 'hours').fromNow();
-      }
-    });
-    this.sendForm.get('token').valueChanges.subscribe((symbol) => {
-      this.sendForm.patchValue({
-        amount: ''
-      });
-      if (symbol !== 'AGR') {
-        const tk_idx = this.aService.tokens.findIndex((val) => {
-          return val.name === symbol;
+    constructor(private fb: FormBuilder,
+                public aService: AccountsService,
+                public eosjs: Eosjs2Service,
+                private crypto: CryptoService,
+                private toaster: ToasterService,
+                private cdr: ChangeDetectorRef,
+                private ledger: LedgerService,
+                private network: NetworkService,
+                private trxFactory: TransactionFactoryService,
+                private electron: ElectronService
+    ) {
+        this.sendModal = false;
+        this.newContactModal = false;
+        this.contactExist = true;
+        this.fromAccount = '';
+        this.busy = false;
+
+        this.sendForm = this.fb.group({
+            token: [aService.activeChain['symbol'], Validators.required],
+            to: ['', Validators.required],
+            amount: ['', Validators.required],
+            memo: [''],
+            add: [false],
+            alias: [''],
         });
-        this.selectedToken = this.aService.tokens[tk_idx];
-        this.token_balance = this.selectedToken['balance'];
-      } else {
-        this.selectedToken = {name: 'AGR', price: 1.0000};
-      }
-    });
-    this.filteredContacts = this.sendForm.get('to').valueChanges.pipe(startWith(''), map(value => this.filter(value, false)));
-    this.searchedContacts = this.searchForm.get('search').valueChanges.pipe(startWith(''), map(value => this.filter(value, true)));
-    this.onChanges();
-  }
 
-  onChanges(): void {
-    this.sendForm.get('add').valueChanges.subscribe(val => {
-      this.add = val;
-    });
-  }
+        this.numberMask = createNumberMask({
+            prefix: '',
+            allowDecimal: true,
+            includeThousandsSeparator: false,
+            decimalLimit: this.aService.activeChain.precision,
+        });
 
-  checkContact(value) {
-    this.checkExchangeAccount();
-    const found = this.contacts.findIndex((el) => {
-      return el.account === value;
-    });
-    this.contactExist = found === -1;
-  }
-
-  setMax() {
-    this.sendForm.patchValue({
-      amount: this.sendForm.get('token').value === 'AGR' ? this.unstaked : this.token_balance
-    });
-  }
-
-  checkAmount() {
-    if (parseFloat(this.sendForm.value.amount) === 0 || this.sendForm.value.amount === '') {
-      this.sendForm.controls['amount'].setErrors({'incorrect': true});
-      this.amounterror = 'invalid amount';
-    } else {
-      const max = this.sendForm.get('token').value === 'AGR' ? this.unstaked : this.token_balance;
-      if (parseFloat(this.sendForm.value.amount) > max) {
-        this.sendForm.controls['amount'].setErrors({'incorrect': true});
-        this.amounterror = 'invalid amount';
-      } else {
-        this.sendForm.controls['amount'].setErrors(null);
-        this.amounterror = '';
-      }
-    }
-  }
-
-  checkAccountName() {
-    if (this.sendForm.value.to !== '') {
-      try {
-        this.eos.checkAccountName(this.sendForm.value.to.toLowerCase());
-        this.sendForm.controls['to'].setErrors(null);
+        this.contactForm = this.fb.group({
+            account: ['', Validators.required],
+            name: ['', Validators.required],
+        });
+        this.searchForm = this.fb.group({
+            search: ['']
+        });
+        this.confirmForm = this.fb.group({
+            pass: ['', [Validators.required, Validators.minLength(4)]]
+        });
+        this.contacts = [];
+        this.loadContacts();
+        this.sortContacts();
         this.errormsg = '';
-        this.eos.getAccountInfo(this.sendForm.value.to.toLowerCase()).then(() => {
-          this.sendForm.controls['to'].setErrors(null);
-          this.errormsg = '';
-        }).catch(() => {
-          this.sendForm.controls['to'].setErrors({'incorrect': true});
-          this.errormsg = 'account does not exist';
-        });
-      } catch (e) {
-        this.sendForm.controls['to'].setErrors({'incorrect': true});
-        this.errormsg = e.message;
-      }
-    } else {
-      this.errormsg = '';
-    }
-  }
-
-  checkAccountModal() {
-    if (this.contactForm.value.account !== '') {
-      try {
-        this.eos.checkAccountName(this.contactForm.value.account.toLowerCase());
-        this.contactForm.controls['account'].setErrors(null);
         this.adderrormsg = '';
-        this.eos.getAccountInfo(this.contactForm.value.account.toLowerCase()).then(() => {
-          this.contactForm.controls['account'].setErrors(null);
-          this.adderrormsg = '';
-        }).catch(() => {
-          this.contactForm.controls['account'].setErrors({'incorrect': true});
-          this.adderrormsg = 'account does not exist';
+        this.amounterror = '';
+        this.wrongpass = '';
+        this.accountvalid = false;
+        this.unstaking = 0;
+        this.unstakeTime = '';
+
+        this.selectedToken = {
+            name: this.aService.activeChain['symbol'],
+            price: 1.0000
+        };
+        this.selectedDeleteContact = [];
+
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.forEach(s => s.unsubscribe());
+    }
+
+    compareContact(contact, text) {
+        return contact.name.toLowerCase().includes(text.toLowerCase()) || contact.account.toLowerCase().includes(text.toLowerCase());
+    }
+
+    filter(val: string, indexed): Contact[] {
+        return this.contacts.filter((contact, idx, arr) => {
+            if (contact.type === 'contact') {
+                return this.compareContact(contact, val);
+            } else {
+                if (indexed) {
+                    if (arr[idx + 1]) {
+                        if (arr[idx + 1].type === 'contact') {
+                            return this.compareContact(arr[idx + 1], val);
+                        } else {
+                            return false;
+                        }
+                    }
+                } else {
+                    return false;
+                }
+            }
         });
-      } catch (e) {
-        this.contactForm.controls['account'].setErrors({'incorrect': true});
-        this.adderrormsg = e.message;
-      }
-    } else {
-      this.adderrormsg = '';
     }
-  }
 
-  insertNewContact(data, silent) {
-    const idx = this.contacts.findIndex((item) => {
-      return item.account === data.account;
-    });
-    if (idx === -1) {
-      this.contacts.push(data);
-      this.contactForm.reset();
-      this.searchForm.patchValue({
-        search: ''
-      });
-    } else {
-      if (!silent) {
-        alert('duplicate entry');
-      }
+    checkExchangeAccount() {
+        const memo = this.sendForm.get('memo');
+        const acc = this.sendForm.value.to.toLowerCase();
+        const exchanges = this.aService.activeChain['exchanges'];
+        if (this.knownExchanges.includes(acc)) {
+            console.log(exchanges[acc].pattern.toString());
+            if (exchanges[acc]) {
+                if (exchanges[acc].memo_size) {
+                    const memo_size = parseInt(exchanges[acc].memo_size, 10);
+                    memo.setValidators([
+                        Validators.required,
+                        Validators.pattern(exchanges[acc].pattern),
+                        Validators.minLength(memo_size),
+                        Validators.maxLength(memo_size)
+                    ]);
+                } else {
+                    memo.setValidators([
+                        Validators.required,
+                        Validators.pattern(exchanges[acc].pattern)
+                    ]);
+                    console.log('only pattern');
+                }
+            } else {
+                memo.setValidators([Validators.required]);
+            }
+            this.memoMsg = 'required';
+            memo.updateValueAndValidity();
+            console.log(memo);
+        } else {
+            this.memoMsg = 'optional';
+            memo.setValidators(null);
+            memo.updateValueAndValidity();
+        }
     }
-  }
 
-  addAccountsAsContacts() {
-    this.aService.accounts.map(acc => this.insertNewContact({
-      type: 'contact',
-      name: acc.name,
-      account: acc.name
-    }, true));
-    this.addDividers();
-    this.storeContacts();
-  }
+    ngOnInit() {
 
-  removeDividers() {
-    this.contacts.forEach((contact, idx) => {
-      if (contact.type === 'letter') {
-        this.contacts.splice(idx, 1);
-      }
-    });
-  }
+        this.subscriptions.push(this.aService.selected.asObservable().subscribe(async (sel) => {
+            if (sel['name']) {
+                if (this.selectedAccountName !== sel['name']) {
+                    this.selectedAccountName = sel['name'];
+                    this.fullBalance = sel.full_balance;
+                    this.staked = sel.staked;
+                    this.unstaked = sel.full_balance - sel.staked - sel.unstaking;
+                    this.unstaking = sel.unstaking;
+                    this.unstakeTime = moment.utc(sel.unstakeTime).add(72, 'hours').fromNow();
+                    await this.aService.refreshFromChain(false);
+                    this.cdr.detectChanges();
+                }
+            }
+        }));
 
-  addDividers() {
-    this.removeDividers();
-    const divs = [];
-    this.contacts.forEach((contact) => {
-      if (contact.type === 'contact') {
-        const letter = contact.name.charAt(0).toUpperCase();
-        if (!divs.includes(letter)) {
-          divs.push(letter);
-          const index = this.contacts.findIndex((item) => {
-            return item.name === letter;
-          });
-          if (index === -1) {
-            this.contacts.push({
-              type: 'letter',
-              name: letter
+        this.subscriptions.push(this.aService.events.asObservable().subscribe((ev) => {
+            if (ev.event === 'imported_accounts') {
+                for (const acc of ev.data) {
+                    this.insertNewContact({
+                        type: 'contact',
+                        name: acc.account_name,
+                        account: acc.account_name
+                    }, true);
+                }
+                this.addDividers();
+                this.storeContacts();
+            }
+        }));
+
+        this.subscriptions.push(this.sendForm.get('token').valueChanges.subscribe((symbol) => {
+            this.sendForm.patchValue({amount: ''});
+            if (this.aService.activeChain.symbol === symbol.toUpperCase()) {
+                this.selectedToken = {name: this.aService.activeChain['symbol'], price: 1.0000};
+            } else {
+                if (symbol !== '') {
+                    const token = this.aService.tokens.find(tk => tk.name === symbol.toUpperCase());
+                    if (token) {
+                        this.selectedToken = token;
+                    } else {
+                        this.selectedToken = {name: this.aService.activeChain['symbol'], price: 1.0000};
+                    }
+                } else {
+                    this.selectedToken = {name: this.aService.activeChain['symbol'], price: 1.0000};
+                }
+            }
+            if (this.selectedToken) {
+                this.token_balance = this.selectedToken.balance;
+            }
+        }));
+
+        this.precision = '1.' + this.aService.activeChain['precision'];
+        this.filteredContacts = this.sendForm.get('to').valueChanges.pipe(startWith(''), map(value => this.filter(value, false)));
+        this.searchedContacts = this.searchForm.get('search').valueChanges.pipe(startWith(''), map(value => this.filter(value, true)));
+
+        this.filteredTokens = this.sendForm.get('token').valueChanges.pipe(startWith(''), map(tokenText => {
+            return this.aService.tokens.filter((value, index, array) => {
+                return value.name.includes(tokenText.toUpperCase());
             });
+        }));
+
+        this.subscriptions.push(this.sendForm.get('add').valueChanges.subscribe(val => {
+            this.add = val;
+        }));
+    }
+
+    checkContact(value) {
+        const found = this.contacts.find((el) => {
+            return el.account === value;
+        });
+        this.contactExist = !!found;
+    }
+
+    setMax() {
+        this.sendForm.patchValue({
+            amount: this.sendForm.get('token').value === this.aService.activeChain['symbol'] ? this.unstaked : this.token_balance
+        });
+    }
+
+    checkAmount() {
+        if (parseFloat(this.sendForm.value.amount) === 0 || this.sendForm.value.amount === '') {
+            this.sendForm.controls['amount'].setErrors({'incorrect': true});
+            this.amounterror = 'invalid amount';
+        } else {
+            const max = this.sendForm.get('token').value === this.aService.activeChain['symbol'] ? this.unstaked : this.token_balance;
+            if (parseFloat(this.sendForm.value.amount) > max) {
+                this.sendForm.controls['amount'].setErrors({'incorrect': true});
+                this.amounterror = 'invalid amount';
+            } else {
+                this.sendForm.controls['amount'].setErrors(null);
+                this.amounterror = '';
+            }
+        }
+    }
+
+    checkAccountName() {
+        if (this.sendForm.value.to !== '') {
+            try {
+                this.eosjs.checkAccountName(this.sendForm.value.to.toLowerCase());
+                this.eosjs.getAccountInfo(this.sendForm.value.to.toLowerCase()).then(() => {
+                    this.sendForm.controls['to'].setErrors(null);
+                    const token = this.aService.tokens.find((val) => val.name === this.sendForm.value.token);
+                    if (token) {
+                        this.eosjs.rpc.get_currency_balance(
+                            token.contract,
+                            this.sendForm.value.to.toLowerCase(),
+                            this.sendForm.value.token
+                        ).then((tokenData) => {
+                            console.log(tokenData);
+                        });
+                    }
+                    this.checkExchangeAccount();
+                    this.errormsg = '';
+                }).catch(() => {
+                    this.sendForm.controls['to'].setErrors({'incorrect': true});
+                    this.errormsg = 'account does not exist';
+                });
+            } catch (e) {
+                this.sendForm.controls['to'].setErrors({'incorrect': true});
+                this.errormsg = e.message;
+            }
+        } else {
+            this.errormsg = '';
+        }
+    }
+
+    checkAccountModal() {
+        if (this.contactForm.value.account !== '') {
+            try {
+                this.eosjs.checkAccountName(this.contactForm.value.account.toLowerCase());
+                this.contactForm.controls['account'].setErrors(null);
+                this.adderrormsg = '';
+                this.eosjs.getAccountInfo(this.contactForm.value.account.toLowerCase()).then(() => {
+                    this.contactForm.controls['account'].setErrors(null);
+                    this.adderrormsg = '';
+                }).catch(() => {
+                    this.contactForm.controls['account'].setErrors({'incorrect': true});
+                    this.adderrormsg = 'account does not exist';
+                });
+            } catch (e) {
+                this.contactForm.controls['account'].setErrors({'incorrect': true});
+                this.adderrormsg = e.message;
+            }
+        } else {
+            this.adderrormsg = '';
+        }
+    }
+
+    insertNewContact(data, silent) {
+        const idx = this.contacts.findIndex((item) => {
+            return item.account === data.account;
+        });
+        if (idx === -1) {
+            this.contacts.push(data);
             this.contactForm.reset();
             this.searchForm.patchValue({
-              search: ''
+                search: ''
             });
-          }
-        }
-      }
-    });
-    this.sortContacts();
-  }
-
-  addContact() {
-    try {
-      this.eos.checkAccountName(this.contactForm.value.account.toLowerCase());
-      this.eos.getAccountInfo(this.contactForm.value.account.toLowerCase()).then(() => {
-        this.insertNewContact({
-          type: 'contact',
-          name: this.contactForm.value.name,
-          account: this.contactForm.value.account.toLowerCase()
-        }, false);
-        this.newContactModal = false;
-        this.addDividers();
-        this.storeContacts();
-      }).catch((error) => {
-        alert(JSON.parse(error.message).error.details[0].message);
-      });
-    } catch (e) {
-      alert('invalid account name!');
-      console.log(e);
-    }
-  }
-
-  addContactOnSend() {
-    try {
-      this.eos.checkAccountName(this.sendForm.value.to.toLowerCase());
-      this.eos.getAccountInfo(this.sendForm.value.to.toLowerCase()).then(() => {
-        this.insertNewContact({
-          type: 'contact',
-          name: this.sendForm.value['alias'],
-          account: this.sendForm.value.to.toLowerCase()
-        }, false);
-        this.addDividers();
-        this.storeContacts();
-      }).catch((error) => {
-        alert(JSON.parse(error.message).error.details[0].message);
-      });
-    } catch (e) {
-      alert('invalid account name!');
-      console.log(e);
-    }
-  }
-
-  sortContacts() {
-    this.contacts.sort((a, b) => {
-      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-    });
-    this.searchForm.patchValue({
-      search: ''
-    });
-  }
-
-  selectContact(contact) {
-    this.contactExist = true;
-    this.sendForm.patchValue({
-      to: contact.account,
-      alias: contact.name
-    });
-  }
-
-  storeContacts() {
-    localStorage.setItem('Aggregion Wallet.contacts', JSON.stringify(this.contacts));
-  }
-
-  loadContacts() {
-    const contacts = localStorage.getItem('Aggregion Wallet.contacts');
-    if (contacts) {
-      this.contacts = JSON.parse(contacts);
-    } else {
-      this.addAccountsAsContacts();
-    }
-  }
-
-  openSendModal() {
-    this.confirmForm.reset();
-    this.fromAccount = this.aService.selected.getValue().name;
-    this.sendModal = true;
-  }
-
-  transfer() {
-    this.checkExchangeAccount();
-    this.busy = true;
-    const selAcc = this.aService.selected.getValue();
-    const from = selAcc.name;
-    const to = this.sendForm.get('to').value.toLowerCase();
-    const amount = parseFloat(this.sendForm.get('amount').value);
-    const memo = this.sendForm.get('memo').value;
-    const publicKey = selAcc.details['permissions'][0]['required_auth'].keys[0].key;
-    if (amount > 0 && this.sendForm.valid) {
-      this.crypto.authenticate(this.confirmForm.get('pass').value, publicKey).then((res) => {
-        // console.log(res);
-        if (res) {
-          let contract = 'agrio.token';
-          const tk_name = this.sendForm.get('token').value;
-          // console.log(tk_name);
-          // console.log(this.aService.tokens);
-          let precision = 4;
-          if (tk_name !== 'AGR') {
-            const idx = this.aService.tokens.findIndex((val) => {
-              return val.name === tk_name;
-            });
-            // console.log(idx);
-            contract = this.aService.tokens[idx].contract;
-            const balance = this.aService.tokens[idx].balance.toString();
-            if (balance.indexOf('.') !== -1) {
-              precision = balance.split('.')[1].toString().length;
-            }
-          }
-          // console.log(precision);
-          // console.log(contract, from, to, amount.toFixed(precision) + ' ' + tk_name, memo);
-          this.eos.transfer(contract, from, to, amount.toFixed(precision) + ' ' + tk_name, memo).then((result) => {
-            if (result === true) {
-              this.wrongpass = '';
-              this.sendModal = false;
-              this.busy = false;
-              this.showToast('success', 'Transation broadcasted', 'Check your history for confirmation.');
-              this.aService.refreshFromChain();
-              setTimeout(() => {
-                const sel = this.aService.selected.getValue();
-                this.unstaked = sel.full_balance - sel.staked - sel.unstaking;
-              }, 2000);
-
-              this.confirmForm.reset();
-              if (this.add === true && this.sendForm.get('alias').value !== '') {
-                this.addContactOnSend();
-              }
-            } else {
-              this.wrongpass = JSON.parse(result).error.details[0].message;
-              this.busy = false;
-            }
-          }).catch((error) => {
-            console.log('Catch2', error);
-            if (error.error.code === 3081001) {
-              this.wrongpass = 'Not enough stake to perform this action.';
-            } else {
-              this.wrongpass = error.error['what'];
-            }
-            this.busy = false;
-          });
         } else {
-          this.busy = false;
-          this.wrongpass = 'Wrong password!';
+            if (!silent) {
+                this.electron.remote.dialog.showErrorBox('Error', 'duplicated entry');
+            }
         }
-      }).catch((err) => {
-        console.log(err);
-        this.busy = false;
-        this.wrongpass = 'Error: Wrong password!';
-      });
     }
-  }
 
-  private showToast(type: string, title: string, body: string) {
-    this.config = new ToasterConfig({
-      positionClass: 'toast-top-right',
-      timeout: 10000,
-      newestOnTop: true,
-      tapToDismiss: true,
-      preventDuplicates: false,
-      animation: 'slideDown',
-      limit: 1,
-    });
-    const toast: Toast = {
-      type: type,
-      title: title,
-      body: body,
-      timeout: 10000,
-      showCloseButton: true,
-      bodyOutputType: BodyOutputType.TrustedHtml,
-    };
-    this.toaster.popAsync(toast);
-  }
+    addAccountsAsContacts() {
+        this.aService.accounts.map(acc => this.insertNewContact({
+            type: 'contact',
+            name: acc.name,
+            account: acc.name
+        }, true));
+        this.addDividers();
+        this.storeContacts();
+    }
 
-  openEditContactModal(contact) {
-    console.log(contact);
-    this.contactForm.patchValue({
-      account: contact.account
-    });
-    this.editContactModal = true;
-    this.selectedEditContact = contact;
-  }
+    removeDividers() {
+        this.contacts.forEach((contact, idx) => {
+            if (contact.type === 'letter') {
+                this.contacts.splice(idx, 1);
+            }
+        });
+    }
 
-  doEditContact() {
-    const index = this.contacts.findIndex((el) => {
-      return el.account === this.selectedEditContact.account;
-    });
-    this.contacts[index].name = this.contactForm.get('name').value;
-    this.editContactModal = false;
-    this.selectedEditContact = null;
-    this.contactForm.reset();
-    this.addDividers();
-    this.storeContacts();
-  }
+    addDividers() {
+        this.removeDividers();
+        const divs = [];
+        this.contacts.forEach((contact) => {
+            if (contact.type === 'contact') {
+                const letter = contact.name.charAt(0).toUpperCase();
+                if (!divs.includes(letter)) {
+                    divs.push(letter);
+                    const index = this.contacts.findIndex((item) => {
+                        return item.name === letter;
+                    });
+                    if (index === -1) {
+                        this.contacts.push({type: 'letter', name: letter});
+                        this.contactForm.reset();
+                        this.searchForm.patchValue({search: ''});
+                    }
+                }
+            }
+        });
+        this.sortContacts();
+    }
 
-  openDeleteContactModal(contact) {
-    this.deleteContactModal = true;
-    this.selectedEditContact = contact;
-  }
+    addContact() {
+        try {
+            this.eosjs.checkAccountName(this.contactForm.value.account.toLowerCase());
+            this.eosjs.getAccountInfo(this.contactForm.value.account.toLowerCase()).then(() => {
+                this.insertNewContact({
+                    type: 'contact',
+                    name: this.contactForm.value.name,
+                    account: this.contactForm.value.account.toLowerCase()
+                }, false);
+                this.newContactModal = false;
+                this.addDividers();
+                this.storeContacts();
+            }).catch((err) => {
+                if (typeof err === 'object') {
+                    if (err.json) {
+                        alert("Error: " + err.json.error.details[0].message);
+                    } else {
+                        alert("Error: " + err.error.details[0].message);
+                    }
+                } else {
+                    if (err.json) {
+                        alert("Error: " + JSON.parse(err).json.error.details[0].message);
+                    } else {
+                        alert("Error: " + JSON.parse(err).error.details[0].message);
+                    }
+                }
+            });
+        } catch (e) {
+            alert('invalid account name!');
+            console.log(e);
+        }
+    }
 
-  doDeleteContact() {
-    const index = this.contacts.findIndex((el) => {
-      return el.account === this.selectedEditContact.account;
-    });
-    this.contacts.splice(index, 1);
-    this.deleteContactModal = false;
-    this.addDividers();
-    this.storeContacts();
-  }
+    // TODO: implementar
+    addContactOnSend() {
+        try {
+            this.eosjs.checkAccountName(this.sendForm.value.to.toLowerCase());
+            this.eosjs.getAccountInfo(this.sendForm.value.to.toLowerCase()).then(() => {
+                this.insertNewContact({
+                    type: 'contact',
+                    name: this.sendForm.value['alias'],
+                    account: this.sendForm.value.to.toLowerCase()
+                }, false);
+                this.addDividers();
+                this.storeContacts();
+            }).catch((err) => {
+                if (typeof err === 'object') {
+                    if (err.json) {
+                        alert("Error: " + err.json.error.details[0].message);
+                    } else {
+                        alert("Error: " + err.error.details[0].message);
+                    }
+                } else {
+                    if (err.json) {
+                        alert("Error: " + JSON.parse(err).json.error.details[0].message);
+                    } else {
+                        alert("Error: " + JSON.parse(err).error.details[0].message);
+                    }
+                }
+            });
+        } catch (e) {
+            alert('invalid account name!');
+            console.log(e);
+        }
+    }
 
+    sortContacts() {
+        this.contacts.sort((a, b) => {
+            return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+        });
+        this.searchForm.patchValue({
+            search: ''
+        });
+    }
+
+    selectContact(contact) {
+        this.contactExist = true;
+        this.sendForm.patchValue({
+            to: contact.account,
+            alias: contact.name
+        });
+    }
+
+    storeContacts() {
+        localStorage.setItem('simpleos.contacts.' + this.aService.activeChain['id'], JSON.stringify(this.contacts));
+    }
+
+    loadContacts() {
+        const contacts = localStorage.getItem('simpleos.contacts.' + this.aService.activeChain['id']);
+        if (contacts) {
+            this.contacts = JSON.parse(contacts);
+        }
+        this.addAccountsAsContacts();
+    }
+
+    async newTransfer() {
+        const to = this.sendForm.get('to').value.toLowerCase();
+        const result = await this.trxFactory.transact(async (auth) => {
+            const selAcc = this.aService.selected.getValue();
+            const from = selAcc.name;
+            const amount = parseFloat(this.sendForm.get('amount').value);
+            const memo = this.sendForm.get('memo').value;
+            let contract = 'eosio.token';
+            let termsHeader = '';
+            let termsHtml = '';
+            const tk_name = this.sendForm.get('token').value;
+            let precision = this.aService.activeChain['precision'];
+            if (tk_name !== this.aService.activeChain['symbol']) {
+                const idx = this.aService.tokens.findIndex((val) => {
+                    return val.name === tk_name;
+                });
+                contract = this.aService.tokens[idx].contract;
+                precision = this.aService.tokens[idx].precision;
+            }
+            const actionTitle = `<span class="blue">Transfer</span>`;
+            const messageHTML = `
+                <h5 class="modal-title text-white"><span class="blue">${from}</span> sends <span
+                class="blue">${amount.toFixed(precision) + ' ' + tk_name}</span> to <span class="blue">${to}</span></h5> 	
+		    `;
+
+            if (this.sendForm.value.token === 'EOS' && this.aService.activeChain.name === 'EOS MAINNET') {
+                termsHeader = 'By submiting this transaction, you agree to the EOS Transfer Terms & Conditions';
+                termsHtml = `I, ${from}, certify the following to be true to the best of my knowledge:<br><br>
+            &#9; 1. I certify that ${amount.toFixed(precision) + ' ' + tk_name} is not the proceeds of fraudulent or
+            violent activities.<br>
+            2. I certify that, to the best of my knowledge, ${to} is not supporting initiation of violence against others.<br>
+            3. I have disclosed any contractual terms & conditions with respect to ${amount.toFixed(precision) + ' ' + tk_name} to ${to}.<br>
+            4. I understand that funds transfers are not reversible after the seconds or other delay as configured by ${from}'s permissions.<br>
+            <br><br>
+            If this action fails to be irreversibly confirmed after receiving goods or services from '${to}', 
+            I agree to either return the goods or services or resend ${amount.toFixed(precision) + ' ' + tk_name} in a timely manner.`;
+            }
+
+            this.insertNewContact({
+                type: 'contact',
+                name: this.sendForm.value['alias'],
+                account: this.sendForm.value.to.toLowerCase()
+            }, true);
+            this.addDividers();
+            this.storeContacts();
+
+            return {
+                transactionPayload: {
+                    actions: [{
+                        account: contract,
+                        name: 'transfer',
+                        authorization: [auth],
+                        data: {
+                            'from': from,
+                            'to': to,
+                            'quantity': amount.toFixed(precision) + ' ' + tk_name,
+                            'memo': memo
+                        }
+                    }]
+                },
+                actionTitle: actionTitle,
+                labelHTML: messageHTML,
+                termsHeader: termsHeader,
+                termsHTML: termsHtml
+            }
+        });
+        if (result.status === 'done') {
+            try {
+                await this.aService.refreshFromChain(false, [to]);
+                const sel = this.aService.selected.getValue();
+                const newBalance = sel.full_balance - sel.staked - sel.unstaking;
+                if (newBalance !== this.unstaked) {
+                    this.unstaked = newBalance;
+                    this.updateToken();
+                } else {
+                    let attempts = 0;
+                    let loop = setInterval(() => {
+                        attempts++;
+                        this.aService.refreshFromChain(false, [to]).then(() => {
+                            const sel = this.aService.selected.getValue();
+                            const newBalance = sel.full_balance - sel.staked - sel.unstaking;
+                            if (newBalance !== this.unstaked) {
+                                this.unstaked = newBalance;
+                                this.updateToken();
+                                if (loop) {
+                                    clearInterval(loop);
+                                    loop = null;
+                                }
+                            }
+                        });
+                        if (attempts > 20) {
+                            if (loop) {
+                                clearInterval(loop);
+                            }
+                        }
+
+                    }, 2000);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    }
+
+    updateToken() {
+        const symbol = this.sendForm.get('token').value;
+        const token = this.aService.tokens.find(tk => tk.name === symbol.toUpperCase());
+        if (token) {
+            this.selectedToken = token;
+            this.token_balance = this.selectedToken.balance;
+        } else {
+            this.selectedToken = {name: this.aService.activeChain['symbol'], price: 1.0000};
+            this.token_balance = this.unstaked;
+        }
+        this.cdr.detectChanges();
+    }
+
+    openEditContactModal(contact) {
+        console.log(contact);
+        this.contactForm.patchValue({
+            account: contact.account,
+            name: contact.name
+        });
+        this.editContactModal = true;
+        this.selectedEditContact = contact;
+    }
+
+    doEditContact() {
+        const index = this.contacts.findIndex((el) => {
+            return el.account === this.selectedEditContact.account;
+        });
+        this.contacts[index].name = this.contactForm.get('name').value;
+        this.editContactModal = false;
+        this.selectedEditContact = null;
+        this.contactForm.reset();
+        this.addDividers();
+        this.storeContacts();
+    }
+
+    openDeleteContactModal(contact) {
+        this.deleteContactModal = true;
+        this.selectedDeleteContact = contact;
+    }
+
+    doDeleteContact() {
+        const index = this.contacts.findIndex((el) => {
+            return el.account === this.selectedDeleteContact.account;
+        });
+        this.contacts.splice(index, 1);
+        this.deleteContactModal = false;
+        this.addDividers();
+        this.storeContacts();
+    }
+
+    formatTokenSymbol() {
+        this.sendForm.get('token').setValue(this.sendForm.get('token').value.toUpperCase());
+    }
 }

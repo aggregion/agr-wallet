@@ -1,8 +1,155 @@
-<router-outlet></router-outlet>
+<div class="main-container">
+    <header class="header-1" style="-webkit-app-region: drag; height: 1.7rem; flex-basis: 1.7rem;">
+        <div class="branding"
+             [ngStyle]="{'padding':'0 10px','text-align':'left','min-width':'8.5rem','width':'100%','height': '1.7rem'}">
+            <a class="nav-link" [ngStyle]="{'margin':(!isMac?'0 0':'0 auto')}">
+				<span *ngIf="compilerVersion === 'DEFAULT'" class="title-header"
+                      style="color: #9a9a9a; font-size: 14px;">Aggregion Wallet</span>
+                <span *ngIf="compilerVersion === 'LIBERLAND'" class="title-header"
+                      style="color: #9a9a9a; font-size: 14px;">LIBERLAND Wallet {{version}}</span>
+            </a>
+        </div>
+    </header>
 
-<!--<div id="update-box" [ngClass]="update ? 'show' : ''">-->
-    <!--<div>There is a new version available</div>-->
-    <!--<div>Update?</div>-->
-    <!--<button class="btn btn-info-outline btn-sm" style="margin-right: 5px;" (click)="performUpdate()">Yes</button>-->
-    <!--<a class="btn btn-link btn-sm" (click)="openGithub()">View on Github</a>-->
-<!--</div>-->
+    <div class="content-container">
+        <router-outlet></router-outlet>
+    </div>
+
+</div>
+
+<clr-modal [(clrModalOpen)]="transitconnect" [clrModalSize]="'sm'" (clrModalOpenChange)="onLoginModalClose($event)">
+    <h3 class="modal-title">
+        Connect to
+        <div class="highlight-primary" style="margin-top: 8px;">
+            {{dapp_name}}
+        </div>
+    </h3>
+    <div class="modal-body" *ngIf="aService.accounts.length > 0">
+        <p style="margin-bottom: 20px;">
+            Choose the account you want to connect:
+        </p>
+        <div class="card chains-card">
+            <ng-container *ngFor="let acc of aService.accounts; let i = index">
+                <div class="card-block chain-section" (click)="selectAccount(acc,i)">
+                    {{acc.name}}
+                    <span class="highlight-primary connect-anim">
+                        &nbsp;&nbsp;&nbsp;connect
+                        <fa-icon [icon]="['far', 'angle-right']"></fa-icon>
+                    </span>
+                </div>
+            </ng-container>
+        </div>
+        <div style="margin: 10px 0;" class="text-faded">
+            *This doesn't let the dapp do actions on your behalf
+        </div>
+    </div>
+    <div class="modal-body" *ngIf="aService.accounts.length === 0">
+        <p style="margin-bottom: 20px;"><strong>No account found.</strong> Please, close this window
+            and
+            import your account to continue.</p>
+    </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="loadingTRX" [clrModalSize]="'md'">
+
+    <h3 class="modal-title">
+        <span class="highlight-primary">Loading transaction...</span>
+    </h3>
+
+    <div class="modal-body">
+
+    </div>
+
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="externalActionModal" [clrModalSize]="'md'" (clrModalOpenChange)="onSignModalClose($event)">
+
+    <h3 class="modal-title">
+        <span class="highlight-primary">Confirm transaction</span>
+    </h3>
+
+    <div class="modal-body">
+
+        <h5 class="mt-0">Account: {{external_signer}}</h5>
+        <h5 class="highlight">Are you sure you want to perform the following actions ?</h5>
+
+        <div *ngIf="updateauthWarning" class="alert alert-danger" role="alert"
+             style="margin-top: 10px; font-size: 15px">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text text-warn"><strong>CAUTION !</strong></span>
+                </div>
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <fa-icon [icon]="['far', 'skull-crossbones']" class="alert-icon skull-icon"></fa-icon>
+                    </div>
+                    <span class="alert-text">
+						<strong>
+							This action will modify your permissions.<br> Please be extra careful!
+						</strong>
+					</span>
+                </div>
+            </div>
+        </div>
+
+        <p-accordion>
+            <p-accordionTab *ngFor="let act of action_json; let i = index" header="{{act.name}} on {{act.account}}"
+                            [selected]="i === 0">
+                <ngx-json-viewer width="300" [json]="act.data" [expanded]="true" class="transit-json"></ngx-json-viewer>
+            </p-accordionTab>
+        </p-accordion>
+
+    </div>
+
+    <div class="modal-footer">
+        <div fxLayout="column" style="width: 100%; padding: 0 .15rem;" >
+            <div>
+                <ng-container *ngIf="mode === 'local'">
+                    <form [formGroup]="confirmForm" class="confirmForm"  fxLayout="row" fxLayoutAlign="end center">
+                        <mat-form-field style="margin-top: 15px;">
+                            <input matInput #pass type="password" placeholder="Password"
+                                   formControlName="pass" (keyup.enter)="signExternalAction()">
+                            <mat-hint class="error" align="start" *ngIf="wrongpass !== ''">
+                                {{wrongpass}}
+                            </mat-hint>
+                        </mat-form-field>
+
+                        <button type="button" class="btn btn-info-outline"
+                                [disabled]="!confirmForm.valid || busy" (click)="signExternalAction()">
+                            Confirm
+                            <fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+                        </button>
+                    </form>
+                </ng-container>
+
+                <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" *ngIf="mode === 'ledger'">
+                    <span class="text-faded">device: {{requiredLedgerInfo.device}} - slot: {{requiredLedgerInfo.slot}}</span>
+                    <button type="button" class="btn btn-info-outline"
+                            style="margin-top: 12px;" (click)="signExternalAction()">
+                        sign with ledger
+                        <fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="error error-modal-footer" *ngIf="txerror !== ''">
+                <fa-icon [icon]="['fas','exclamation-triangle']" class="mr-1"></fa-icon> Error: {{txerror}}
+            </div>
+        </div>
+    </div>
+</clr-modal>
+
+<app-custom-chain-modal></app-custom-chain-modal>
+<app-confirm-modal></app-confirm-modal>
+<app-input-modal></app-input-modal>
+
+<div id="update-box" class="update-box card-title-color" style="float:right;" [ngClass]="update ? 'show' : ''">
+    <div style="position:relative; float:right; right:-5px; top:-13px; margin:5px; cursor:pointer;" (click)="update=false;">X</div>
+    <div>There is a new version available!<br/> Want to update?</div>
+    <div></div>
+    <button class="btn btn-info-outline btn-sm" style="margin-right: 5px;" (click)="performUpdate()">Yes
+    </button>
+    <a class="btn btn-link btn-primary-link btn-sm" (click)="openGithub()">View on Github</a>
+</div>

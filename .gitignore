@@ -40,7 +40,19 @@ testem.log
 Thumbs.db
 /.sync
 /archive
+
+# npm config
 .npmrc
-/ng-dist
-.env
-AggCodeSign.p12
+
+*.bkp
+*.exe
+*.AppImage
+*.deb
+*.dmg
+
+.idea
+node_modules
+dist
+ng-dist
+autoclaim.json
+89CE3D98-5C8A-4D0C-BE65-90992326460C.pfx

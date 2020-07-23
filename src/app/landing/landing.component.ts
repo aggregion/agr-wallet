@@ -1,443 +1,618 @@
-import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
-import {AGRJSService} from '../eosjs.service';
+import {Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AccountsService} from '../accounts.service';
+import {AccountsService} from '../services/accounts.service';
 import {Router} from '@angular/router';
 import {ClrWizard} from '@clr/angular';
-import {NetworkService} from '../network.service';
-import {CryptoService} from '../services/crypto.service';
+import {NetworkService} from '../services/network.service';
+import {CryptoService} from '../services/crypto/crypto.service';
 import {BodyOutputType, Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
-import {endpoints} from '../config';
+import {RamService} from '../services/ram.service';
+import {HttpClient} from '@angular/common/http';
+import {VotingService} from '../services/voting.service';
+import {AppComponent} from '../app.component';
+import {ThemeService} from '../services/theme.service';
+import {Subscription} from 'rxjs';
+import {LedgerService} from '../services/ledger/ledger.service';
+import {AnimationOptions} from 'ngx-lottie';
+import {AnimationItem} from 'lottie-web';
+import {ImportModalComponent} from '../import-modal/import-modal.component';
+import {Eosjs2Service} from '../services/eosio/eosjs2.service';
+import {PublicKey} from 'eosjs/dist/PublicKey';
+import {Numeric} from 'eosjs/dist';
+import {KeygenModalComponent} from '../keygen-modal/keygen-modal.component';
+
+interface simpleosExtendedWindow {
+	filesystem: any;
+	shell: any;
+	remote: any;
+}
+
+declare var window: Window & (typeof globalThis) & simpleosExtendedWindow;
+
+interface SimpleAccData {
+	name: string;
+	fullBalance: number;
+}
 
 @Component({
-  selector: 'app-landing',
-  templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.css']
+	selector: 'app-landing',
+	templateUrl: './landing.component.html',
+	styleUrls: ['./landing.component.css']
 })
-export class LandingComponent implements OnInit {
+export class LandingComponent implements OnInit, OnDestroy {
 
-  @ViewChild('wizardexists') exisitswizard: ClrWizard;
-  @ViewChild('wizardnew') wizardnew: ClrWizard;
-  @ViewChild('wizardexodus') wizard: ClrWizard;
-  anim: any;
-  busy: boolean;
-  existingWallet: boolean;
-  exodusWallet: boolean;
-  newWallet: boolean;
-  accountname = '';
-  accountname_err = '';
-  accountname_valid = false;
-  ownerpk = '';
-  ownerpub = '';
-  activepk = '';
-  activepub = '';
-  newAccountPayload = '';
-  agreeKeys = false;
-  check: boolean;
-  publicAGR: string;
-  checkerr: string;
-  errormsg: string;
-  accounts: any[];
-  dropReady: boolean;
-  passmatch: boolean;
-  passexodusmatch: boolean;
-  agree: boolean;
-  agree2: boolean;
-  generating = false;
-  passform: FormGroup;
-  passformexodus: FormGroup;
-  pvtform: FormGroup;
-  pk: string;
-  publickey: string;
-  pin: string;
-  pinexodus: string;
-  lockscreen: boolean;
-  lockscreen2: boolean;
-  importedAccounts: any[];
-  exodusValid = false;
-  endpoint = endpoints[0];
-  payloadValid = false;
-  generated = false;
-  config: ToasterConfig;
-  verifyPanel = false;
+	@ViewChild('ledgerwizard', {static: true}) ledgerwizard: ClrWizard;
+	@ViewChild('wizardnew', {static: true}) wizardnew: ClrWizard;
+	@ViewChild('customImportBK', {static: true}) customImportBK: ElementRef;
 
-  static parseAGR(tk_string) {
-    if (tk_string.split(' ')[1] === 'AGR') {
-      return parseFloat(tk_string.split(' ')[0]);
-    } else {
-      return 0;
-    }
-  }
+	@ViewChild(ImportModalComponent)
+	private importModal: ImportModalComponent;
 
-  constructor(public eos: AGRJSService,
-              private crypto: CryptoService,
-              private fb: FormBuilder,
-              private aService: AccountsService,
-              private toaster: ToasterService,
-              public network: NetworkService,
-              private router: Router,
-              private zone: NgZone) {
-    this.busy = true;
-    this.existingWallet = false;
-    this.exodusWallet = false;
-    this.dropReady = false;
-    this.newWallet = false;
-    this.check = false;
-    this.passmatch = true;
-    this.passexodusmatch = true;
-    this.agree = false;
-    this.agree2 = false;
-    this.lockscreen = false;
-    this.lockscreen2 = false;
-    this.accounts = [];
-    this.importedAccounts = [];
-    this.checkerr = '';
-    this.errormsg = '';
+	@ViewChild(KeygenModalComponent)
+	private keygenModal: KeygenModalComponent;
 
-    this.network.networkingReady.asObservable().subscribe((status) => {
-      this.busy = !status;
-    });
+	lottieConfig: AnimationOptions = {
+		path: 'assets/logoanim.json',
+		autoplay: false,
+		loop: false,
+		assetsPath: 'assets/images/'
+	};
 
-    this.publicAGR = '';
+	anim: AnimationItem;
+	busy: boolean;
 
-    this.passform = this.fb.group({
-      matchingPassword: this.fb.group({
-        pass1: ['', [Validators.required, Validators.minLength(10)]],
-        pass2: ['', [Validators.required, Validators.minLength(10)]]
-      })
-    });
-    this.pvtform = this.fb.group({
-      private_key: ['', Validators.required]
-    });
-    this.passformexodus = this.fb.group({
-      matchingPassword: this.fb.group({
-        pass1: ['', [Validators.required, Validators.minLength(10)]],
-        pass2: ['', [Validators.required, Validators.minLength(10)]]
-      })
-    });
-  }
+	importFromLedger = false;
+	existingWallet: boolean;
+	exodusWallet: boolean;
+	newWallet: boolean;
+	newKeys: boolean;
+	importBKP: boolean;
+	endpointModal: boolean;
 
-  cc(text) {
-    this.showToast('success', 'Key copied to clipboard!', 'Please save it on a safe place.');
-    window['clipboard']['writeText'](text);
-  }
+	accountname = '';
+	accountname_err = '';
+	accountname_valid = false;
+	ownerpk = '';
+	ownerpk2 = '';
+	ownerpub = '';
+	ownerpub2 = '';
+	activepk = '';
+	activepub = '';
+	newAccountPayload = '';
+	agreeKeys = false;
+	agreeKeys2 = false;
+	check: boolean;
+	publicEOS: string;
+	checkerr: string;
+	errormsg: string;
+	accounts: SimpleAccData[];
+	dropReady: boolean;
+	passmatch: boolean;
+	passexodusmatch: boolean;
+	agree: boolean;
+	agree2: boolean;
+	generating = false;
 
-  resetAndClose() {
-    this.wizardnew.reset();
-    this.wizardnew.close();
-  }
+	passform: FormGroup;
+	passformexodus: FormGroup;
+	importForm: FormGroup;
+	refundForm: FormGroup;
 
-  private showToast(type: string, title: string, body: string) {
-    this.config = new ToasterConfig({
-      positionClass: 'toast-top-right',
-      timeout: 10000,
-      newestOnTop: true,
-      tapToDismiss: true,
-      preventDuplicates: false,
-      animation: 'slideDown',
-      limit: 1,
-    });
-    const toast: Toast = {
-      type: type,
-      title: title,
-      body: body,
-      timeout: 10000,
-      showCloseButton: true,
-      bodyOutputType: BodyOutputType.TrustedHtml,
-    };
-    this.toaster.popAsync(toast);
-  }
+	pk: string;
+	publickey: string;
+	pin: string;
+	lockscreen: boolean;
+	lockscreen2: boolean;
+	importedAccounts: any[];
+	endpoint: string;
+	payloadValid = false;
+	generated = false;
+	generated2 = false;
+	config: ToasterConfig;
+	verifyPanel = false;
+	choosedFil: string;
+	disableIm: boolean;
+	infile: any;
+	total_amount: number;
+	memo: string;
 
-  ngOnInit() {
-    // setTimeout(() => {
-    //   this.anim.pause();
-    // }, 10);
-    //
-    // setTimeout(() => {
-    //   this.anim.play();
-    // }, 900);
-  }
+	openTX = LandingComponent.openTXID;
+	openGit = LandingComponent.openGithub;
+	openFaq = LandingComponent.openFAQ;
 
-  setPin(exodus) {
-    setTimeout(() => {
-      if (exodus) {
-        this.crypto.createPIN(this.pinexodus);
-      } else {
-        this.crypto.createPIN(this.pin);
-      }
-    }, 4000);
-  }
+	busy2 = false;
+	busyActivekey = false;
 
-  verifyAccountName(next) {
-    try {
-      this.accountname_valid = false;
-      const res = this.eos.checkAccountName(this.accountname);
-      console.log(res);
-      if (res !== 0) {
-        if (this.accountname.length === 12) {
-          this.eos.eos['getAccount'](this.accountname, (err, data) => {
-            console.log(err, data);
-            if (err) {
-              this.accountname_valid = true;
-              this.accountname_err = '';
-              if (next) {
-                this.wizardnew.next();
-              }
-            } else {
-              if (data) {
-                this.accountname_err = 'This account name is not available. Please try another.';
-                this.accountname_valid = false;
-              }
-            }
-          });
-        } else {
-          this.accountname_err = 'The account name must have exactly 12 characters. a-z, 1-5';
-        }
-      }
-    } catch (e) {
-      this.accountname_err = e.message;
-    }
-  }
+	relayMethod = false;
+	requestValid = false;
+	requestId = '';
+	requestError = '';
+	noPIN = true;
+	private subscriptions: Subscription[] = [];
 
-  generateKeys() {
-    this.generating = true;
-    setTimeout(() => {
-      this.eos.ecc.initialize().then(() => {
-        this.eos.ecc['randomKey'](128).then((privateKey) => {
-          this.ownerpk = privateKey;
-          this.ownerpub = this.eos.ecc['privateToPublic'](this.ownerpk);
-          console.log(this.ownerpk, this.ownerpub);
-          this.eos.ecc['randomKey'](128).then((privateKey2) => {
-            this.activepk = privateKey2;
-            this.activepub = this.eos.ecc['privateToPublic'](this.activepk);
-            this.generating = false;
-            this.generated = true;
-            console.log(this.activepk, this.activepub);
-          });
-        });
-      });
-    }, 100);
-  }
+	static parseEOS(tk_string) {
+		if (tk_string.split(' ')[1] === 'EOS') {
+			return parseFloat(tk_string.split(' ')[0]);
+		} else {
+			return 0;
+		}
+	}
 
-  makePayload() {
-    if (this.eos.ecc['isValidPublic'](this.ownerpub) && this.eos.ecc['isValidPublic'](this.activepub)) {
-      console.log('Generating account payload');
-      this.newAccountPayload = btoa(JSON.stringify({
-        n: this.accountname,
-        o: this.ownerpub,
-        a: this.activepub,
-        t: new Date().getTime()
-      }));
-      this.payloadValid = true;
-    } else {
-      alert('Invalid public key!');
-      this.newAccountPayload = 'Invalid public key! Please go back and fix it!';
-      this.payloadValid = false;
-      this.wizardnew.navService.previous();
-    }
-  }
+	static openTXID(value) {
+		window.shell['openExternal']('https://www.bloks.io/account/' + value);
+	}
 
-  retryConn() {
-    this.network.connect();
-  }
+	static openGithub() {
+		window.shell['openExternal']('https://github.com/eosrio/eosriosignup');
+	}
 
-  customConnect() {
-    this.network.startup(this.endpoint);
-  }
+	static openFAQ() {
+		window.shell['openExternal']('https://github.com/eosrio/eosriosignup');
+	}
 
-  importFromExodus() {
-    this.wizard.reset();
-    this.exodusValid = false;
-    this.exodusWallet = true;
-    this.dropReady = true;
-    this.errormsg = '';
-    const handleDragOver = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-    };
-    const handleDrop = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (this.dropReady === true) {
-        for (const f of e.dataTransfer.files) {
-          const path = f['path'];
-          this.dropReady = false;
-          this.exodusValid = false;
-          window['filesystem']['readFile'](path, 'utf-8', (err, data) => {
-            if (!err) {
-              const csvdata = data.split(',');
-              this.pk = csvdata[csvdata.length - 1];
-              this.pk = this.pk.trim();
-              document.removeEventListener('drop', handleDrop, true);
-              document.removeEventListener('dragover', handleDragOver, true);
-              this.verifyPrivateKey(this.pk, true, path);
-            }
-          });
-        }
-      }
-    };
-    document.addEventListener('drop', handleDrop);
-    document.addEventListener('dragover', handleDragOver);
-  }
+	static resetApp() {
+		if (window.remote) {
+			window.remote['app']['relaunch']();
+			window.remote['app'].exit(0);
+		}
+	}
 
-  handleAnimation(anim: any) {
-    this.anim = anim;
-    this.anim['setSpeed'](0.8);
-  }
+	constructor(
+		public eosjs: Eosjs2Service,
+		public ledgerService: LedgerService,
+		private voting: VotingService,
+		private crypto: CryptoService,
+		private fb: FormBuilder,
+		public aService: AccountsService,
+		private toaster: ToasterService,
+		public network: NetworkService,
+		private router: Router,
+		private zone: NgZone,
+		public ram: RamService,
+		private http: HttpClient,
+		public app: AppComponent,
+		private theme: ThemeService
+	) {
+		this.busy = true;
+		this.existingWallet = false;
+		this.exodusWallet = false;
+		this.dropReady = false;
+		this.newWallet = false;
+		this.check = false;
+		this.passmatch = true;
+		this.passexodusmatch = true;
+		this.agree = false;
+		this.agree2 = false;
+		this.lockscreen = false;
+		this.lockscreen2 = false;
+		this.importBKP = false;
+		this.endpointModal = false;
+		this.disableIm = false;
+		this.accounts = [];
+		this.importedAccounts = [];
+		this.checkerr = '';
+		this.errormsg = '';
+		this.endpoint = '';
+		this.total_amount = 1;
+		this.memo = '';
+		this.busyActivekey = false;
+		this.network.networkingReady.asObservable().subscribe((status) => {
+			this.busy = !status;
+		});
+		this.publicEOS = '';
 
-  passCompare() {
-    if (this.passform.value.matchingPassword.pass1 && this.passform.value.matchingPassword.pass2) {
-      if (this.passform.value.matchingPassword.pass1 === this.passform.value.matchingPassword.pass2) {
-        this.passform['controls'].matchingPassword['controls']['pass2'].setErrors(null);
-        this.passmatch = true;
-      } else {
-        this.passform['controls'].matchingPassword['controls']['pass2'].setErrors({'incorrect': true});
-        this.passmatch = false;
-      }
-    }
-  }
+		this.passform = this.fb.group({
+			matchingPassword: this.fb.group({
+				pass1: ['', [Validators.required, Validators.minLength(4)]],
+				pass2: ['', [Validators.required, Validators.minLength(4)]]
+			})
+		});
 
-  passExodusCompare() {
-    if (this.passformexodus.value.matchingPassword.pass1 && this.passformexodus.value.matchingPassword.pass2) {
-      if (this.passformexodus.value.matchingPassword.pass1 === this.passformexodus.value.matchingPassword.pass2) {
-        this.passformexodus['controls'].matchingPassword['controls']['pass2'].setErrors(null);
-        this.passexodusmatch = true;
-      } else {
-        this.passformexodus['controls'].matchingPassword['controls']['pass2'].setErrors({'incorrect': true});
-        this.passexodusmatch = false;
-      }
-    }
-  }
+		this.passformexodus = this.fb.group({
+			matchingPassword: this.fb.group({
+				pass1: ['', [Validators.required, Validators.minLength(4)]],
+				pass2: ['', [Validators.required, Validators.minLength(4)]]
+			})
+		});
 
-  importCredentials() {
-    if (this.passform.value.matchingPassword.pass1 === this.passform.value.matchingPassword.pass2) {
-      this.crypto.initKeys(this.publicAGR, this.passform.value.matchingPassword.pass1).then(() => {
-        this.crypto.encryptAndStore(this.pvtform.value.private_key, this.publicAGR).then(() => {
-          this.aService.importAccounts(this.importedAccounts);
-          this.crypto.decryptKeys(this.publicAGR).then(() => {
-            this.router.navigate(['dashboard', 'vote']).catch((err) => {
-              console.log(err);
-            });
-            if (this.lockscreen) {
-              this.setPin(false);
-            }
-          }).catch((error) => {
-            console.log('Error', error);
-          });
-        }).catch((err) => {
-          console.log(err);
-        });
-      });
-    }
-  }
+		this.importForm = this.fb.group({
+			pass: [''],
+			customImportBK: ['', Validators.required],
+		});
 
-  importCredentialsExodus() {
-    if (this.passformexodus.value.matchingPassword.pass1 === this.passformexodus.value.matchingPassword.pass2) {
-      this.crypto.initKeys(this.publicAGR, this.passformexodus.value.matchingPassword.pass1).then(() => {
-        this.crypto.encryptAndStore(this.pk, this.publicAGR).then(() => {
-          this.aService.importAccounts(this.importedAccounts);
-          this.crypto.decryptKeys(this.publicAGR).then(() => {
-            this.router.navigate(['dashboard', 'vote']).catch((err) => {
-              console.log(err);
-            });
-            if (this.lockscreen2) {
-              this.setPin(true);
-            }
-          }).catch((error) => {
-            console.log('Error', error);
-          });
-        }).catch((err) => {
-          console.log(err);
-        });
-      });
-    }
-  }
+		this.refundForm = this.fb.group({
+			account: ['', Validators.required],
+			memo: ['', Validators.required]
+		});
+	}
 
-  verifyPrivateKey(input, exodus, path) {
-    if (input !== '') {
-      this.eos.checkPvtKey(input).then((results) => {
-        this.publicAGR = results.publicKey;
-        this.importedAccounts = [];
-        this.importedAccounts = [...results.foundAccounts];
-        this.importedAccounts.forEach((item) => {
-          if (item['refund_request']) {
-            const tempDate = item['refund_request']['request_time'] + '.000Z';
-            const refundTime = new Date(tempDate).getTime() + (72 * 60 * 60 * 1000);
-            const now = new Date().getTime();
-            if (now > refundTime) {
-              this.eos.claimRefunds(item.account_name, input).then((tx) => {
-                console.log(tx);
-              });
-            } else {
-              console.log('Refund not ready!');
-            }
-          }
-        });
-        this.pvtform.controls['private_key'].setErrors(null);
-        this.zone.run(() => {
-          if (exodus) {
-            this.exodusValid = true;
-            this.dropReady = false;
-            window['filesystem']['unlink'](path, (err2) => {
-              if (err2) {
-                console.log(err2);
-              }
-            });
-          } else {
-            this.exisitswizard.forceNext();
-          }
-          this.errormsg = '';
-        });
-      }).catch((e) => {
-        this.zone.run(() => {
-          this.dropReady = true;
-          this.exodusValid = false;
-          this.pvtform.controls['private_key'].setErrors({'incorrect': true});
-          this.importedAccounts = [];
-          if (e.message.includes('Invalid checksum')) {
-            this.errormsg = 'invalid private key';
-          }
-          if (e.message === 'no_account') {
-            this.errormsg = 'No account associated with this private key';
-          }
-          if (e.message === 'non_active') {
-            this.errormsg = 'This is not the active key. Please import the active key.';
-          }
-        });
-      });
-    }
-  }
+	cc(text, title, body) {
+		window.navigator['clipboard']['writeText'](text).then(() => {
+			this.showToast('success', title + ' copied to clipboard!', body);
+		}).catch(() => {
+			this.showToast('error', 'Clipboard didn\'t work!', 'Please try other way.');
+		});
+	}
 
-  doCancel(): void {
-    this.exisitswizard.close();
-  }
+	checkLedgerReady() {
+		if (this.ledgerService.appReady) {
+			this.ledgerwizard.next();
+		}
+	}
 
-  checkAccount() {
-    if (this.eos.ready) {
-      this.check = true;
-      this.accounts = [];
-      this.eos.loadPublicKey(this.publicAGR).then((account_data: any) => {
-        account_data.foundAccounts.forEach((acc) => {
-          let balance = 0;
-          // Parse tokens and calculate balance
-          acc['tokens'].forEach((tk) => {
-            balance += LandingComponent.parseAGR(tk);
-          });
-          // Add stake balance
-          balance += LandingComponent.parseAGR(acc['total_resources']['cpu_weight']);
-          balance += LandingComponent.parseAGR(acc['total_resources']['net_weight']);
-          const accData = {
-            name: acc['account_name'],
-            full_balance: Math.round((balance) * 10000) / 10000
-          };
-          this.accounts.push(accData);
-        });
-        this.checkerr = '';
-      }).catch((err) => {
-        console.log(err);
-        this.checkerr = err;
-      });
-    }
-  }
+	checkPIN() {
+		this.noPIN = localStorage.getItem('simpleos-hash') === null;
+	}
 
+	resetAndClose() {
+		this.wizardnew.reset();
+		this.wizardnew.close();
+	}
+
+	private showToast(type: string, title: string, body: string) {
+
+		this.config = new ToasterConfig({
+			positionClass: 'toast-top-right',
+			timeout: 10000,
+			newestOnTop: true,
+			tapToDismiss: true,
+			preventDuplicates: false,
+			animation: 'slideDown',
+			limit: 1,
+		});
+
+		const toast: Toast = {
+			type: type,
+			title: title,
+			body: body,
+			timeout: 10000,
+			showCloseButton: true,
+			bodyOutputType: BodyOutputType.TrustedHtml,
+		};
+
+		this.toaster.popAsync(toast);
+	}
+
+	ngOnInit() {
+		console.log('loaded landing');
+		this.getCurrentEndpoint();
+		if (this.app.compilerVersion === 'DEFAULT') {
+			setTimeout(() => this.anim.pause(), 10);
+			setTimeout(() => this.anim.play(), 900);
+		}
+		this.checkPIN();
+		if (this.ledgerService.appReady) {
+			this.importFromLedger = true;
+		}
+	}
+
+	ngOnDestroy(): void {
+		this.subscriptions.forEach((s) => {
+			s.unsubscribe();
+		});
+	}
+
+	getCurrentEndpoint() {
+
+		if (this.network.activeChain.name.startsWith('WAX')) {
+			this.theme.waxTheme();
+		} else if (this.network.activeChain.name.startsWith('TELOS')) {
+			this.theme.telosTheme();
+		} else if (this.network.activeChain.name.startsWith('LIBERLAND')) {
+			this.theme.liberlandTheme();
+		} else {
+			this.theme.defaultTheme();
+		}
+
+		if (this.network.activeChain.lastNode !== '') {
+			this.endpoint = this.network.activeChain.lastNode;
+		} else {
+			this.endpoint = this.network.activeChain['firstApi'];
+		}
+	}
+
+	parseSYMBOL(tk_string) {
+		if (tk_string.split(' ')[1] === this.network.activeChain['symbol']) {
+			return parseFloat(tk_string.split(' ')[0]);
+		} else {
+			return 0;
+		}
+	}
+
+	changeChain(event) {
+		this.importModal.reset();
+		this.network.changeChain(event.value);
+		this.getCurrentEndpoint();
+	}
+
+	setEndPoint(ep) {
+		console.log('------------->>>>>>>>>', ep, this.endpoint);
+		if (ep !== this.endpoint) {
+			this.endpoint = ep;
+			this.customConnect();
+			// 	this.endpointModal = false;
+		}
+	}
+
+	validateExchangeMemo(account: string, memo: string) {
+		if (this.network.activeChain['exchanges']) {
+			if (this.network.activeChain['exchanges'][account]) {
+				const ex = this.network.activeChain['exchanges'][account];
+
+				// check memo size
+				if (ex['memo_size']) {
+					if (memo.length !== ex['memo_size']) {
+						return false;
+					}
+				}
+
+				// check memo pattern
+				if (ex['pattern']) {
+					const regex = new RegExp(ex['pattern']);
+					return regex.test(memo);
+				}
+
+				return true;
+
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
+	}
+
+	verifyAccountName(next) {
+		try {
+			this.accountname_valid = false;
+			const res = this.eosjs.checkAccountName(this.accountname.toLowerCase());
+			const regexName = new RegExp('^([a-z]|[1-5])+$');
+			if (res !== 0) {
+				if (this.accountname.length === 12 && regexName.test(this.accountname.toLowerCase())) {
+					this.eosjs.getAccountInfo(this.accountname.toLowerCase()).then(() => {
+						// this.eos['getAccount'](this.accountname, (err, data) => {
+						//   console.log(err, data);
+						this.accountname_err = 'This account name is not available. Please try another.';
+						this.accountname_valid = false;
+					}).catch(() => {
+						this.accountname_valid = true;
+						this.accountname_err = '';
+						if (next) {
+							this.wizardnew.next();
+						}
+					});
+				} else {
+					this.accountname_err = 'The account name must have exactly 12 characters. a-z, 1-5';
+				}
+			}
+		} catch (e) {
+			this.accountname_err = e.message;
+		}
+	}
+
+	async generateKeys() {
+		this.generating = true;
+		const activePair = this.crypto.generateKeyPair();
+		const ownerPair = this.crypto.generateKeyPair();
+		this.ownerpk = ownerPair.private;
+		this.ownerpub = ownerPair.public;
+		this.activepk = activePair.private;
+		this.activepub = activePair.public;
+		this.generating = false;
+		this.generated = true;
+	}
+
+	makePayload() {
+		if (PublicKey.fromString(this.ownerpub).isValid() && PublicKey.fromString(this.activepub).isValid()) {
+			console.log('Generating account payload');
+			this.newAccountPayload = btoa(JSON.stringify({
+				n: this.accountname.toLowerCase(),
+				o: this.ownerpub,
+				a: this.activepub,
+				t: new Date().getTime()
+			}));
+			this.payloadValid = true;
+		} else {
+			alert('Invalid public key!');
+			this.newAccountPayload = 'Invalid public key! Please go back and fix it!';
+			this.payloadValid = false;
+			this.wizardnew.navService.previous();
+		}
+	}
+
+	makeRelayRequest() {
+		const reqData = {
+			name: this.accountname.toLowerCase(),
+			active: this.activepub,
+			owner: this.ownerpub,
+			refund_account: this.refundForm.get('account').value,
+			refund_memo: this.refundForm.get('memo').value
+		};
+		if (this.validateExchangeMemo(reqData.refund_account, reqData.refund_memo)) {
+			this.http.post('https://br.eosrio.io/account_creation_api/request_account', reqData).subscribe((data) => {
+				if (data['status'] === 'OK') {
+					this.requestId = data['requestId'];
+					this.requestError = '';
+					this.requestValid = true;
+				} else {
+					this.requestValid = false;
+					this.requestError = data['msg'];
+				}
+			});
+		} else {
+			this.requestError = 'Invalid memo format';
+			this.requestValid = false;
+		}
+	}
+
+	makeMemo() {
+		this.memo = this.accountname.toLowerCase() + '-' + this.ownerpub + '-' + this.activepub;
+	}
+
+	async retryConn() {
+		await this.network.connect(true);
+	}
+
+	customConnect() {
+		this.network.startup(this.endpoint).then(() => {
+			this.endpointModal = false;
+		}).catch(console.log);
+	}
+
+	handleAnimation(anim: AnimationItem) {
+		this.anim = anim;
+		this.anim['setSpeed'](0.8);
+	}
+
+	// Verify public key - step 1
+	async checkAccount() {
+		if (this.network.networkingReady.getValue()) {
+			this.check = true;
+			this.accounts = [];
+			try {
+				const convertedKey = Numeric.convertLegacyPublicKey(this.publicEOS.trim());
+				const publicKey = PublicKey.fromString(convertedKey);
+				try {
+					const results = await this.eosjs.loadPublicKey(publicKey);
+					console.log(results);
+					await this.processCheckAccount(results.foundAccounts);
+				} catch (err) {
+					console.log('ERROR', err.message);
+					console.log('ACCOUNTS', err.accounts);
+					this.checkerr = err;
+					await this.processCheckAccount(err.accounts);
+				}
+			} catch (e) {
+				console.log(e);
+				this.checkerr = 'invalid';
+			}
+			this.check = false;
+		}
+	}
+
+	// Verify public key - step 2
+	async processCheckAccount(accounts) {
+		console.log(accounts);
+		for (const acc of accounts) {
+			if (acc['tokens']) {
+				this.processTokens(acc);
+			} else {
+				try {
+					acc['tokens'] = await this.eosjs.getTokens(acc['account_name']);
+					this.processTokens(acc);
+				} catch (err) {
+					console.log(err);
+				}
+			}
+		}
+		this.checkerr = '';
+	}
+
+	// Verify public key - step 3
+	processTokens(acc) {
+		let balance = 0;
+		acc['tokens'].forEach((tk) => {
+			balance += this.parseSYMBOL(tk);
+		});
+		if (acc['self_delegated_bandwidth']) {
+			balance += this.parseSYMBOL(acc['self_delegated_bandwidth']['cpu_weight']);
+			balance += this.parseSYMBOL(acc['self_delegated_bandwidth']['net_weight']);
+		}
+		const precisionRound = Math.pow(10, this.aService.activeChain['precision']);
+		if (this.aService.activeChain['name'].startsWith('LIBERLAND')) {
+			const staked = acc['voter_info']['staked'] / precisionRound;
+			balance += staked;
+		}
+		const accData = {
+			name: acc['account_name'],
+			fullBalance: Math.round((balance) * precisionRound) / precisionRound
+		};
+		this.accounts.push(accData);
+	}
+
+	inputIMClick() {
+		this.customImportBK.nativeElement.click();
+	}
+
+	importCheckBK(a) {
+		this.infile = a.target.files[0];
+		// console.log(this.infile);
+		const name = this.infile.name;
+		if (name.split('.')[1] !== 'bkp') {
+			this.showToast('error', 'Wrong file!', '');
+			this.infile = '';
+			return false;
+		}
+		this.choosedFil = name;
+		console.log(this.choosedFil);
+	}
+
+	importBK() {
+		this.disableIm = true;
+		this.busy2 = true;
+		if (this.infile && this.infile !== '') {
+			try {
+				const data = window.filesystem.readFileSync(this.infile.path, 'utf-8');
+				const pass = this.importForm.value.pass;
+				let arrLS = null;
+				let decrypt = null;
+
+				try {
+					console.log('trying to parse json...');
+					arrLS = JSON.parse(data);
+				} catch (e) {
+					// backup encrypted, password required
+					if (pass !== '') {
+						try {
+							decrypt = this.crypto.decryptBKP(data, pass);
+							arrLS = JSON.parse(decrypt);
+						} catch (e) {
+							this.showToast('error', 'Wrong password, please try again!', '');
+							console.log('wrong file');
+						}
+					} else {
+						this.showToast('error', 'This backup file is encrypted, please provide a password!', '');
+					}
+				}
+				if (arrLS) {
+					arrLS.forEach((d) => {
+						localStorage.setItem(d['key'], d['value']);
+					});
+					this.showToast('success', 'Imported with success!', 'Application will restart... wait for it!');
+					LandingComponent.resetApp();
+					this.choosedFil = '';
+					this.disableIm = false;
+					this.busy2 = false;
+					this.importBKP = false;
+				} else {
+					this.choosedFil = '';
+					this.disableIm = false;
+					this.busy2 = false;
+				}
+			} catch (e) {
+				this.showToast('error', 'Something went wrong, please try again or contact our support!', '');
+				console.log('wrong entry');
+			}
+		} else {
+			this.showToast('error', 'Choose your backup file', '');
+			this.choosedFil = '';
+			this.disableIm = false;
+			this.busy2 = false;
+		}
+	}
+
+	toggleAnimation() {
+		if (this.anim) {
+			const duration = this.anim.getDuration(true);
+			this.anim.goToAndPlay(Math.round(duration / 3), true);
+		}
+	}
+
+	openImportModal() {
+		this.importModal.openModal();
+	}
+
+	openKeyGenModal() {
+		this.keygenModal.openModal();
+	}
 }

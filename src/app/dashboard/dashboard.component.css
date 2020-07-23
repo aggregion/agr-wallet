@@ -1,158 +1,194 @@
 .header {
-  flex: 0 0 4.5rem;
-  height: 4.5rem;
+    background-color: #191919;
+    flex: 0 0 5rem;
+    height: 5rem;
 }
 
 .content-area {
-  padding: 0 !important;
+    background-color: var(--main-background);
+    padding: 0 !important;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: color, background-color;
+    transition-property: color, background-color;
 }
 
-.toolbar {
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-  margin: 0;
+.sidenav-header {
+    flex: 0 0 auto;
+    padding: 13px 20px 17px 20px;
+    text-align: center;
+    border-right: 1px solid var(--sidenav-active-border-color2);
 }
 
-.logo-container {
-  padding: 20px 0 20px 25px;
-}
-
-#logo {
-  max-height: 43px;
+/deep/ .sidenav-header svg {
+    width: 90% !important;
 }
 
 .sidenav {
-  background: #fff;
-  border: none;
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    background-color: var(--sidenav-background);
+    color: var(--sidenav-color);
+    border: none;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: color, background-color;
+    transition-property: color, background-color;
 }
 
 .sidenav-content {
-  flex: 0 1 auto;
-  padding-bottom: 0;
+    /*display: table-row;*/
+    flex: 0 1 auto;
+    padding-bottom: 0;
 }
 
-.sidenav-content > .nav-link {
-  color: #525a60;
-  margin: 0;
-  padding: 20px 0 20px 25px;
+.sidenav .sidenav-content > .nav-link {
+    border-right: 1px solid var(--sidenav-active-border-color2);
+    color: var(--sidenav-color);
+    margin: 0;
+    padding: 20px 0 20px 25px;
+    border-radius: 0;
 }
 
-.sidenav-content > .nav-link.active,
-.sidenav-content > .nav-link:hover {
-  background: #fee8d2;
+.sidenav .sidenav-content > .nav-link.active {
+    background: var(--sidenav-active-background);
+    color: var(--sidenav-active-color);
+    border-right: 1px solid var(--sidenav-active-border-color1);
+    border-bottom: 1px solid var(--sidenav-active-border-color2);
+    border-top: 1px solid var(--sidenav-active-border-color2);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: color, background-color;
+    transition-property: color, background-color;
 }
 
-.sidenav-content fa-icon {
-  color: #f68c1e;
+.sidenav .sidenav-content > .nav-link.active:hover {
+    background: var(--sidenav-active-background);
+    color: var(--sidenav-active-color);
+}
+
+.sidenav .sidenav-content > .nav-link:hover {
+    background: var(--sidenav-active-background);
+    color: var(--sidenav-active-color);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: background-color;
+    transition-property: background-color;
 }
 
 .placeholder {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+    border-right: 1px solid var(--sidenav-active-border-color2);
+    flex: 1 1 auto;
+    background-color: var(--sidenav-background);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .value {
-  margin-top: 7px;
-  font-size: 14px;
+    margin-top: 7px;
+    font-size: 14px;
 }
 
 /*material's tabs*/
 /deep/ #header-tabs .mat-tab-header {
-  height: 4.5rem;
+    background-color: var(--sidenav-background);
+    /*height: 4.5rem;*/
 }
 
 /deep/ #header-tabs .mat-tab-labels {
-  height: 4.5rem;
+    /*height: 4.5rem;*/
 }
 
 /deep/ #header-tabs .mat-tab-label {
-  height: 4.5rem !important;
+    height: 5.1rem !important;
+    /*height: 4.5rem !important;*/
 }
 
 /deep/ #header-tabs .mat-tab-body-wrapper {
-  height: 0;
+    height: 0;
 }
 
 /*material's tabs end*/
 
 .navbar-btn {
-  height: 4.5rem;
-  color: #525a60;
-  -webkit-transition-property: color, background-color;
-  transition-property: color, background-color;
+    background-color: var(--sidenav-background);
+    height: 5.1rem;
+    /*height: 4.5rem;*/
+    color: var(--sidenav-color);
+    -webkit-transition-property: color, background-color;
+    transition-property: color, background-color;
 }
 
 .navbar-btn:hover {
-  cursor: pointer;
-  color: #00a199;
+    cursor: pointer;
+    background-color: var(--top-btn-background);
+    color: #e3e3e3;
 }
 
 .credits {
-  cursor: default;
-  text-align: center;
-  font-size: 8px;
-  /*margin-bottom: 5px;*/
+    text-align: center;
+    font-size: 15px;
+    margin-bottom: -4px;
 }
 
 .version {
-  text-align: center;
-  margin-bottom: 5px;
-  /*margin-bottom: -4px;*/
-  font-size: 8px;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 12px;
 }
 
 .newaccount {
-  padding: 0 10px;
+    padding: 0 10px;
 }
 
 .cog {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 18px;
 }
 
 .cog:focus {
-  outline: 0;
+    outline: 0;
 }
 
 .max-width {
-  max-width: calc(100% - 257px);
+    max-width: calc(100% - 320px);
 }
 
-/deep/ .mat-radio-button {
-  display: block !important;
-}
-
-/deep/ .mat-radio-outer-circle {
-  border-color: #858585;
-}
-
-/deep/ .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-  border-color: #00a199;
-}
-
-/deep/ .mat-radio-button.mat-accent .mat-radio-inner-circle {
-  background-color: #00a199;
-}
-
-/deep/ .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
-  background-color: rgba(0, 161, 153,.26);
+.max-width2 {
+    max-width: calc(100% - 224px);
 }
 
 #textarea {
-  background: #b1b1b1;
-  border: 2px solid #00a199;
+    background: #b1b1b1;
+    border: 2px solid #065e8d;
 }
 
 .deleteteacc {
-  font-size: 1.5em !important;
-
+    font-size: 1.5em !important;
 }
 
 .deleteteacc:hover {
-  color: white;
-  cursor: pointer;
+    color: white;
+    cursor: pointer;
+}
+
+/*START TAB SELECTED ACTIVE */
+/deep/ .mat-tab-label-active {
+    background-color: var(--mat-tab-active);
+    opacity: 1 !important;
+}
+
+/*END TAB SELECTED ACTIVE */
+
+/deep/ .container-fluid {
+    padding-right: 13px;
+}
+
+
+.account-type-label {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    font-size: x-small;
 }

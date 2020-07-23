@@ -1,38 +1,83 @@
 <div class="container" style="height: 100%">
-  <div class="row animate" style="padding-top: 15px;">
-    <div class="col-lg-6">
-      <h1><span>About </span><span class="blue">AGR</span></h1>
-      <h5 style="margin-top: 10px;">Producer name: <span class="blue">eosriobrazil</span></h5>
-      <p class="paragraph">AGR Rio is a Block Producer based in Rio de Janeiro.</p>
-      <p class="paragraph">Located in Brazil, AGR Rio contributes to the geographical and cultural distribution of the
-        AGR network,
+	<ng-container *ngIf="app.compilerVersion === 'DEFAULT'">
+  		<div class="clr-row animate" style="padding-top: 15px;">
+    <div class="clr-col-lg-6 card-title-color">
+      <h1><span class="highlight">About </span><span class="highlight-primary">EOS Rio</span></h1>
+      <h5 *ngIf="aService.activeChain.features.vote&&aService.activeChain.eosrioBP!==''" style="margin-top: 10px;">Producer name: <span class="highlight-primary">{{aService.activeChain.eosrioBP}}</span></h5>
+      <p class="p card-text-color">EOS Rio is a Block Producer based in Rio de Janeiro.</p>
+      <p class="p card-text-color">Located in Brazil, EOS Rio contributes to the geographical and cultural distribution of the
+        EOS network,
         which is an important feature of a reliable and robust Delegated Proof of Stake (DPoS) network.</p>
-      <p class="paragraph">We are a team of crypto-enthusiasts and AGR supporters who have been following AGR.IO
-        development since
-        its first release, contributing with discussion, tests, and offering open-source tools for the
-        community, such as a control panel for other Block Producers, a sandbox environment for developers, a
-        tool to map and optimize network topology and now, Aggregion Wallet :)</p>
-      <p class="paragraph">For more information on our projects, visit <a (click)="extOpen('https://www.aggregion.com')"
-                                                                          class="website">/www.aggregion.com</a></p>
-      <p class="paragraph"><strong>Help us continue funding this projects by voting for us as Block Producers
+      <p class="p card-text-color">We are a team of crypto-enthusiasts and EOS supporters who have been following EOS.IO
+        development since its first release, contributing with discussion, tests, and offering open-source tools for the
+        community, such as Hyperion, a scalable Full History API for EOSIO based blockchains, and SimplEOS :)</p>
+      <p class="p card-text-color">For more information, visit <a (click)="extOpen('https://eosrio.io')"
+                                                                          class="website highlight-primary" style="cursor: pointer">eosrio.io</a></p>
+      <p class="p"><strong class="highlight">Help us continue funding these projects by voting on us
         :)</strong></p>
       <p>
-        <a (click)="extOpen('https://steemit.com/@eosrio')" class="social-icon">
-          <img src="assets/steemit.png" class="steemit">
+		<p class="p"><strong class="highlight">Go to SimplEOS <span class="highlight-primary" style="cursor:pointer" (click)="extOpen('https://eosrio.io/faq_home/')">FAQ</span> for any HELP. <br> Our beloved Telegram BOT can also help you: <span class="highlight-primary" style="cursor:pointer" (click)="extOpen('https://t.me/simpleos_bot')">@simpleos_bot</span>. </strong> </p>
+      <p>
+        <a (click)="extOpen('https://steemit.com/@eosrio')" class="social-icon" pTooltip="steemit.com/@eosrio">
+          <img [src]="theme.currentTheme === 'dark' ? 'assets/steemit.png' : 'assets/steemit3.png'" class="steemit">
         </a>
-        <a (click)="extOpen('https://t.me/eosrio')" class="social-icon" style="margin-left: 10px">
+        <a (click)="extOpen('https://t.me/eosrio')" class="social-icon" style="margin-left: 10px" pTooltip="t.me/eosrio">
           <fa-icon [icon]="['fab', 'telegram-plane']" size="2x"></fa-icon>
         </a>
-        <a (click)="extOpen('https://github.com/eosrio')" class="social-icon" style="margin-left: 12px">
-          <fa-icon [icon]="['fab', 'github']" size="2x"></fa-icon>
+        <a (click)="extOpen('https://github.com/eosrio')" class="social-icon" style="margin-left: 12px" >
+          <fa-icon [icon]="['fab', 'github']" size="2x" pTooltip="github.com/eosrio/simpleos" tooltipPosition="top"></fa-icon>
         </a>
-        <a (click)="extOpen('https://twitter.com/eosriobrazil')" class="social-icon" style="margin-left: 12px">
+        <a (click)="extOpen('https://twitter.com/eosriobrazil')" class="social-icon" style="margin-left: 12px" pTooltip="twitter.com/eosriobrazil">
           <fa-icon [icon]="['fab', 'twitter']" size="2x"></fa-icon>
         </a>
       </p>
     </div>
-    <div class="col-lg-6">
-      <img src="assets/about_eosrio2.png_del" style="border-radius: 5px; width: 100%;">
+    <div class="clr-col-lg-6">
+      <img src="./assets/about_eosrio2.png" style="border-radius: 5px; width: 100%;">
     </div>
   </div>
+	</ng-container>
+	<ng-container *ngIf="app.compilerVersion === 'LIBERLAND'">
+		<div class="clr-row animate" style="padding-top: 15px;">
+			<div class="clr-col-lg-7 card-title-color">
+				<h1><span class="highlight">About </span><span class="highlight-primary">Liberland</span></h1>
+				<p class="p card-text-color">Free Republic of Liberland is a sovereign state located between Croatia and Serbia. It is a 7km² land referred to as “Gornja Siga.”</p>
+				<p class="p card-text-color">Liberland is a constitutional republic with elements of direct democracy. The language is English.</p>
+				<p class="p card-text-color">The Liberland Merit is the currency of Liberland. The country's motto is: To live and let live.</p>
+				<p class="p card-text-color">For more information, visit <a (click)="extOpen('https://liberland.org/en/')"
+																	class="website highlight-primary" style="cursor: pointer">liberland.org</a></p>
+				<p class="p"><strong class="highlight">
+					For any doubts on Liberland features, please join their telegram <span class="highlight-primary" style="cursor:pointer" (click)="extOpen('https://t.me/liberlanders')">t.me/liberlanders</span>.</strong>
+				</p>
+				<p>
+					<a (click)="extOpen('https://t.me/liberlanders')" class="social-icon" style="margin-left: 10px" pTooltip="t.me/liberlanders" tooltipPosition="top">
+						<fa-icon [icon]="['fab', 'telegram-plane']" size="2x"></fa-icon>
+					</a>
+					<a (click)="extOpen('https://twitter.com/liberland_org')" class="social-icon" style="margin-left: 12px" pTooltip="twitter.com/liberland_org" tooltipPosition="top">
+						<fa-icon [icon]="['fab', 'twitter']" size="2x"></fa-icon>
+					</a>
+				</p>
+
+				<h1><span class="highlight">About </span><span class="highlight-primary">SimplEOS</span></h1>
+				<p class="p card-text-color">Liberland wallet is powered by <a class="website highlight-primary" style="cursor:pointer" (click)="extOpen('https://eosrio.io/simpleos/')">SimplEOS</a>, an open source wallet developed by EOS Rio. </p>
+				<p class="p card-text-color">EOS Rio is a block producer dedicated to eosio chains and member of the Ghostbusters tech colletive.</p>
+				<p class="p card-text-color"><strong class="highlight">Go to SimplEOS <span class="highlight-primary" style="cursor:pointer" (click)="extOpen('https://eosrio.io/faq_home/')">FAQ</span></strong></p>
+				<p class="p card-text-color"><strong class="highlight">Our beloved Telegram BOT can also help you: <span class="highlight-primary" style="cursor:pointer" (click)="extOpen('https://t.me/simpleos_bot')">@simpleos_bot</span>. </strong> </p>
+				<p>
+					<a (click)="extOpen('https://t.me/eosrio')" class="social-icon" style="margin-left: 10px" pTooltip="t.me/eosrio">
+						<fa-icon [icon]="['fab', 'telegram-plane']" size="2x"></fa-icon>
+					</a>
+					<a (click)="extOpen('https://github.com/eosrio/simpleos')" class="social-icon" style="margin-left: 12px" pTooltip="github.com/eosrio/simpleos" tooltipPosition="right">
+						<fa-icon [icon]="['fab', 'github']" size="2x"></fa-icon>
+					</a>
+					<a (click)="extOpen('https://twitter.com/eosriobrazil')" class="social-icon" style="margin-left: 12px" pTooltip="twitter.com/eosriobrazil">
+						<fa-icon [icon]="['fab', 'twitter']" size="2x"></fa-icon>
+					</a>
+				</p>
+			</div>
+			<div class="clr-col-lg-5">
+				<img src="./assets/liberland-map.png" style="border-radius: 5px; width: 100%;">
+			</div>
+		</div>
+	</ng-container>
 </div>

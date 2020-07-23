@@ -1,539 +1,648 @@
 <toaster-container [toasterconfig]="config"></toaster-container>
-<div class="wrap">
-  <div class="container-fluid">
-    <div class="row animate fadeInDown">
+<div class="wrap" style="overflow-y: auto; width:100vw;">
+    <div class="container">
+        <div class="clr-row animate fadeInDown">
+            <div class="clr-col-md-8 clr-col-lg-6 text-center" style="width: 466px; margin: 0 auto;">
 
-      <div class="col-md-12 text-center">
-        <div class="">
-          <img src="assets/aggregion_256px.png">
+                <div class="anim-logo" (click)="toggleAnimation()">
+                    <ng-container *ngIf="app.compilerVersion === 'DEFAULT'">
+
+<!--                        <ng-lottie-->
+<!--                                [options]="lottieConfig"-->
+<!--                                containerClass="display-animation"-->
+<!--                                (animationCreated)="handleAnimation($event)"-->
+<!--                                width="300px">-->
+<!--                        </ng-lottie>-->
+                        <div class="display-animation"></div>
+
+                        <img alt="Logo SimplEOS" class="display-img"
+                             src="./assets/simpleos-logo-clara.svg"
+                             height="230" style="margin: 64px auto 50px auto;"/>
+
+                    </ng-container>
+                    <ng-container *ngIf="app.compilerVersion === 'LIBERLAND'">
+                        <img alt="Logo Liberland"
+                             src="./assets/logos/liberland_logo.PNG" height="210" style="margin: 50px auto;"/>
+                    </ng-container>
+                </div>
+
+                <div class="slogan" *ngIf="app.compilerVersion === 'DEFAULT'">Your simple and secure Aggregion wallet</div>
+
+                <div class="sloganWallet" *ngIf="app.compilerVersion === 'LIBERLAND'">LIBERLAND Wallet</div>
+                <div class="slogan" *ngIf="app.compilerVersion === 'LIBERLAND'">To live and let live</div>
+
+                <ng-container *ngIf="busy && network.status === ''">
+                    <fa-layers class="mt-4 mb-4">
+                        <fa-icon [icon]="['far', 'spinner']" [spin]="true" size="2x"></fa-icon>
+                    </fa-layers>
+                    <div>Connecting to the Aggregion blockchain...</div>
+                </ng-container>
+
+                <ng-container *ngIf="busy && network.status === 'timeout'">
+                    <div class="error mt-2">Couldn't connect to the blockchain, check your internet connection and try
+                        again
+                    </div>
+                    <button (click)="retryConn()" class="btn btn-link btn-accent-link">
+                        <fa-icon [icon]="['far', 'undo']"></fa-icon>
+                        &nbsp;RETRY
+                    </button>
+
+                    <div class="clr-col-md-12">
+                        <div class="card info-card">
+
+                            <div class="card-header title card-title-color">
+                                Connected to
+                                <mat-form-field class="chain-selector example-full-width select-father"
+                                                style="width: 240px;">
+                                    <mat-select [value]="network.activeChain['id']"
+                                                (selectionChange)="changeChain($event)">
+                                        <mat-optgroup *ngFor="let group of network.selectGroup"
+                                                      [label]="group.name">
+                                            <mat-option *ngFor="let chain of group.chains" [value]="chain.id"
+                                                        class="chain-option">
+                                                <img [src]="'./assets/chain-icons/' + chain.icon" width="28"
+                                                     height="28"
+                                                     class="chain-icon"/>
+                                                {{ chain.name }}
+                                            </mat-option>
+                                        </mat-optgroup>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="card-block">
+                                <div class="clr-row" style="margin-left: 0; width: 100%;">
+                                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="grow" fxLayoutGap="10px">
+                                        <mat-form-field class="public-input" style="overflow: inherit;" fxFlex="grow">
+                                            <input matInput type="text" placeholder="Endpoint" [(ngModel)]="endpoint">
+                                        </mat-form-field>
+
+                                        <button class="btn btn-info-outline" (click)="customConnect()" fxFlex="25"
+                                                [disabled]="!endpoint" style="margin-right: 5px;">
+                                            Connect
+                                        </button>
+                                    </div>
+
+                                    <div style="margin-top: -15px; margin-bottom: 20px;">
+                                        <a class="clicked highlight-primary" (click)="endpointModal=true;">
+                                            ENDPOINT OPTIONS
+                                        </a>
+                                        <fa-icon [icon]="['fas','question-circle']" class="highlight-primary"
+                                                 style="font-size: 15px;"
+                                                 [matTooltip]="'Having trouble connecting?' + '\n' +
+                                                'Your connection is too slow?' + '\n' +
+                                                'Connect to another endpoint'"
+                                                 matTooltipClass="black-tooltip">
+                                        </fa-icon>
+                                    </div>
+
+                                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="grow" fxLayoutGap="10px">
+                                        <div class="text-left advanced error">Advanced Option:</div>
+                                        <div>
+                                            <a (click)="network.openCustomChainModal()"
+                                               class="clicked highlight-primary">
+                                                CUSTOM CHAIN
+                                            </a>
+                                            <fa-icon [icon]="['fas','question-circle']" class="highlight-primary"
+                                                     style="font-size: 15px;"
+                                                     [matTooltip]="'Connect to a custom EOSIO chain.' + '\n' +
+                                                        'Option generally used by developers.'"
+                                                     matTooltipClass="black-tooltip">
+                                            </fa-icon>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="!busy && network.networkingReady">
+
+                    <div style="margin-top: 30px">
+
+                        <div class="clr-row" style="justify-content: center;">
+                            <div class="clr-col-md-12 clr-col-lg-6">
+                                <button class="btn btn-outline btn-block" (click)="openImportModal()">
+                                    Import existing key
+                                </button>
+                            </div>
+                            <div class="clr-col-md-12 clr-col-lg-6"
+                                 *ngIf="network.activeChain['name'] === 'EOS MAINNET'">
+                                <button class="btn btn-outline btn-block"
+                                        (click)="newWallet = true">
+                                    Request New Account
+                                </button>
+                            </div>
+                            <div class="clr-col-md-12 clr-col-lg-6">
+                                <button class="btn btn-outline btn-block" (click)="importBKP = true">
+                                    Import Backup
+                                </button>
+                            </div>
+                            <div class="clr-col-md-12 clr-col-lg-6">
+                                <button class="btn btn-outline btn-block" (click)="verifyPanel = !verifyPanel">
+                                    Check Account
+                                </button>
+                            </div>
+                            <div class="clr-col-md-12 clr-col-lg-6">
+                                <button class="btn btn-outline btn-block" (click)="openKeyGenModal()">
+                                    Generate Keys
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card" *ngIf="verifyPanel">
+
+                        <div class="card-block">
+                            <div>You can do a quick check of your account balance here</div>
+                            <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+                                <mat-form-field class="public-input" fxFlex="grow">
+                                    <input matInput type="text" placeholder="Aggregion Public key"
+                                           [(ngModel)]="publicEOS" (keyup.enter)="checkAccount()">
+                                    <mat-hint align="start">
+                                        ctrl c + ctrl v to copy & paste
+                                    </mat-hint>
+                                </mat-form-field>
+                                <div>
+                                    <button class="btn btn-info-outline btn-check" (click)="checkAccount()"
+                                            [disabled]="!publicEOS" style="margin-right: 0;">
+                                        Check
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer highlight-primary" *ngIf="check">
+                            <fa-icon [icon]="['far', 'spinner']" [spin]="true"></fa-icon>
+                            <span> Checking...</span>
+                        </div>
+
+                        <ng-container *ngIf="checkerr === ''">
+                            <div class="card-footer black-white" *ngFor="let account of accounts">
+                                <span style="float: left;">
+                                    Account:
+									<span class="highlight-primary">
+                                        {{account.name}}
+                                    </span>
+									- Balance:
+									<span class="highlight-primary">
+                                        {{account.fullBalance}} {{network.activeChain['symbol']}}
+                                    </span>
+								</span>
+                            </div>
+                        </ng-container>
+
+                        <div class="card-footer" *ngIf="checkerr === 'invalid' && !check">
+                            <span class="text-warn bold">Invalid public key</span>
+                        </div>
+
+                        <div class="card-footer" *ngIf="checkerr === 'no_account' && !check">
+                            <span class="text-warn bold">No account found :(</span>
+                        </div>
+
+                    </div>
+
+                    <div class="clr-row" style="justify-content: center; display: none;">
+                        <div class="clr-col-md-12">
+                            <div class="card info-card">
+                                <div class="card-header title card-title-color">
+                                    Connected to
+                                    <mat-form-field class="chain-selector example-full-width select-father"
+                                                    style="width: 240px;">
+                                        <mat-select [value]="network.activeChain['id']"
+                                                    [disabled]="network.isStarting"
+                                                    (selectionChange)="changeChain($event)">
+                                            <!--<fa-icon matSuffix [icon]="['far', 'caret-down']"></fa-icon>-->
+                                            <mat-optgroup *ngFor="let group of network.selectGroup"
+                                                          [label]="group.name">
+                                                <mat-option *ngFor="let chain of group.chains" [value]="chain.id"
+                                                            class="chain-option">
+                                                    <img [src]="'./assets/chain-icons/' + chain.icon" width="28"
+                                                         height="28"
+                                                         class="chain-icon"/>
+                                                    {{ chain.name }}
+                                                </mat-option>
+                                            </mat-optgroup>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="card-block">
+                                    <div class="clr-row" style="margin-left: 0; width: 100%;">
+
+                                        <div class="text-left advanced warn">Advanced network Options:</div>
+                                        <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="grow"
+                                             style="margin-top: 7px">
+                                            <div>
+                                                <a class="clicked highlight-primary" (click)="endpointModal=true;">
+                                                    CHANGE ENDPOINT
+                                                </a>
+                                                <fa-icon [icon]="['fas','question-circle']" class="highlight-primary"
+                                                         style="font-size: 15px;"
+                                                         [matTooltip]="'Having trouble connecting?' + '\n' +
+                                                'Your connection is too slow?' + '\n' +
+                                                'Connect to another endpoint'"
+                                                         matTooltipClass="black-tooltip">
+                                                </fa-icon>
+                                            </div>
+                                            <div>
+                                                <a (click)="network.openCustomChainModal()"
+                                                   class="clicked highlight-primary">
+                                                    CUSTOM CHAIN
+                                                </a>
+                                                <fa-icon [icon]="['fas','question-circle']" class="highlight-primary"
+                                                         style="font-size: 15px;"
+                                                         [matTooltip]="'Connect to a custom EOSIO chain.' + '\n' +
+                                                        'Option generally used by developers.'"
+                                                         matTooltipClass="black-tooltip">
+                                                </fa-icon>
+                                            </div>
+                                        </div>
+                                        <div class="clr-col-auto" *ngIf="!network.networkingReady.getValue()">
+                                            <fa-layers class="mt-2 mb-1">
+                                                <fa-icon [icon]="['far', 'spinner']" [spin]="true" size="2x"
+                                                         class="highlight-primary"></fa-icon>
+                                            </fa-layers>
+                                        </div>
+                                        <div class="clr-col my-auto" *ngIf="!network.networkingReady.getValue()"
+                                             style="margin-top: auto; margin-bottom: auto; padding-top: 10px;">
+                                            <span style="padding-left: 17px; font-size: 18px;"
+                                                  class="highlight-primary">Connecting...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </ng-container>
+            </div>
         </div>
-        <div class="slogan">Your simple and secure Aggregion Wallet</div>
-        <ng-container *ngIf="busy && network.status === ''">
-          <fa-layers class="mt-2 mb-1">
-            <fa-icon [icon]="['far', 'spinner']" [spin]="true" size="2x"></fa-icon>
-          </fa-layers>
-          <div>Connecting to the Blockchain...</div>
-        </ng-container>
-        <ng-container *ngIf="busy && network.status === 'timeout'">
-          <div class="error mt-2">Couldn't connect to the blockchain, check your internet connection and try
-            again
-          </div>
-          <button (click)="retryConn()" class="btn btn-link">
-            <fa-icon [icon]="['far', 'undo']"></fa-icon>
-            &nbsp;RETRY
-          </button>
-          <div class="card check-card">
-            <div class="card-block fit-content">
-              <div class="text-left advanced"><span class="warn">Advanced Option:</span> you can also try
-                to connect to
-                another endpoint
-              </div>
-              <mat-form-field class="public-input">
-                <input matInput type="text" placeholder="Endpoint" [(ngModel)]="endpoint">
-                <mat-hint align="start" style="font-size: 12px">
-                  endpoint should have history api enabled, otherwise some functions on the wallet may
-                  not work as
-                  expected.
-                </mat-hint>
-              </mat-form-field>
-              <button class="btn btn-check" (click)="customConnect()" [disabled]="!endpoint">
-                Connect
-              </button>
-            </div>
-            <ng-container *ngIf="checkerr === ''">
-              <div class="card-footer" *ngFor="let account of accounts">
-                                <span style="float: left;">You have: <span
-                                  class="blue">{{account.full_balance}} AGR</span></span>
-                <span style="float: right;">Account name: <span
-                  class="blue">{{account.name}}</span></span>
-              </div>
-            </ng-container>
-            <div class="card-footer" *ngIf="checkerr === 'invalid'">
-              <span class="red">Invalid public key</span>
-            </div>
-            <div class="card-footer" *ngIf="checkerr === 'no_account'">
-              <span class="red">No account found :(</span>
-            </div>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="!busy">
-          <div style="margin-top: 30px">
-            <div class="row" style="justify-content: center;">
-              <div class="col-md-9">
-                <button class="btn btn-block" (click)="existingWallet = true">
-                  Import existing key
-                </button>
-              </div>
-            </div>
-            <div class="row" style="justify-content: center;">
-              <div class="col-md-9">
-                <button class="btn btn-block" (click)="newWallet = true">
-                  Request New Account
-                </button>
-              </div>
-            </div>
-            <div class="row" style="justify-content: center;">
-              <div class="col-md-9">
-                <button class="btn btn-block" (click)="verifyPanel = true">
-                  Verify Account
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="card check-card" *ngIf="verifyPanel">
-            <div class="card-block">
-              <div class="info">You can do a quick check of your account here</div>
-              <mat-form-field class="public-input">
-                <input matInput type="text" placeholder="AGR Public key" [(ngModel)]="publicAGR">
-                <mat-hint align="start">
-                  ctrl c + ctrl v to copy & paste
-                </mat-hint>
-              </mat-form-field>
-              <button class="btn btn-check" (click)="checkAccount()" [disabled]="!publicAGR">
-                Check
-              </button>
-            </div>
-            <ng-container *ngIf="checkerr === ''">
-              <div class="card-footer" *ngFor="let account of accounts">
-                                <span style="float: left;">You have: <span
-                                  class="blue">{{account.full_balance}} AGR</span></span>
-                <span style="float: right;">Account name: <span
-                  class="blue">{{account.name}}</span></span>
-              </div>
-            </ng-container>
-            <div class="card-footer" *ngIf="checkerr === 'invalid'">
-              <span class="red">Invalid public key</span>
-            </div>
-            <div class="card-footer" *ngIf="checkerr === 'no_account'">
-              <span class="red">No account found :(</span>
-            </div>
-          </div>
-        </ng-container>
-      </div>
     </div>
-  </div>
 </div>
 
-
 <!--IMPORT EXISTING WALLET-->
-<clr-wizard #wizardexists [(clrWizardOpen)]="existingWallet" [clrWizardSize]="'md'">
-  <clr-wizard-title>Use existing wallet</clr-wizard-title>
-
-  <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
-  <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
-  <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
-  <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
-
-  <clr-wizard-page [clrWizardPageNextDisabled]="!pvtform.valid"
-                   (clrWizardPageOnCommit)="verifyPrivateKey(pkField.value, false, '')"
-                   [clrWizardPagePreventDefault]="true"
-                   (clrWizardPageOnCancel)="doCancel()">
-    <ng-template clrPageTitle>Step 1</ng-template>
-    <h5 style="color: #a7a7a7;">Insert your existing <strong>ACTIVE</strong> private key below</h5>
-    <form [formGroup]="pvtform">
-      <mat-form-field class="mt-1" style="width: 100%;">
-        <input #pkField matInput type="password" formControlName="private_key"
-               placeholder="AGR Active Private key">
-        <fa-icon matSuffix *ngIf="pkField.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
-                 (click)="pkField.type = 'text'"></fa-icon>
-        <fa-icon matSuffix *ngIf="pkField.type === 'text'" [icon]="['far', 'eye-slash']" size="lg" class="copy"
-                 (click)="pkField.type = 'password'"></fa-icon>
-        <mat-hint align="start">
-          ctrl c + ctrl v to copy & paste
-        </mat-hint>
-        <mat-error *ngIf="!pvtform.valid">
-          {{this.errormsg}}
-        </mat-error>
-      </mat-form-field>
-    </form>
-    <div *ngIf="importedAccounts.length > 0" style="color: #bebebe; margin-top: 10px">
-      Account<span *ngIf="importedAccounts.length > 1">s</span>
-    </div>
-    <div *ngFor="let importedAccount of importedAccounts">
-      <span class="label label-blue">{{importedAccount['account_name']}}</span>
-    </div>
-  </clr-wizard-page>
-  <clr-wizard-page [clrWizardPageNextDisabled]="!passform.valid" (clrWizardPageOnLoad)="eos.getConstitution()">
-    <ng-template clrPageTitle>Step 2</ng-template>
-    <form [formGroup]="passform">
-      <h5>Define your password. This will be used to <strong>transactions confirmations.</strong></h5>
-      <mat-form-field class="mt-1">
-        <input matInput #pass type="password" placeholder="Password" (blur)="passCompare()"
-               [formControl]="passform['controls'].matchingPassword['controls']['pass1']">
-        <fa-icon matSuffix *ngIf="pass.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
-                 (click)="pass.type = 'text'"></fa-icon>
-        <fa-icon matSuffix *ngIf="pass.type === 'text'" [icon]="['far', 'eye-slash']" size="lg" class="copy"
-                 (click)="pass.type = 'password'"></fa-icon>
-        <mat-hint align="start">
-          Min 10 characters
-        </mat-hint>
-        <mat-hint align="end">{{pass.value.length}} / 10+</mat-hint>
-      </mat-form-field>
-      <mat-form-field style="margin-top: 19px">
-        <input matInput #pass2 type="password" placeholder="Confirm password" (blur)="passCompare()"
-               [formControl]="passform['controls'].matchingPassword['controls']['pass2']">
-
-        <fa-icon matSuffix *ngIf="pass2.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
-                 (click)="pass2.type = 'text'"></fa-icon>
-        <fa-icon matSuffix *ngIf="pass2.type === 'text'" [icon]="['far', 'eye-slash']" size="lg" class="copy"
-                 (click)="pass2.type = 'password'"></fa-icon>
-
-        <mat-error *ngIf="!passmatch">
-          Passwords do not match!
-        </mat-error>
-      </mat-form-field>
-    </form>
-  </clr-wizard-page>
-  <clr-wizard-page [clrWizardPageNextDisabled]="!agree">
-    <ng-template clrPageTitle>Step 3</ng-template>
-    <h5 style="color: #bebebe;">Aggregion Terms of Use</h5>
-    <div class="constitution">
-      <p>
-        Aggregion Licence and Services Agreement<br>
-        <br>
-        This Licence and Services Agreement (“Agreement”) is concluded between Aggregion LTD. (“Aggregion”, “We” or “Us”) and the person who downloads, installs or uses the Aggregion Player or A-Store.io application or any other application indicated by Aggregion  (each called “the App”) or any part thereof (including e.g. a plug-in connecting to it).<br>
-        <br>
-        By downloading, installing or using the App, the user (“You” or the “User”) agrees to be bound by the terms of this Agreement. If You do not agree to any term hereof, then You may not install or use the App.<br>
-        <br>
-        Capitalized terms are defined at the end of this Agreement.<br>
-        <br>
-        1. Grant of licence<br>
-        <br>
-        Aggregion grants you a personal, non-transferable, non-exclusive licence (“Licence”) to install and run one copy of the App on one device identified by the technical specifications of the App.<br>
-        <br>
-        2. User Account<br>
-        <br>
-        In order to use the App properly, you must set up a User Account, by providing the information required by Us. Any User Account may be used by one person only. You must provide Us with a valid email address and a password for your User Account, or the relevant data from the social media profiles allowed. You are responsible for maintaining the security of your User Account, and you are fully responsible for all activities that occur under that User Account. You will immediately notify Us of any unauthorized uses of your User Account or any other breaches of security.<br>
-        <br>
-        3. Access to Services<br>
-        <br>
-        Opening of a User Account gives You access to some or more aspects or functionality of the Services. Such access includes a limited, non-transferable, non-exclusive right to access the Services for Your own internal purpose.<br>
-        <br>
-        Services include the use of the App and the provision of access to Content through the functionalities of the App. To the extent as required or authorized by the functionalities of the App, Services may include access to the Website. Any use of the Website is subject to the Terms of Use thereof.<br>
-        <br>
-        4. Access to Content<br>
-        <br>
-        Through the use of the App or the Services, a User may gain access to Content. Any access to Content is conditional upon the User complying with the level of usage rights to such Content, as stipulated by the Content Provider.<br>
-        <br>
-        5. Limited use of the App, Services and Content<br>
-        <br>
-        Any use of the App, Services or any Content provided is limited to the rights as set out in this Agreement and the limited access rights to Content as set out by the relevant Content Provider.<br>
-        <br>
-        Any other use (including but not limited to use of the App or Service to provide other services to third parties), or use for data mining, use of spiders, crawlers, bots, etc. is excluded. You may not reverse engineer, decompile or disassemble the App or the Services, or create derivative works of the App or the Services (other than through the operation of functionality provided through the App or the Services).<br>
-        <br>
-        You may not use, copy, create derivative works, or in any other way use any Content other than as set out in the limited rights provided to You by the Content Provider. You may not use any Content for any other purpose than the purpose set out by the relevant Content Provider, or, if no such purpose is specified, for your own personal use. Any other use (including but not limited to commercial use) is prohibited to the maximum extent permitted by applicable law.<br>
-        <br>
-        You may not in any way decrypt, modify, prevent or limit the application of the technical aspects of the limitation of usage rights of any Content provided through or made available through the App, the Services or the Website, or attempt or facilitate to do any of the above.<br>
-        <br>
-        6. Privacy, Data protection, use of data and security<br>
-        <br>
-        We are committed to preserving your privacy and complying with relevant Data Protection Law. The appropriate rules are as set out in our Privacy Policy http://aggregion.com/privacy-policy , which is incorporated herein by reference.<br>
-        <br>
-        You agree that, as an essential condition of this Agreement, We are entitled to collect any data related to your purchase and use of any usage rights in Content. This includes, but is not limited to, data related to purchase and use of Content, including any metadata in relation thereto (“Content Related Data”). You agree that we are entitled to use, without any limitation, Content Related Data for the purpose of verifying your use of Content. This includes but is not limited to exchanging Content Related Data with the relevant Content Provider(s).<br>
-        <br>
-        User shall never, either itself or through a third party:
-        Violate or attempt to violate the technical or data security of the App, the Services or the Website;
-        Go beyond the limitations of use applicable to its User Account;
-        Attempt to probe, scan or test the vulnerability of the Aggregion App, systems, networks or Website;
-        Attempt to interfere with the provision of  the Services or the Website, including but not limited to hacking, introducing virus or malware, denial of service attacks or any other technical act that could or risks to impede the functionality of the App, the Services or the Website.<br>
-        <br>
-
-        7. Intellectual Property Rights<br>
-        <br>
-        Any Intellectual Property Rights in the App, the Service or the Website are and remain with Aggregion. The Agreement or any use of the App, the Services or the Website does not transfer or assign any Intellectual Property Right from Us or our licensors or suppliers to you, and all rights are reserved.<br>
-        <br>
-        Any Intellectual Property Rights in any Content are and remain with the relevant Content Provider or its licensors. The Agreement or any use of the App, the Services or the Website does not transfer or assign any Intellectual Property Right in Content to you, and all rights are reserved.<br>
-        <br>
-        8. Support<br>
-        <br>
-        Any questions or comments in respect of the functioning of the App, the Services or the Website must be directed to Aggregion support https://aggregion.freshdesk.com/helpdesk.<br>
-        <br>
-        We will use reasonable endeavors to reply to any questions in respect of the functioning of the App, the Services or the Website.<br>
-        <br>
-        Any questions in respect of Content will be transmitted to the Content Provider, and are not Aggregion’s responsibility.<br>
-        <br>
-        9. Warranties<br>
-        <br>
-        The App, the Services and the Website are provided "as is".  Aggregion and its suppliers and licensors hereby disclaim all warranties of any kind, express or implied, including, without limitation, the warranties of merchantability, fitness for a particular purpose and non-infringement. Neither Aggregion nor its suppliers and licensors, makes any warranty that the App, the Services or the Website will be error free or that access thereto will be continuous or uninterrupted. You understand that you obtain or use the App, any Content, Services or the Website at your own discretion and risk.<br>
-        <br>
-        You acknowledge that Aggregion acts as a “mere conduit”, and has no obligation to verify in any systematic or other way any Content. Aggregion does not represent or warrant that any Content or Services are accurate, complete, reliable, current, or error-free, whether or not it infringes any third party rights, or that it is free of any harmful components.<br>
-        <br>
-        Aggregion does not warrant that Content is or will remain available; this is the sole responsibility of the relevant Content Provider.<br>
-        <br>
-        10. Limitation of liability<br>
-        <br>
-        To the fullest extent permissible under applicable law, Aggregion will have no liability, and any User waives any claim, based on the App, the Website, any Services or any Content, or any transaction, service or functionality transacted or made available through the App, the Services or the Website.<br>
-        <br>
-        Aggregion will never be liable for any breakdown of the App, the Services or the Website, or interruption, malfunction or technical issues related to the operation of the App, the Website or the Services.<br>
-        <br>
-        Users specifically waive any liability of Aggregion for any Content accessed or received through the App, the Services or the Website.<br>
-        <br>
-        Under no circumstances will Aggregion be liable for any indirect losses, including any loss of business or loss of profit.<br>
-        <br>
-        To the extent permitted by applicable law, in any event will Aggregion liability be limited the total value of monetary value paid by a User during the three months preceding the cause of liability.<br>
-        <br>
-        11. General provisions<br>
-        <br>
-        We reserve the right to change any part of the Agreement. We advise Users to regularly check the Agreement. If you continue to use the App, the Website or the Services after We post changes to the Agreement, you are confirming your acceptance of the new Agreement. We will clearly indicate version numbers at the end of the Agreement.<br>
-        <br>
-        This Agreement constitutes the entire agreement between Aggregion and the User. It may only be modified in accordance with its terms.<br>
-        <br>
-        If any part of this Agreement is held invalid or unenforceable, that part will be construed to reflect the parties' original intent, and the remaining portions will remain in full force and effect.<br>
-        <br>
-        A waiver by Aggregion of any term or condition of this Agreement or any breach thereof, in any one instance, will not waive such term or condition or any subsequent breach thereof.<br>
-        <br>
-        Aggregion may assign its rights under this Agreement without condition. This Agreement will be binding upon and will inure to the benefit of the parties, their successors and permitted assigns. Users are not allowed to assign their rights under this Agreement without Aggregion’s prior written authorization, which Aggregion may withhold in its discretion, without incurring any liability.<br>
-        <br>
-        This Agreement is subject to the laws of England and Wales. Only English Courts have will have juridisction.<br>
-        <br>
-        12. Definitions<br>
-        <br>
-        12.1. “Aggregion” means (Aggregion, LTD, a company registered at 11 Hoffmanns Way, Chelmsford, Essex CM1 1GU, United Kingdom)<br>
-        <br>
-        12.2. “App” means the software application downloaded or installed accompanied by this Agreement, including those functionalities that are available online or in-App (e.g. the A-Store.io wallet).<br>
-        <br>
-        12.3. “Agreement” means this agreement, including any annexes or documents inserted by reference.<br>
-        <br>
-        12.4. “Licence” means the right to download, install, run and use the App as set out in and limited by the Agreement.<br>
-        <br>
-        12.5. “Content” means any content, such as books, e-books, audiovisual content such as music, films, podcasts, and in general any content that can be accessed or consumed through the operations of the App.<br>
-        <br>
-        12.6. “Content Provider” means the provider (including, for the avoidance of doubt, the distributors thereof) of any Content.<br>
-        <br>
-        12.7. “Intellectual Property Rights” means rights of exclusive or restrictive use, such as patents, designs, models, drawings, copyrights, software rights, database rights, trademarks, services marks, know-how, web domain names, trade names (all whether registered or not, and including any applications thereto) and in general all rights of a same or similar nature, anywhere in the world including all extensions, reversions, revivals and renewals thereof<br>
-        <br>
-        12.8. “User” means the person who has downloaded or installed the App.<br>
-        <br>
-        12.9. “User Account” means the account held by a User, and identified through the username and password, or social media profile, provided by the User<br>
-        <br>
-        12.10. “Services” means any services provided by Aggregion to Users, either through the App or the Website.<br>
-        <br>
-        12.11. “Website” means any Aggregion website through which Aggregion interacts with or provides Services to Users connected <br>to the App (e.g. the wallet function of the A-Store.io)
-        <br>
-        This is version 1.0 of the Agreement, dated 1 October 2015.<br>
-        <br>
-        END
-      </p>
-    </div>
-    <mat-checkbox [(ngModel)]="agree">I agree to Terms of Use</mat-checkbox>
-  </clr-wizard-page>
-  <clr-wizard-page (clrWizardPageOnCommit)="importCredentials()">
-    <ng-template clrPageTitle>Step 4 - optional</ng-template>
-    <h5 style="margin-bottom: 15px">
-      <span style="color: #c3c3c3;">Lockscreen pin.</span>
-      Do you want to define a small privacy pin used to unlock the screen next time you enter Aggregion Wallet?
-    </h5>
-    <h5 style="margin-bottom: 18px">*This <strong>does not</strong> replace your password used to confirm
-      transactions</h5>
-    <mat-checkbox [(ngModel)]="lockscreen">Set lockscreen</mat-checkbox>
-    <mat-form-field class="mt-1" *ngIf="lockscreen">
-      <input matInput #pin1 type="password" placeholder="Lockscreen pin" [(ngModel)]="pin">
-      <fa-icon matSuffix *ngIf="pin1.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
-               (click)="pin1.type = 'text'"></fa-icon>
-      <fa-icon matSuffix *ngIf="pin1.type === 'text'" [icon]="['far', 'eye-slash']" size="lg" class="copy"
-               (click)="pin1.type = 'password'"></fa-icon>
-      <mat-hint align="start">
-        This pin can be anything you want
-      </mat-hint>
-    </mat-form-field>
-  </clr-wizard-page>
-</clr-wizard>
+<app-import-modal></app-import-modal>
 <!--IMPORT EXISTING WALLET END-->
 
-<!--IMPORT EXODUS WALLET-->
-<clr-wizard #wizardexodus [(clrWizardOpen)]="exodusWallet" [clrWizardSize]="'md'">
-  <clr-wizard-title>Import Exodus wallet</clr-wizard-title>
-
-  <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
-  <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
-  <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
-  <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
-
-  <clr-wizard-page class="exoduspage" [clrWizardPageNextDisabled]="!exodusValid" style="padding: 0.75rem 1rem 4px;">
-    <ng-template clrPageTitle>Step 1</ng-template>
-    <div class="instructions">
-      <h5 class="main-item">1. On your Exodus wallet, open the Developer Menu:</h5>
-      <div>1.1 Windows & Linux: (CTRL + SHIFT + D )</div>
-      <div>1.2 MacOS: Exodus menu next to the Apple Symbol</div>
-      <h5 class="main-item">2. Choose Developer > Assets > AGR Mainnet > Export Private Keys </h5>
-    </div>
-    <div class="remaining-height" *ngIf="!exodusValid">
-      <span *ngIf="errormsg === ''">
-        Drag and drop your exodus csv file here
-      </span>
-      <span class="error" *ngIf="errormsg !== ''">
-        Oops, error reading csv file! Try again or import the key the conventional way
-      </span>
-    </div>
-    <div style="line-height: 17px; padding-top: 1px">*For your safety, csv file will be automatically deleted from
-      your
-      computer after.
-    </div>
-    <h5 *ngIf="exodusValid" class="afterdrop blue">Alright! Click to go to next page</h5>
-  </clr-wizard-page>
-  <clr-wizard-page [clrWizardPageNextDisabled]="!passformexodus.valid">
-    <ng-template clrPageTitle>Step 2</ng-template>
-    <form [formGroup]="passformexodus">
-      <h5>Define your password. This will be used to transactions confirmations.</h5>
-      <mat-form-field class="mt-1">
-        <input matInput #passexodus type="password" placeholder="Password" (blur)="passExodusCompare()"
-               [formControl]="passformexodus['controls'].matchingPassword['controls']['pass1']">
-
-        <fa-icon matSuffix *ngIf="passexodus.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
-                 (click)="passexodus.type = 'text'"></fa-icon>
-        <fa-icon matSuffix *ngIf="passexodus.type === 'text'" [icon]="['far', 'eye-slash']" size="lg"
-                 class="copy"
-                 (click)="passexodus.type = 'password'"></fa-icon>
-
-        <mat-hint align="start">
-          Min 10 characters
-        </mat-hint>
-        <mat-hint align="end">{{passexodus.value.length}} / 10+</mat-hint>
-      </mat-form-field>
-      <mat-form-field style="margin-top: 19px">
-        <input matInput #passexodus2 type="password" placeholder="Confirm password" (blur)="passExodusCompare()"
-               [formControl]="passformexodus['controls'].matchingPassword['controls']['pass2']">
-
-        <fa-icon matSuffix *ngIf="passexodus2.type === 'password'" [icon]="['far', 'eye']" size="lg"
-                 class="copy"
-                 (click)="passexodus2.type = 'text'"></fa-icon>
-        <fa-icon matSuffix *ngIf="passexodus2.type === 'text'" [icon]="['far', 'eye-slash']" size="lg"
-                 class="copy"
-                 (click)="passexodus2.type = 'password'"></fa-icon>
-
-        <mat-error *ngIf="!passexodusmatch">
-          Passwords do not match!
-        </mat-error>
-      </mat-form-field>
-    </form>
-    <div *ngIf="importedAccounts.length > 0" style="color: #bebebe; margin-top: 6px;">
-      Account<span *ngIf="importedAccounts.length > 1">s</span>
-    </div>
-    <div *ngFor="let importedAccount of importedAccounts">
-      <span class="label label-blue">{{importedAccount['account_name']}}</span>
-    </div>
-  </clr-wizard-page>
-  <clr-wizard-page [clrWizardPageNextDisabled]="!agree2">
-    <ng-template clrPageTitle>Step 3</ng-template>
-    <h5 style="color: #bebebe;">AGR Constitution</h5>
-    <div class="constitution" [innerHTML]="eos.constitution"></div>
-    <mat-checkbox [(ngModel)]="agree2">I abide by the constitution</mat-checkbox>
-  </clr-wizard-page>
-  <clr-wizard-page (clrWizardPageOnCommit)="importCredentialsExodus()">
-    <ng-template clrPageTitle>Step 4 - optional</ng-template>
-    <h5 style="margin-bottom: 15px">
-      <span style="color: #c3c3c3;">Lockscreen pin.</span>
-      Do you want to define a small privacy pin used to unlock the screen next time you enter Aggregion Wallet?
-    </h5>
-    <h5 style="margin-bottom: 18px">*This <strong>does not</strong> replace your password used to confirm
-      transactions</h5>
-    <mat-checkbox [(ngModel)]="lockscreen2">Set lockscreen</mat-checkbox>
-    <mat-form-field class="mt-1" *ngIf="lockscreen2">
-      <input matInput #pin2 type="password" placeholder="Lockscreen pin" [(ngModel)]="pinexodus">
-      <fa-icon matSuffix *ngIf="pin2.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
-               (click)="pin2.type = 'text'"></fa-icon>
-      <fa-icon matSuffix *ngIf="pin2.type === 'text'" [icon]="['far', 'eye-slash']" size="lg" class="copy"
-               (click)="pin2.type = 'password'"></fa-icon>
-      <mat-hint align="start">
-        This pin can be anything you want
-      </mat-hint>
-    </mat-form-field>
-  </clr-wizard-page>
-</clr-wizard>
-<!--IMPORT EXODUS WALLET END-->
-
-
+<!--CREATE NEW WALLET START-->
 <clr-wizard #wizardnew [(clrWizardOpen)]="newWallet" clrWizardSize="lg">
-  <clr-wizard-title>Create new wallet</clr-wizard-title>
-  <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
-  <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
-  <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
-  <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
-  <clr-wizard-page>
-    <ng-template clrPageTitle>Intro</ng-template>
-    <h5 class="mt-0">In agr, creation of new accounts costs a little of agr, because the account must have an
-      initial stake do perform actions.</h5>
-    <h5>Block producers are working on a solution for this, but until then, we don't want to deprive
-      users of creating new accounts. So we thought on an organic approach to this :)</h5>
-    <h5>At the end of this process, a code will be generated. You will have to send this code to a friend that has agr
-      on the mainnet, so he can create your account using Aggregion Wallet.</h5>
-    <h5><strong>This code DOES NOT contain your private keys</strong>, only your public keys and the desired account
-      name.</h5>
-  </clr-wizard-page>
+    <clr-wizard-title>Create new wallet</clr-wizard-title>
+    <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+    <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+    <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+    <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+    <clr-wizard-page>
+        <ng-template clrPageTitle>Intro</ng-template>
+        <h5>In agr, creation of new accounts costs a little of agr, because the account must have an initial stake do perform actions.
+        </h5>
+        <h5>Block producers are working on a solution for this, but until then, we don't want to deprive users of creating new accounts. So we thought on an organic approach to this :)
+        </h5>
+        <h5>At the end of this process, a code will be generated. You will have to send this code to a friend that has agr on the mainnet, so he can create your account using Aggregion Wallet.
+        </h5>
+        <h5><strong>This code DOES NOT contain your private keys</strong>, only your public keys and the desired account name.</h5>
 
-  <clr-wizard-page [clrWizardPageNextDisabled]="!accountname_valid"
-                   [clrWizardPagePreventDefault]="true"
-                   (clrWizardPageOnCommit)="verifyAccountName(true)"
-                   (clrWizardPagePrevious)="wizardnew.previous()"
-                   (clrWizardPageOnCancel)="resetAndClose()">
-    <ng-template clrPageTitle>Step 1</ng-template>
-    <h5 style="color: #a9a9a9">Choose your AGR account name</h5>
-    <h5 class="mt-0">12 characters. Allows all letters and numbers 1-5</h5>
-    <mat-form-field class="mt-1" style="display: block; width: 180px">
-      <input matInput #account placeholder="AGR account name" maxlength="12" (keyup.enter)="verifyAccountName(false)"
-             [(ngModel)]="accountname">
-      <mat-hint align="end">{{account.value.length}} / 12</mat-hint>
-    </mat-form-field>
-    <button class="btn btn-primary mt-1" (click)="verifyAccountName(false)">Check availability</button>
-    <p class="error">{{accountname_err}}</p>
-    <p *ngIf="account.value.length === 12 && accountname_valid" class="blue">
-      <strong>{{accountname}}</strong>
-      is currently available. Click
-      <strong>NEXT</strong>
-      to continue.
-    </p>
-  </clr-wizard-page>
+    </clr-wizard-page>
 
-  <clr-wizard-page [clrWizardPageNextDisabled]="activepub === '' || ownerpub === '' || !agreeKeys">
-    <ng-template clrPageTitle>Step 2</ng-template>
-    <h5 class="bold">At this point, we recommend you <span class="error">disconnet from the internet</span></h5>
-    <h5>Selected account: <span class="blue">{{accountname}}</span></h5>
-    <!--<h5>This will be your private keys. Please, <span class="bold">save them somewhere safe!</span></h5>-->
-    <h5>Please enter your desired public keys or click the <span
-      class="blue" (click)="generateKeys()"> Generate Key Pairs </span>
-      button.</h5>
-    <mat-form-field class="mt-1" style="width: 470px">
-      <input matInput placeholder="Owner Public key" [(ngModel)]="ownerpub">
-      <fa-icon matSuffix [icon]="['far', 'clone']" size="lg" class="copy" (click)="cc(ownerpub)"></fa-icon>
-      <mat-hint>ctrl c + ctrl v to copy & paste</mat-hint>
-    </mat-form-field>
-    <mat-form-field class="mt-1" style="width: 470px">
-      <input matInput placeholder="Active Public key" [(ngModel)]="activepub">
-      <fa-icon matSuffix [icon]="['far', 'clone']" size="lg" class="copy" (click)="cc(activepub)"></fa-icon>
-    </mat-form-field>
+    <clr-wizard-page [clrWizardPageNextDisabled]="!accountname_valid"
+                     [clrWizardPagePreventDefault]="true"
+                     (clrWizardPageOnCommit)="verifyAccountName(true)"
+                     (clrWizardPagePrevious)="wizardnew.previous()"
+                     (clrWizardPageOnCancel)="resetAndClose()">
+        <ng-template clrPageTitle>Account Name</ng-template>
+        <h5>Choose your AGR account name</h5>
+        <h5 class="mt-1">12 characters. Allows all letters and numbers 1-5</h5>
+        <mat-form-field class="mt-3" style="display: block; width: 180px">
+            <input matInput #account placeholder="AGR account name" maxlength="12" style="text-transform: lowercase;"
+                   (keyup.enter)="verifyAccountName(false)"
+                   [(ngModel)]="accountname">
+            <mat-hint align="end">{{account.value.length}} / 12</mat-hint>
+        </mat-form-field>
+        <button class="btn btn-primary mt-3" (click)="verifyAccountName(false)">Check availability</button>
+        <p class="error">{{accountname_err}}</p>
+        <h5 *ngIf="account.value.length === 12 && accountname_valid" class="highlight-primary">
+            <strong>{{accountname.toLowerCase()}}</strong>
+            is currently available. Click
+            <strong>NEXT</strong>
+            to continue.
+        </h5>
+    </clr-wizard-page>
 
-    <button class="btn btn-primary" (click)="generateKeys()">Generate Key Pairs</button>
+    <clr-wizard-page [clrWizardPageNextDisabled]="activepub === '' || ownerpub === '' || (generated?!agreeKeys:false)">
+        <ng-template clrPageTitle>Define Keys</ng-template>
+        <h5 class="bold highlight">At this point, we recommend you <span
+                class="error">disconnet from the internet</span></h5>
+        <h5>Selected account: <span class="highlight-primary">{{accountname.toLowerCase()}}</span></h5>
+        <h5>Please enter your desired public keys or click the <span
+                class="highlight-primary" (click)="generateKeys()"> Generate Key Pairs </span>
+            button.</h5>
+        <mat-form-field class="mt-3" style="width: 100%">
+            <input matInput placeholder="Owner Public key" [(ngModel)]="ownerpub" style="font-family: 'SourceCodePro',monospace">
+            <a matSuffix class="tooltip tooltip-xs tooltip-bottom-left">
+                <fa-icon [icon]="[['fas','clone']]" size="lg" class="copy"
+                     (click)="cc(ownerpub, 'Key', 'Please save it on a safe place.')"></fa-icon>
+                <span class="tooltip-content">Copy</span>
+            </a>
+            <mat-hint>ctrl c + ctrl v to copy & paste</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="mt-3" style="width: 100%">
+            <input matInput placeholder="Active Public key" [(ngModel)]="activepub" style="font-family: 'SourceCodePro',monospace">
+            <a matSuffix class="tooltip tooltip-xs tooltip-bottom-left">
+                <fa-icon [icon]="[['fas','clone']]" size="lg" class="copy"
+                     (click)="cc(activepub, 'Key', 'Please save it on a safe place.')"></fa-icon>
+                <span class="tooltip-content">Copy</span>
+            </a>
+        </mat-form-field>
 
-    <fa-layers *ngIf="generating" class="blue fa-fw">
-      <fa-icon [icon]="['far','spinner']" size="2x" [spin]="true"></fa-icon>
-    </fa-layers>
+        <button class="btn btn-primary" (click)="generateKeys()">Generate Key Pairs</button>
 
-    <ng-container *ngIf="generated">
-      <mat-form-field class="mt-1" style="width: 470px">
-        <input matInput placeholder="Owner Private key" [(ngModel)]="ownerpk">
-        <fa-icon matSuffix [icon]="['far', 'clone']" size="lg" class="copy" (click)="cc(ownerpk)"></fa-icon>
-      </mat-form-field>
-      <mat-form-field class="mt-1" style="width: 470px">
-        <input matInput placeholder="Active Private key" [(ngModel)]="activepk">
-        <fa-icon matSuffix [icon]="['far', 'clone']" size="lg" class="copy" (click)="cc(activepk)"></fa-icon>
-      </mat-form-field>
-      <mat-checkbox [(ngModel)]="agreeKeys">I have saved all my keys on a safe place</mat-checkbox>
-    </ng-container>
-  </clr-wizard-page>
-  <clr-wizard-page [clrWizardPageNextDisabled]="!payloadValid" (clrWizardPageOnLoad)="makePayload()">
-    <ng-template clrPageTitle>Step 3</ng-template>
-    <h5 style="color: #ABABAB;">Send the account creation code to a friend to create your account for you on Aggregion Wallet.
-      <strong>This
-        code does not
-        contain your private key</strong> :)
-      <br>After your account is created please import the active key only on your wallet!</h5>
-    <div class="form-group mt-1">
-      <label for="textarea">Account creation code</label>
-      <textarea id="textarea" rows="5" [(ngModel)]="newAccountPayload" readonly></textarea>
-      <mat-hint>ctrl c to copy or &nbsp;
-        <fa-icon matSuffix [icon]="['far', 'clone']" size="lg" class="copy" (click)="cc(newAccountPayload)"></fa-icon>
-      </mat-hint>
-    </div>
-  </clr-wizard-page>
+        <fa-layers *ngIf="generating" class="highlight-primary fa-fw">
+            <fa-icon [icon]="['far','spinner']" size="2x" [spin]="true"></fa-icon>
+        </fa-layers>
+
+        <ng-container *ngIf="generated">
+            <mat-form-field class="mt-3" style="width: 100%">
+                <input matInput placeholder="Owner Private key" [(ngModel)]="ownerpk" style="font-family: 'SourceCodePro',monospace">
+                <a matSuffix class="tooltip tooltip-xs tooltip-bottom-left">
+                    <fa-icon [icon]="[['fas','clone']]" size="lg" class="copy"
+                         (click)="cc(ownerpk, 'Key', 'Please save it on a safe place.')"></fa-icon>
+                    <span class="tooltip-content">Copy</span>
+                </a>
+            </mat-form-field>
+            <mat-form-field class="mt-2" style="width: 100%">
+                <input matInput placeholder="Active Private key" [(ngModel)]="activepk" style="font-family: 'SourceCodePro',monospace">
+                <a matSuffix class="tooltip tooltip-xs tooltip-bottom-left">
+                    <fa-icon [icon]="[['fas','clone']]" size="lg" class="copy"
+                         (click)="cc(activepk, 'Key', 'Please save it on a safe place.')"></fa-icon>
+                    <span class="tooltip-content">Copy</span>
+                </a>
+            </mat-form-field>
+            <mat-checkbox [(ngModel)]="agreeKeys">I have saved all my keys in a safe place</mat-checkbox>
+        </ng-container>
+    </clr-wizard-page>
+    <clr-wizard-page>
+        <ng-template clrPageTitle>Account Resources</ng-template>
+
+        <h5>In Aggregion Wallet, creation of new accounts costs a small amount of eos to allocate the
+            necessary resources to the account.</h5>
+        <h5>The amount you will need to transfer will be as shown below:</h5>
+        <div class="black-white" style="margin-top: 15px"><strong>Amount to CPU:</strong><span
+                class="highlight-primary"> 0.75 AGR</span>
+        </div>
+        <div><strong>Amount to NET:</strong><span class="highlight-primary"> 0.25 AGR</span></div>
+        <div><strong>Amount of RAM:</strong><span> 4096 bytes</span>
+            <span style="margin: 0 12px;">=</span>
+            <span class="highlight-primary">{{(ram.ramPriceEOS * (4096 / 1024)) * 1.05 | number: '1.0-4'}} AGR</span>
+        </div>
+        <div><strong>Safety margin:</strong><span
+                class="highlight-primary"> 0.25 EOS (in case RAM price changes)</span>
+        </div>
+        <div style="border-bottom: 1px solid #0079b8; margin: 10px 0;"></div>
+        <div><strong>Total Amount:</strong><span
+                class="highlight-primary"> {{1.25 + (ram.ramPriceEOS * (4096 / 1024)) * 1.05 | number: '1.0-4'}}
+            AGR</span></div>
+        <div style="margin-top: 5px;">*If you transfer more than this amount the difference will remain
+            as liquid tokens in your new account
+        </div>
+    </clr-wizard-page>
+    <clr-wizard-page (clrWizardPageOnLoad)="makePayload(); makeMemo();">
+        <ng-template clrPageTitle>
+            <ng-container *ngIf="!relayMethod">
+                Payment
+            </ng-container>
+            <ng-container *ngIf="relayMethod">
+                <span class="highlight-primary" style="font-weight: 500">Alternative Method</span>
+            </ng-container>
+            &nbsp;
+        </ng-template>
+        <ng-container *ngIf="!relayMethod">
+
+            <h5 class="highlight">Great! Now follow the steps:</h5>
+            <h5><span class="highlight-primary">1.</span> Log in to your exchange.</h5>
+            <h5><span class="highlight-primary">2.</span> Make an AGR transfer/withdrawal with the following
+                settings:</h5>
+            <div class="card settings-card">
+                <div class="card-block settings-section">
+                    <div><strong>AMOUNT:</strong>
+                        <mat-form-field class="mt-8 ml-1" style="width: 142px;">
+                            <input matInput style="padding-top: 8px;" type="text"
+                                   value="{{(1.25 + (ram.ramPriceEOS * (4096/1024))*1.05).toFixed(4)}} AGR" readonly>
+                            <a matSuffix class="tooltip tooltip-xs tooltip-right">
+                                <fa-icon [icon]="[['fas','clone']]" size="lg" class="copy"
+                                     (click)="cc((1.25 + (ram.ramPriceEOS * (4096/1024))*1.05).toFixed(4), 'Amount', '')"></fa-icon>
+                                <span class="tooltip-content">Copy</span>
+                            </a>
+                        </mat-form-field>
+                    </div>
+
+                    <div><strong>RECIPIENT:</strong>
+                        <mat-form-field class="mt-8 ml-1" style="width: 132px;">
+                            <input matInput style="padding-top: 8px;" type="text" value="eosriosignup" readonly>
+                            <a matSuffix class="tooltip tooltip-xs tooltip-right">
+                                <fa-icon [icon]="[['fas','clone']]" size="lg" class="copy"
+                                     (click)="cc('eosriosignup', 'eosriosignup', '')"></fa-icon>
+                                <span class="tooltip-content">Copy</span>
+                            </a>
+                        </mat-form-field>
+                    </div>
+                    <div><strong>MEMO:</strong>
+                        <mat-form-field class="mt-8 ml-1" style="width: 88%; margin-left: 8px;">
+                            <textarea matInput type="text" rows="3" class="highlight" style="font-size: 12px;" value="{{memo}}"
+                            readonly></textarea>
+                            <mat-hint>ctrl c to copy or &nbsp;
+                                    <fa-icon matSuffix [icon]="[['fas','clone']]" size="lg" class="copy"
+                                         (click)="cc(memo, 'memo', '')"></fa-icon>
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <h5><span class="highlight-primary">3.</span> After you make the transfer, check <a
+                    class="highlight-primary"
+                    (click)="openTX(accountname.toLowerCase())"
+                    style="cursor: pointer">{{accountname.toLowerCase()}}</a>
+                on a blockexplorer. After that, you can login in Aggregion on the <strong>'IMPORT EXISTING KEY'</strong>
+                button</h5>
+            <h5 style="border-top: 1px solid; padding-top: 14px;">If your exchange doesn't allow long memos (e.g.
+                Binance) or if the transaction fails for any reason <a class="highlight-primary"
+                                                                       (click)="relayMethod = true"
+                                                                       style="cursor: pointer">click
+                    here to try our ALTERNATIVE METHOD</a></h5>
+            <!--<h5>Need help? Check our <span class="highlight-primary"><a (click)="openFaq()"> FAQ</a></span> !</h5>-->
+        </ng-container>
+        <ng-container *ngIf="relayMethod">
+
+
+            <h4 class="highlight">Some exchanges, like Binance, impose some limitations. But don't
+                worry, we came
+                up with a solution for those cases!</h4>
+            <h4>Just follow the steps below:</h4>
+            <h5><span class="highlight-primary">1.</span> Log in to your exchange.</h5>
+            <h5><span class="highlight-primary">2.</span> Now you need to setup a refund address (we need to
+                refund you the AGR in case something goes wrong!)</h5>
+            <div class="card settings-card">
+                <div class="card-block settings-section">
+                    <h5><span class="highlight-primary">3.</span> Go to the exchange's deposit page and
+                        select AGR. There, you will find the exchange's deposit address and a memo used to indentify you
+                    </h5>
+                    <form [formGroup]="refundForm">
+                        <div><strong>Your exchange's deposit address:</strong>
+                            <mat-form-field class="mt-8 ml-1" style="width: 142px;">
+                                <input #exchangeacc matInput style="padding-top: 8px;" type="text" maxlength="12"
+                                       formControlName="account">
+                                <mat-hint align="end">{{exchangeacc.value.length}} / 12</mat-hint>
+                            </mat-form-field>
+                        </div>
+
+                        <div><strong>Exchange's memo:</strong>
+                            <mat-form-field class="mt-8 ml-1" style="width: 241px;">
+                                <input matInput style="padding-top: 8px;" type="text" formControlName="memo">
+                            </mat-form-field>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer" style="border-top: 0; padding-top: 0;">
+                    <button class="btn btn-info-outline" (click)="makeRelayRequest()" [disabled]="!refundForm.valid">
+                        Send
+                    </button>
+                    <span style="font-size: 14px">*If you provide us with a wrong refund address or memo we are not responsible for lost funds in case something goes wrong.</span>
+                </div>
+            </div>
+            <h5 class="error" *ngIf="requestError !== ''">Error: {{requestError}}</h5>
+            <ng-container *ngIf="requestValid">
+                <h5><span class="highlight-primary">4.</span> All set! Now, make an AGR transfer/withdrawal
+                    with the following
+                    settings:</h5>
+                <div class="card settings-card">
+                    <div class="card-block settings-section">
+                        <div><strong>AMOUNT:</strong>
+                            <mat-form-field class="mt-8" style="width: 142px;">
+                                <input matInput style="padding-top: 8px;" type="text"
+                                       value="{{(1.25 + (ram.ramPriceEOS * (4096/1024))*1.05).toFixed(4)}} AGR"
+                                       readonly>
+                                <fa-icon matSuffix [icon]="[['fas','clone']]" size="lg" class="copy"
+                                         (click)="cc((1.25 + (ram.ramPriceEOS * (4096/1024))*1.05).toFixed(4), 'Amount', '')"></fa-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div><strong>RECIPIENT:</strong>
+                            <mat-form-field class="mt-8" style="width: 132px;">
+                                <input matInput style="padding-top: 8px;" type="text" value="eosrionewacc" readonly>
+                                <fa-icon matSuffix [icon]="[['fas','clone']]" size="lg" class="copy"
+                                         (click)="cc('eosrionewacc', 'eosrionewacc', '')"></fa-icon>
+                            </mat-form-field>
+                        </div>
+                        <div style="color: #a7a7a7;"><strong>MEMO:</strong>
+                            <mat-form-field class="mt-8" style="width: 383px; margin-left: 8px;">
+          				<textarea matInput type="text" rows="1" class="highlight" style="font-size: 12px;"
+                                  value="{{requestId}}"
+                                  readonly></textarea>
+                                <mat-hint>ctrl c to copy or &nbsp;
+                                    <fa-icon matSuffix [icon]="[['fas','clone']]" size="lg" class="copy"
+                                             (click)="cc(requestId, 'memo', '')"></fa-icon>
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <h5><span class="highlight-primary">5.</span> After you make the transfer, check <a
+                        class="highlight-primary"
+                        (click)="openTX(accountname.toLowerCase())"
+                        style="cursor: pointer">{{accountname.toLowerCase()}}</a>
+                    on a blockexplorer. After that, you can login in Aggregion Wallet on the <strong>'IMPORT EXISTING
+                        KEY'</strong>
+                    button</h5>
+            </ng-container>
+        </ng-container>
+    </clr-wizard-page>
 </clr-wizard>
+<!--CREATE NEW WALLET END-->
 
+<!--GENERATE KEYS-->
+<app-keygen-modal></app-keygen-modal>
+<!--GENERATE KEYS END-->
+
+<!--IMPORT BACKUP START-->
+<clr-modal #importBackupModal [(clrModalOpen)]="importBKP" [clrModalSize]="'md'">
+    <h3 class="modal-title">
+        Select your backup file:
+    </h3>
+    <div class="modal-body">
+        <form [formGroup]="importForm" (keyup.enter)="importBK()">
+            <button type="button" class="btn btn-outline" (click)="inputIMClick()" style="margin-left:10px;">
+                Select file
+            </button>
+            <mat-form-field class="mt-8">
+                <input matInput #passbackup type="password" placeholder="Password" formControlName="pass">
+                <fa-icon matSuffix *ngIf="passbackup.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
+                         (click)="passbackup.type = 'text'"></fa-icon>
+                <fa-icon matSuffix *ngIf="passbackup.type === 'text'" [icon]="['far', 'eye-slash']" size="lg"
+                         class="copy"
+                         (click)="passbackup.type = 'password'"></fa-icon>
+                <mat-hint align="start">
+                    Password that was used to encrypt your file
+                </mat-hint>
+            </mat-form-field>
+            <br/>
+            <br/>
+            <br/>
+            <span class="text-faded">{{choosedFil}}</span>
+            <input style="visibility:hidden;" type="file" placeholder="Backup file" (change)="importCheckBK($event)"
+                   formControlName="customImportBK" #customImportBK>
+        </form>
+    </div>
+    <div class="modal-footer" style="padding: 0.5rem 0 0 0;">
+        <button type="button" class="btn btn-info-outline" (click)="importBK()" [disabled]="!importForm.valid || busy2">
+            Import
+            <fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy2"></fa-icon>
+        </button>
+    </div>
+</clr-modal>
+<!--IMPORT BACKUP END-->
+
+<!--ENDPOINT MODAL-->
+<clr-modal #selectEndpointModal [(clrModalOpen)]="endpointModal" [clrModalSize]="'md'">
+    <h3 class="modal-title">
+        <span class="highlight-primary">Network Options</span>
+    </h3>
+    <div class="modal-body">
+        <!--        <div class="card info-card mat-elevation-z2">-->
+        <!--            <div class="card-block">-->
+        <div class="info2">Connect to another endpoint.</div>
+        <div class="card chains-card">
+            <ng-container *ngFor="let ep of network.validEndpoints">
+                <div class="card-block chain-section {{network.selectedEP() === ep.url?'selected':''}}"
+                     (click)="setEndPoint(ep.url);"
+                     *ngIf="ep.latency !== -1">
+                    {{ep.url}}
+                    <span style="float:right">latency: {{ep.latency}} ms</span>
+                </div>
+            </ng-container>
+        </div>
+        <a aria-haspopup="true" class="tooltip tooltip-md tooltip-right">
+            <button
+                    class="btn btn-info-outline mt-1" (click)="network.connect(true); endpointModal=false;">Auto
+            </button>
+            <span class="tooltip-content">Automatically connects on the<br> fastest endpoint for you</span>
+        </a>
+
+        <div>
+            <mat-form-field class="public-input" style="overflow: inherit;">
+                <input matInput type="text" placeholder="Endpoint" [(ngModel)]="endpoint">
+            </mat-form-field>
+            <button class="btn btn-info-outline btn-check" (click)="customConnect()" [disabled]="!endpoint"
+                    style="clear: both;">
+                Connect
+            </button>
+        </div>
+        <!--            </div>-->
+        <!--        </div>-->
+    </div>
+    <div class="modal-footer" style="padding: 0.5rem 0 0 0;">
+
+    </div>
+</clr-modal>
+<!--ENDPOINT MODAL END-->

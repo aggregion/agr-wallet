@@ -1,11 +1,8 @@
-/deep/ body {
-    overflow-y: auto !important;
-}
-
 .wrap {
     display: flex;
-    min-height: 100vh;
+    height: calc(100vh - 1.7rem);
     flex-direction: column;
+	background: var(--white-color);
     background-size: cover;
 }
 
@@ -15,12 +12,22 @@
 }
 
 .anim-logo {
-    margin-top: 41px;
+    margin-top: 30px;
+}
+
+.sloganWallet {
+	font-size: 34px;
+	font-family: var(--special-font-bold);
+	margin-bottom: 10px;
+	font-weight: var(--special-font-weight);
 }
 
 .slogan {
     font-size: 20px;
-    font-family: Metropolis,Avenir Next,Helvetica Neue,Arial, sans-serif;
+    font-family: inherit;
+	margin-bottom: 10px;
+	letter-spacing: var(--special-font-spacing);
+	color: var(--slogan-special-color);
 }
 
 @-webkit-keyframes fadeInDown {
@@ -65,17 +72,16 @@
     animation-fill-mode: both;
 }
 
-.check-card {
+.info-card {
     box-shadow: 4px 6px 5px 0 rgba(0, 0, 0, 0.34);
     border: none;
-    background-color: rgba(162, 162, 162, 0.12);
     margin-top: 31px;
     width: 350px;
 }
 
 .info {
     font-size: 18px;
-    color: #696969;
+    color: var(--text-title-color);
 }
 
 .public-input {
