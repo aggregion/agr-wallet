@@ -13,7 +13,7 @@
                                 <div *ngIf="account.type !== 'local'" class="account-type-label">{{account.type}}</div>
                                 <div style="font-size: 10px;">ACCOUNT {{i + 1}}&nbsp;&nbsp;<fa-icon
                                         *ngIf="aService.accounts.length > 1"
-                                        [icon]="['far', 'times-circle']"
+                                        [icon]="['fas', 'times-circle']"
                                         class="deleteteacc"
                                         (click)="openRemoveAccModal(i,account)"></fa-icon>
                                 </div>
@@ -30,7 +30,7 @@
                     <div *ngIf="network.activeChain.features['addAcc']" (click)="openImportModal()">
                         <div class="text-center navbar-btn newaccount">
                             <div style="padding-top: 16px">
-                                <fa-icon [icon]="['far', 'user-plus']" size="lg"></fa-icon>
+                                <fa-icon [icon]="['fas', 'user-plus']" size="lg"></fa-icon>
                             </div>
                             <div style="font-size: 15px;">ADD</div>
                             <div style="font-size: 15px;">ACCOUNT</div>
@@ -41,7 +41,7 @@
                     <div *ngIf="network.activeChain.features['newAcc']" (click)="newAccountModal = true;initNewAcc();">
                         <div class="text-center navbar-btn newaccount">
                             <div style="padding-top: 16px">
-                                <fa-icon [icon]="['far', 'user-edit']" size="lg"></fa-icon>
+                                <fa-icon [icon]="['fas', 'user-edit']" size="lg"></fa-icon>
                             </div>
                             <div style="font-size: 15px;">NEW</div>
                             <div style="font-size: 15px;">ACCOUNT</div>
@@ -100,38 +100,38 @@
             <section #sidenavContent class="sidenav-content">
                 <a *ngIf="network.activeChain.features['history']" class="nav-link" routerLinkActive="active"
                    [routerLink]="['wallet']">
-                    <fa-icon [icon]="['far', 'history']"></fa-icon>&nbsp;&nbsp;HISTORY
+                    <fa-icon [icon]="['fas', 'history']"></fa-icon>&nbsp;&nbsp;HISTORY
                 </a>
                 <a *ngIf="network.activeChain.features['send']" class="nav-link" routerLinkActive="active"
                    [routerLink]="['send']">
-                    <fa-icon [icon]="['far', 'paper-plane']"></fa-icon>&nbsp;&nbsp;SEND
+                    <fa-icon [icon]="['fas', 'paper-plane']"></fa-icon>&nbsp;&nbsp;SEND
                 </a>
                 <a *ngIf="network.activeChain.features['resource']" class="nav-link" routerLinkActive="active"
                    [routerLink]="['ram']">
-                    <fa-icon [icon]="['far', 'memory']"></fa-icon>&nbsp;&nbsp;RESOURCES
+                    <fa-icon [icon]="['fas', 'memory']"></fa-icon>&nbsp;&nbsp;RESOURCES
                 </a>
                 <a *ngIf="network.activeChain.features['vote'] || network.activeChain.features['staking']"
                    class="nav-link" routerLinkActive="active"
                    [routerLink]="['vote']">
                     <ng-container *ngIf="network.activeChain.features['vote']">
-                        <fa-icon [icon]="['far', 'edit']"></fa-icon>&nbsp;&nbsp;VOTE
+                        <fa-icon [icon]="['fas', 'edit']"></fa-icon>&nbsp;&nbsp;VOTE
                     </ng-container>
                     <ng-container
                             *ngIf="network.activeChain.features['staking'] && !network.activeChain.features['vote']">
-                        <fa-icon [icon]="['far', 'lock']"></fa-icon>&nbsp;&nbsp;STAKE
+                        <fa-icon [icon]="['fas', 'lock']"></fa-icon>&nbsp;&nbsp;STAKE
                     </ng-container>
                 </a>
                 <a *ngIf="network.activeChain.features['rex']" class="nav-link" routerLinkActive="active"
                    [routerLink]="['rex']">
-                    <fa-icon [icon]="['far', 'exchange-alt']"></fa-icon>&nbsp;&nbsp;REX
+                    <fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon>&nbsp;&nbsp;REX
                 </a>
                 <a *ngIf="network.activeChain.features['dapps']" class="nav-link" routerLinkActive="active"
                    [routerLink]="['dapp']">
-                    <fa-icon [icon]="['far', 'puzzle-piece']"></fa-icon>&nbsp;&nbsp;CONTRACTS (beta)
+                    <fa-icon [icon]="['fas', 'puzzle-piece']"></fa-icon>&nbsp;&nbsp;CONTRACTS (beta)
                 </a>
                 <a *ngIf="network.activeChain.features['forum']" class="nav-link" routerLinkActive="active"
                    [routerLink]="['referendum']">
-                    <fa-icon [icon]="['far', 'box-ballot']"></fa-icon>&nbsp;&nbsp;REFERENDUM
+                    <fa-icon [icon]="['fas', 'box-ballot']"></fa-icon>&nbsp;&nbsp;REFERENDUM
                 </a>
             </section>
         </nav>
@@ -174,7 +174,7 @@
                    [(ngModel)]="accountname">
             <mat-hint align="end">{{account.value.length}} / 12</mat-hint>
         </mat-form-field>
-        <button class="btn btn-info-outline mt-3" (click)="verifyAccountName(false)">Check availability</button>
+        <button class="btn btn-outline mt-3" (click)="verifyAccountName(false)">Check availability</button>
         <p class="error">{{accountname_err}}</p>
         <p *ngIf="accountname_valid && account.value.length === 12" class="highlight-primary">
             <strong>{{accountname}}</strong>
@@ -194,7 +194,7 @@
         <mat-form-field class="mt-3" style="width: 100%">
             <input matInput placeholder="Owner Public key" [(ngModel)]="ownerpub" style="font-family: 'SourceCodePro',monospace">
             <a matSuffix class="tooltip tooltip-xs tooltip-bottom-left">
-                <fa-icon [icon]="[['fas','clone']]" size="lg" class="copy" (click)="cc(ownerpub)"></fa-icon>
+                <fa-icon [icon]="['fas','clone']" size="lg" class="copy" (click)="cc(ownerpub)"></fa-icon>
                 <span class="tooltip-content">Copy</span>
             </a>
             <mat-hint>ctrl c + ctrl v to copy & paste</mat-hint>
@@ -202,29 +202,29 @@
         <mat-form-field class="mt-3" style="width: 100%">
             <input matInput placeholder="Active Public key" [(ngModel)]="activepub" style="font-family: 'SourceCodePro',monospace">
             <a matSuffix class="tooltip tooltip-xs tooltip-bottom-left">
-                <fa-icon [icon]="[['fas','clone']]" size="lg" class="copy" (click)="cc(activepub)"></fa-icon>
+                <fa-icon [icon]="['fas','clone']" size="lg" class="copy" (click)="cc(activepub)"></fa-icon>
                 <span class="tooltip-content">Copy</span>
             </a>
         </mat-form-field>
 
-        <button class="btn btn-info-outline" (click)="generateKeys()">Generate Key Pairs</button>
+        <button class="btn btn-outline" (click)="generateKeys()">Generate Key Pairs</button>
 
         <fa-layers *ngIf="generating" class="highlight-primary fa-fw">
-            <fa-icon [icon]="['far','spinner']" size="2x" [spin]="true"></fa-icon>
+            <fa-icon [icon]="['fas','spinner']" size="2x" [spin]="true"></fa-icon>
         </fa-layers>
 
         <ng-container *ngIf="generated">
             <mat-form-field class="mt-3" style="width: 100%">
                 <input matInput placeholder="Owner Private key" [(ngModel)]="ownerpk" style="font-family: 'SourceCodePro',monospace">
                 <a matSuffix class="tooltip tooltip-xs tooltip-bottom-left">
-                    <fa-icon [icon]="[['fas','clone']]" size="lg" class="copy" (click)="cc(ownerpk)"></fa-icon>
+                    <fa-icon [icon]="['fas','clone']" size="lg" class="copy" (click)="cc(ownerpk)"></fa-icon>
                     <span class="tooltip-content">Copy</span>
                 </a>
             </mat-form-field>
             <mat-form-field class="mt-2" style="width: 100%">
                 <input matInput placeholder="Active Private key" [(ngModel)]="activepk" style="font-family: 'SourceCodePro',monospace">
                 <a matSuffix class="tooltip tooltip-xs tooltip-bottom-left">
-                    <fa-icon [icon]="[['fas','clone']]" size="lg" class="copy" (click)="cc(activepk)"></fa-icon>
+                    <fa-icon [icon]="['fas','clone']" size="lg" class="copy" (click)="cc(activepk)"></fa-icon>
                     <span class="tooltip-content">Copy</span>
                 </a>
             </mat-form-field>
@@ -292,9 +292,9 @@
             <mat-form-field class="mt-3" style="width: 180px;">
                 <input matInput #newpass type="password" placeholder="Password" (blur)="passCompare()"
                        [formControl]="passform['controls'].matchingPassword['controls']['pass1']">
-                <fa-icon matSuffix *ngIf="newpass.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
+                <fa-icon matSuffix *ngIf="newpass.type === 'password'" [icon]="['fas', 'eye']" size="lg" class="copy"
                          (click)="newpass.type = 'text'"></fa-icon>
-                <fa-icon matSuffix *ngIf="newpass.type === 'text'" [icon]="['far', 'eye-slash']" size="lg"
+                <fa-icon matSuffix *ngIf="newpass.type === 'text'" [icon]="['fas', 'eye-slash']" size="lg"
                          class="copy" (click)="newpass.type = 'password'"></fa-icon>
                 <mat-hint align="start">
                     Min 4 characters
@@ -305,9 +305,9 @@
             <mat-form-field class="mt-3" style="margin-top: 10px; display: block; width: 180px;">
                 <input matInput #newpass2 type="password" placeholder="Confirm password" (blur)="passCompare()"
                        [formControl]="passform['controls'].matchingPassword['controls']['pass2']">
-                <fa-icon matSuffix *ngIf="newpass2.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
+                <fa-icon matSuffix *ngIf="newpass2.type === 'password'" [icon]="['fas', 'eye']" size="lg" class="copy"
                          (click)="newpass2.type = 'text'"></fa-icon>
-                <fa-icon matSuffix *ngIf="newpass2.type === 'text'" [icon]="['far', 'eye-slash']" size="lg"
+                <fa-icon matSuffix *ngIf="newpass2.type === 'text'" [icon]="['fas', 'eye-slash']" size="lg"
                          class="copy" (click)="newpass2.type = 'password'"></fa-icon>
                 <mat-error *ngIf="!passmatch">
                     Passwords do not match!
@@ -334,10 +334,10 @@
                 </mat-hint>
                 <br clear="all"/>
             </mat-form-field>
-            <button type="button" class="btn btn-info-outline" style="margin-top: 1px; margin-left: 10px;"
+            <button type="button" class="btn btn-outline" style="margin-top: 1px; margin-left: 10px;"
                     (click)="executeTX()" [disabled]="!submitTXForm.valid || busy">
                 Confirm
-                <fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+                <fa-icon [icon]="['fas','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
             </button>
             <ng-container *ngIf="success">
                 <div class="highlight-primary mt-1">Account created successfully!</div>
@@ -379,10 +379,10 @@
 <!--                <mat-form-field class="mt-3" style="width: 100%;">-->
 <!--                    <input #pkField matInput type="password" formControlName="private_key"-->
 <!--                           placeholder="{{network.activeChain['name']}} Active Private key">-->
-<!--                    <fa-icon matSuffix *ngIf="pkField.type === 'password'" [icon]="['far', 'eye']" size="lg"-->
+<!--                    <fa-icon matSuffix *ngIf="pkField.type === 'password'" [icon]="['fas', 'eye']" size="lg"-->
 <!--                             class="copy"-->
 <!--                             (click)="pkField.type = 'text'"></fa-icon>-->
-<!--                    <fa-icon matSuffix *ngIf="pkField.type === 'text'" [icon]="['far', 'eye-slash']" size="lg"-->
+<!--                    <fa-icon matSuffix *ngIf="pkField.type === 'text'" [icon]="['fas', 'eye-slash']" size="lg"-->
 <!--                             class="copy"-->
 <!--                             (click)="pkField.type = 'password'"></fa-icon>-->
 <!--                    <mat-hint align="start">-->
@@ -415,7 +415,7 @@
 <!--            <p *ngIf="ledgerError !== ''" class="error">{{ledgerError}}</p>-->
 
 <!--            <fa-layers *ngIf="ledgerService.reading" class="highlight-primary fa-fw">-->
-<!--                <fa-icon [icon]="['far','spinner']" size="2x" [spin]="true"></fa-icon>-->
+<!--                <fa-icon [icon]="['fas','spinner']" size="2x" [spin]="true"></fa-icon>-->
 <!--            </fa-layers>-->
 
 <!--            <p *ngIf="ledgerService.reading">Reading slot: {{ledgerService.currentSlot}}</p>-->
@@ -464,10 +464,10 @@
 <!--                <mat-form-field class="mt-2">-->
 <!--                    <input matInput #importedpass type="password" placeholder="Password" (blur)="importedPassCompare()"-->
 <!--                           [formControl]="passform2['controls'].matchingPassword['controls']['pass1']">-->
-<!--                    <fa-icon matSuffix *ngIf="importedpass.type === 'password'" [icon]="['far', 'eye']" size="lg"-->
+<!--                    <fa-icon matSuffix *ngIf="importedpass.type === 'password'" [icon]="['fas', 'eye']" size="lg"-->
 <!--                             class="copy"-->
 <!--                             (click)="importedpass.type = 'text'"></fa-icon>-->
-<!--                    <fa-icon matSuffix *ngIf="importedpass.type === 'text'" [icon]="['far', 'eye-slash']" size="lg"-->
+<!--                    <fa-icon matSuffix *ngIf="importedpass.type === 'text'" [icon]="['fas', 'eye-slash']" size="lg"-->
 <!--                             class="copy"-->
 <!--                             (click)="importedpass.type = 'password'"></fa-icon>-->
 <!--                    <mat-hint align="start">-->
@@ -480,10 +480,10 @@
 <!--                           (blur)="importedPassCompare()"-->
 <!--                           [formControl]="passform2['controls'].matchingPassword['controls']['pass2']">-->
 
-<!--                    <fa-icon matSuffix *ngIf="importedpass2.type === 'password'" [icon]="['far', 'eye']" size="lg"-->
+<!--                    <fa-icon matSuffix *ngIf="importedpass2.type === 'password'" [icon]="['fas', 'eye']" size="lg"-->
 <!--                             class="copy"-->
 <!--                             (click)="importedpass2.type = 'text'"></fa-icon>-->
-<!--                    <fa-icon matSuffix *ngIf="importedpass2.type === 'text'" [icon]="['far', 'eye-slash']" size="lg"-->
+<!--                    <fa-icon matSuffix *ngIf="importedpass2.type === 'text'" [icon]="['fas', 'eye-slash']" size="lg"-->
 <!--                             class="copy"-->
 <!--                             (click)="importedpass2.type = 'password'"></fa-icon>-->
 
@@ -510,7 +510,7 @@
 <!--REMOVE ACCOUNT-->
 <clr-modal [(clrModalOpen)]="deleteAccModal" [clrModalSize]="'md'">
     <h3 class="modal-title text-white">
-        <fa-icon [icon]="['far', 'user-minus']"></fa-icon>&nbsp;&nbsp;<span class="highlight-primary">Remove</span>
+        <fa-icon [icon]="['fas', 'user-minus']"></fa-icon>&nbsp;&nbsp;<span class="highlight-primary">Remove</span>
         account?
     </h3>
     <div class="modal-body" *ngIf="selectedAccRem">
@@ -527,7 +527,7 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-danger-outline" (click)="deleteAccModal = false">Cancel</button>
-        <button type="button" class="btn btn-info-outline" (click)="doRemoveAcc()">
+        <button type="button" class="btn btn-outline" (click)="doRemoveAcc()">
             Yes, remove
         </button>
     </div>

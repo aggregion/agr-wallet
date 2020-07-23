@@ -6,7 +6,7 @@
             <div class="content-area" style="padding-top: 0; overflow-x: hidden;">
                 <div class="balance free-title">
                     <div *ngIf="sendForm.value.token === aService.activeChain['symbol']" class="infos">
-                        <fa-icon [icon]="['far', 'lock-open']"></fa-icon>&nbsp;FREE
+                        <fa-icon [icon]="['fas', 'lock-open']"></fa-icon>&nbsp;FREE
                         <ng-container *ngIf="aService.activeChain.name === 'EOS MAINNET'">
                             ${{unstaked * aService.usd_rate | number : '1.2-2'}}
                         </ng-container>
@@ -19,7 +19,7 @@
                 <ng-container *ngIf="sendForm.value.token === aService.activeChain['symbol']">
                     <div class="eos highlight-primary">{{unstaked | number :'1.0-' + this.aService.activeChain['precision']}} {{aService.activeChain['symbol']}}</div>
                     <div *ngIf="unstaking > 0" class="highlight">
-                        <fa-icon [icon]="['far', 'lock']"></fa-icon>&nbsp;Will be {{(unstaked + unstaking) | number :
+                        <fa-icon [icon]="['fas', 'lock']"></fa-icon>&nbsp;Will be {{(unstaked + unstaking) | number :
                         '1.2-4'}} {{aService.activeChain['symbol']}} {{unstakeTime}}
                     </div>
                 </ng-container>
@@ -31,7 +31,7 @@
                         <mat-form-field class="example-full-width">
                             <input type="text" placeholder="Token" matInput formControlName="token"
                                    [matAutocomplete]="auto1" (blur)="formatTokenSymbol()">
-                            <fa-icon matSuffix [icon]="['far', 'caret-down']"></fa-icon>
+                            <fa-icon matSuffix [icon]="['fas', 'caret-down']"></fa-icon>
                             <mat-autocomplete #auto1="matAutocomplete">
 
                                 <mat-option value="{{aService.activeChain['symbol']}}">
@@ -63,7 +63,7 @@
                         <mat-form-field class="field-width">
                             <input matInput formControlName="amount" [textMask]="{mask: numberMask}" type="text"
                                    placeholder="Amount ({{selectedToken['name']}})" (blur)="checkAmount();">
-                            <button type="button" mat-button matSuffix mat-icon-button class="btn btn-info-outline btn-sm btn-max"
+                            <button type="button" mat-button matSuffix mat-icon-button class="btn btn-outline btn-sm btn-max"
                                     (click)="setMax()">
                                 MAX
                             </button>
@@ -88,9 +88,9 @@
                             <input matInput formControlName="alias" type="text" placeholder="Contact name">
                         </mat-form-field>
                     </ng-container>
-                    <button type="submit" class="btn btn-block btn-info-outline" (click)="newTransfer()"
+                    <button type="submit" class="btn btn-block btn-outline" (click)="newTransfer()"
                             [disabled]="!sendForm.valid">
-                        <fa-icon [icon]="['far', 'paper-plane']"></fa-icon>&nbsp;&nbsp;SEND
+                        <fa-icon [icon]="['fas', 'paper-plane']"></fa-icon>&nbsp;&nbsp;SEND
                     </button>
                 </form>
             </div>
@@ -104,7 +104,7 @@
                     <form [formGroup]="searchForm" class="searchform">
                         <mat-form-field class="example-full-width">
                             <input type="text" matInput placeholder="Search..." formControlName="search">
-                            <fa-icon matSuffix [icon]="['far', 'search']" size="lg"></fa-icon>
+                            <fa-icon matSuffix [icon]="['fas', 'search']" size="lg"></fa-icon>
                         </mat-form-field>
                     </form>
                 </div>
@@ -125,17 +125,17 @@
                                     <div class="account-color">{{contact.account}}</div>
                                 </div>
                                 <div class="clr-col-lg-4 clr-col-sm-6 clr-col-md-5" style="text-align: right">
-<!--                                    <button class="btn btn-info-outline editBtn"-->
+<!--                                    <button class="btn btn-outline editBtn"-->
 <!--                                            (click)="openEditContactModal(contact)">-->
-<!--                                        <fa-icon [icon]="['far', 'pencil']"></fa-icon>-->
+<!--                                        <fa-icon [icon]="['fas', 'pencil']"></fa-icon>-->
 <!--                                    </button>-->
                                     <button class="btn btn-accent-outline editBtn"
                                             (click)="openEditContactModal(contact)">
-                                        <fa-icon [icon]="['far', 'pencil']"></fa-icon>
+                                        <fa-icon [icon]="['fas', 'pencil']"></fa-icon>
                                     </button>
                                     <button class="btn btn-danger-outline deleteBtn"
                                             (click)="openDeleteContactModal(contact)">
-                                        <fa-icon [icon]="['far', 'times']"></fa-icon>
+                                        <fa-icon [icon]="['fas', 'times']"></fa-icon>
                                     </button>
                                 </div>
                             </div>
@@ -145,7 +145,7 @@
             </div>
             <div class="contacts-panel-footer">
                 <button class="btn btn-block newcontact-btn" (click)="newContactModal = true">
-                    <fa-icon [icon]="['far', 'plus']"></fa-icon>&nbsp;&nbsp;NEW CONTACT
+                    <fa-icon [icon]="['fas', 'plus']"></fa-icon>&nbsp;&nbsp;NEW CONTACT
                 </button>
             </div>
         </div>
@@ -154,7 +154,7 @@
 
 <clr-modal [(clrModalOpen)]="newContactModal" [clrModalSize]="'sm'">
     <h3 class="modal-title">
-        <fa-icon [icon]="['far', 'user-plus']"></fa-icon>&nbsp;&nbsp;New contact
+        <fa-icon [icon]="['fas', 'user-plus']"></fa-icon>&nbsp;&nbsp;New contact
     </h3>
     <div class="modal-body">
         <form [formGroup]="contactForm">
@@ -173,7 +173,7 @@
         </form>
     </div>
     <div class="modal-footer" style="padding: 0.5rem 0 0 0;">
-        <button type="submit" class="btn btn-info-outline" (click)="addContact()" [disabled]="!contactForm.valid">
+        <button type="submit" class="btn btn-outline" (click)="addContact()" [disabled]="!contactForm.valid">
             Add
         </button>
     </div>
@@ -181,7 +181,7 @@
 
 <clr-modal [(clrModalOpen)]="editContactModal" [clrModalSize]="'sm'">
     <h3 class="modal-title">
-        <fa-icon [icon]="['far', 'user-edit']"></fa-icon>&nbsp;&nbsp;Edit contact
+        <fa-icon [icon]="['fas', 'user-edit']"></fa-icon>&nbsp;&nbsp;Edit contact
     </h3>
     <div class="modal-body">
         <form [formGroup]="contactForm">
@@ -197,7 +197,7 @@
         </form>
     </div>
     <div class="modal-footer" style="padding: 0.5rem 0 0 0;">
-        <button type="submit" class="btn btn-info-outline" (click)="doEditContact()" [disabled]="!contactForm.valid">
+        <button type="submit" class="btn btn-outline" (click)="doEditContact()" [disabled]="!contactForm.valid">
             Edit
         </button>
     </div>
@@ -205,7 +205,7 @@
 
 <clr-modal [(clrModalOpen)]="deleteContactModal" [clrModalSize]="'sm'">
     <h3 class="modal-title">
-        <fa-icon [icon]="['far', 'user-minus']"></fa-icon>&nbsp;&nbsp;<span class="highlight-primary">Delete</span> contact
+        <fa-icon [icon]="['fas', 'user-minus']"></fa-icon>&nbsp;&nbsp;<span class="highlight-primary">Delete</span> contact
     </h3>
     <div class="modal-body">
         <p style="margin-bottom: 20px;">Are you sure you want do delete the contact <span
@@ -213,7 +213,7 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-danger-outline" (click)="deleteContactModal = false">Cancel</button>
-        <button type="button" class="btn btn-info-outline" (click)="doDeleteContact()">
+        <button type="button" class="btn btn-outline" (click)="doDeleteContact()">
             Yes, delete
         </button>
     </div>

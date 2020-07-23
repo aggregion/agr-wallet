@@ -16,7 +16,7 @@
 											<div class="rex-balances-top">
 												Liquid: <span class="highlight">{{rexLiquid  | number:'1.0-2'}} REX</span>
 												<button type="button"
-														class="btn btn-info-outline btn-sm"
+														class="btn btn-outline btn-sm"
 														style="margin: 2px 10px;" (click)="updaterex()">
 													refresh
 												</button>
@@ -43,7 +43,7 @@
 												</a>
 												&nbsp;&nbsp;your REX fund: <span class="highlight">{{rexFund | number:'1.0-2'}} {{aService.activeChain['symbol']}}</span>
 												<div>
-													<button [disabled]="rexFund === 0" type="button" class="btn btn-info-outline btn-sm"
+													<button [disabled]="rexFund === 0" type="button" class="btn btn-outline btn-sm"
 															style="margin: 6px 0;" (click)="withdraw()">
 														withdraw to my account
 													</button>
@@ -128,11 +128,11 @@
 												<div class="clr-col-lg-11 white" *ngIf="!canbuyREX">
 													<div class="req-title">Requirements for buying REX</div>
 													<div class="req highlight">
-														<fa-icon [icon]="['far', 'times-circle']" class="error"
+														<fa-icon [icon]="['fas', 'times-circle']" class="error"
 																 size="lg"></fa-icon>&nbsp;
 														Vote for at least 21 block producers or a proxy.
 														<button *ngIf="aService.activeChain.name === 'EOS MAINNET'"
-																type="button" class="btn btn-info-outline btn-sm"
+																type="button" class="btn btn-outline btn-sm"
 																style="float: right; margin-right: 5px;"
 																(click)="voteOnProxy()">
 															VOTE BROCKPIERCE1
@@ -140,7 +140,7 @@
 														<div style="margin-top: 12px;">
 										<span class="explain">You're currently voting for <span
 											class="blue-rex">{{nVoters}}/21</span> producers.</span>
-															<button type="button" class="btn btn-info-outline btn-sm"
+															<button type="button" class="btn btn-outline btn-sm"
 																	style="float: right; margin-right: 5px;"
 																	(click)="gotoVote()">
 																OR GO TO VOTE PAGE
@@ -187,7 +187,7 @@
 															   role="tooltip" aria-haspopup="true"
 															   class="tooltip tooltip-lg tooltip-right"
 															   style="margin-left: 5px">
-																<fa-icon [icon]="['far','exclamation-circle']"
+																<fa-icon [icon]="['fas','exclamation-circle']"
 																		 class="error"></fa-icon>
 																<span class="tooltip-content">
 																		Please, be careful when converting all your staked amount.
@@ -221,7 +221,7 @@
 																   role="tooltip" aria-haspopup="true"
 																   class="tooltip tooltip-lg tooltip-right"
 																   style="margin-left: 5px">
-																	<fa-icon [icon]="['far','exclamation-circle']"
+																	<fa-icon [icon]="['fas','exclamation-circle']"
 																			 class="error"></fa-icon>
 																	<span class="tooltip-content">
 																		Please, be careful when converting all your cpu amount.
@@ -252,7 +252,7 @@
 																   role="tooltip" aria-haspopup="true"
 																   class="tooltip tooltip-lg tooltip-right"
 																   style="margin-left: 5px">
-																	<fa-icon [icon]="['far','exclamation-circle']"
+																	<fa-icon [icon]="['fas','exclamation-circle']"
 																			 class="error"></fa-icon>
 																	<span class="tooltip-content">
 																		Please, be careful when converting all your net amount.
@@ -326,7 +326,7 @@
 											</span>
 														</div>
 														<div class="clr-col-lg-6 text-center">
-															<button type="button" class="btn btn-info-outline btn-block"
+															<button type="button" class="btn btn-outline btn-block"
 																	style="float: left; margin-top: 10px;"
 																	(click)="buyRex()">
 																BUY REX
@@ -383,7 +383,7 @@
 											</form>
 										</div>
 										<div class="card-block" *ngIf="canbuyREX">
-											<button type="button" class="btn btn-info-outline btn-block"
+											<button type="button" class="btn btn-outline btn-block"
 													style="float: left; margin-top: 10px;" (click)="sellRex()">
 												SELL REX
 											</button>
@@ -401,7 +401,7 @@
 									 class="maturing-table last-table" [paginator]="true" [rows]="50">
 								<ng-template pTemplate="caption">
 									<div>
-										<fa-icon matSuffix [icon]="['far', 'lock-open']"></fa-icon>&nbsp;&nbsp;Unstaking
+										<fa-icon matSuffix [icon]="['fas', 'lock-open']"></fa-icon>&nbsp;&nbsp;Unstaking
 										REX
 										(maturing)&nbsp;
 										<a role="tooltip" aria-haspopup="true" class="tooltip tooltip-lg tooltip-right">
@@ -411,7 +411,7 @@
 												. </span>
 										</a>
 										<span style="float: right;">
-										<button type="button" class="btn btn-info-outline btn-sm"
+										<button type="button" class="btn btn-outline btn-sm"
 												style="margin: -4px 0 0 0;" (click)="createMoveToSavingModal()">
 											move to savings
 										</button>
@@ -463,7 +463,7 @@
 									 class="maturing-table last-table" [paginator]="true" [rows]="50">
 								<ng-template pTemplate="caption">
 									<div>
-										<fa-icon matSuffix [icon]="['far', 'lock']"></fa-icon>&nbsp;&nbsp;Staked REX
+										<fa-icon matSuffix [icon]="['fas', 'lock']"></fa-icon>&nbsp;&nbsp;Staked REX
 										(savings)&nbsp;
 										<a role="tooltip" aria-haspopup="true" class="tooltip tooltip-lg tooltip-left">
 											<fa-icon [icon]="['fas','question-circle']" class="highlight-primary"
@@ -488,7 +488,7 @@
 											{{item.amount | thousandSuff : 2}} REX
 										</td>
 										<td class="text-center">
-											<button type="button" class="btn btn-info-outline btn-sm"
+											<button type="button" class="btn btn-outline btn-sm"
 													(click)="createMoveFromSavingModal()">
 												unstake
 											</button>
@@ -595,7 +595,7 @@
 												</a>
 												&nbsp;&nbsp;your REX fund: <span class="highlight">{{rexFund | number:'1.0-2'}} {{aService.activeChain['symbol']}}</span>
 												<div>
-													<button [disabled]="rexFund === 0" type="button" class="btn btn-info-outline btn-sm"
+													<button [disabled]="rexFund === 0" type="button" class="btn btn-outline btn-sm"
 															style="margin: 6px 0;" (click)="withdraw()">
 														withdraw to my account
 													</button>
@@ -664,7 +664,7 @@
 												style="width: 212px;  clear:both; display: inline-block !important; margin-top: 8px; margin-right: 40px;">
 												<input #accountReceiver type="text" placeholder="Account" matInput
 													   formControlName="accountReceiver" [matAutocomplete]="auto1">
-												<fa-icon matSuffix [icon]="['far', 'caret-down']"></fa-icon>
+												<fa-icon matSuffix [icon]="['fas', 'caret-down']"></fa-icon>
 												<mat-autocomplete #auto1="matAutocomplete">
 													<mat-option value="to this account">to this account</mat-option>
 													<mat-option value="to another account">to another account
@@ -717,7 +717,7 @@
 													<div>Total Cost: {{totalCost | number : '1.0-4'}}</div>
 												</div>
 												<div class="clr-col-lg-5 text-center">
-													<button type="button" class="btn btn-info-outline btn-block"
+													<button type="button" class="btn btn-outline btn-block"
 															style="float: left; margin-top: 10px;"
 															(click)="borrowResources()">
 														BORROW
@@ -787,11 +787,11 @@
 											{{item['balance']}}
 										</td>
 										<td class="text-center">
-											<button type="button" class="btn btn-info-outline btn-sm"
+											<button type="button" class="btn btn-outline btn-sm"
 													(click)="createAddToLoanFundModal(item, 'cpu')">
 												fund&nbsp;
 											</button>
-											<button type="button" class="btn btn-info-outline btn-sm"
+											<button type="button" class="btn btn-outline btn-sm"
 													(click)="createDefundModal(item, 'cpu')">
 												defund
 											</button>
@@ -866,11 +866,11 @@
 											{{item['balance']}}
 										</td>
 										<td class="text-center">
-											<button type="button" class="btn btn-info-outline btn-sm"
+											<button type="button" class="btn btn-outline btn-sm"
 													(click)="createAddToLoanFundModal(item, 'net')">
 												fund
 											</button>
-											<button type="button" class="btn btn-info-outline btn-sm"
+											<button type="button" class="btn btn-outline btn-sm"
 													(click)="createDefundModal(item, 'net')">
 												defund
 											</button>

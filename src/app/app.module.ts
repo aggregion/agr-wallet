@@ -74,6 +74,7 @@ import {faParachuteBox} from '@fortawesome/free-solid-svg-icons/faParachuteBox';
 import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
 import {faHourglass} from '@fortawesome/free-solid-svg-icons/faHourglass';
 import {faEye} from '@fortawesome/free-solid-svg-icons/faEye';
+import * as faiEye from '@fortawesome/free-solid-svg-icons/faEye';
 import {faEyeSlash} from '@fortawesome/free-solid-svg-icons/faEyeSlash';
 import {faClone} from '@fortawesome/free-solid-svg-icons/faClone';
 import {faHistory} from '@fortawesome/free-solid-svg-icons/faHistory';
@@ -161,6 +162,11 @@ import {faTrashAlt} from '@fortawesome/free-solid-svg-icons/faTrashAlt';
 import { KeygenModalComponent } from './keygen-modal/keygen-modal.component';
 import {A11yModule} from "@angular/cdk/a11y";
 import { CustomChainModalComponent } from './custom-chain-modal/custom-chain-modal.component';
+
+console.log(100, faEye, faClone);
+
+debugger;
+
 
 export function playerFactory() {
     return player;

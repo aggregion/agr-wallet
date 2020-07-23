@@ -38,7 +38,7 @@
                         VOTE DECAY: <span [ngClass]="votedDecay > 0.0000  ? 'text-warn' : 'text-faded'">
 							{{(votedEOSDecay) | number : '1.2-4'}} {{aService.activeChain['symbol']}}
 
-                        <fa-icon *ngIf="votedDecay > 0" [icon]="['far','long-arrow-alt-down']"></fa-icon>
+                        <fa-icon *ngIf="votedDecay > 0" [icon]="['fas','long-arrow-alt-down']"></fa-icon>
                         {{(votedDecay) | number : '1.2-4'}} %
 						</span>
                     </div>
@@ -133,13 +133,13 @@
                         </div>
                         <div class="clr-row">
                             <div class="clr-col-lg-5">
-                                <button (click)="setStake()" class="btn btn-outline btn-info-outline special-font"
+                                <button (click)="setStake()" class="btn btn-outline btn-outline special-font"
                                         style="margin-top: 14px; font-weight: 700" [disabled]="stakedisabled">Set Stake
                                 </button>
                                 <div class="error" *ngIf="this.stakerr !== ''">{{this.stakerr}}</div>
                                 <a role="tooltip" aria-haspopup="true" class="tooltip tooltip-lg tooltip-right"
                                    *ngIf="minstake">
-                                    <fa-icon [icon]="['far','exclamation-circle']" class="error"></fa-icon>
+                                    <fa-icon [icon]="['fas','exclamation-circle']" class="error"></fa-icon>
                                     <span class="tooltip-content">
 									Please, be careful when staking the minimum. <br>
 									This is not recommended if you want to do a lot of transactions, as you will have little CPU bandwidth and may have to wait long hours to stake again. <br>
@@ -207,7 +207,7 @@
                     </div>
                     <div class="clr-row">
                         <div class="clr-col-lg-5">
-                            <button (click)="setStake()" class="btn btn-info-outline"
+                            <button (click)="setStake()" class="btn btn-outline"
                                     style="margin-top: 14px; font-weight: 700" [disabled]="stakedisabled">Set Stake
                             </button>
                             <div class="error" *ngIf="this.stakerr !== ''">{{this.stakerr}}</div>
@@ -229,7 +229,7 @@
                                     class="tooltip-content">Genesis block member Rewards. For memebers that claimed their WAX tokens on the period of June 30 to August 30, 2019.
 							</span>
                         </a>
-                        <button class="btn btn-info-outline" (click)="claimGBMrewards()"
+                        <button class="btn btn-outline" (click)="claimGBMrewards()"
                                 style="margin-left: 10px; font-weight: 700;">Claim rewards
                         </button>
                         <div class="error" *ngIf="this.claimError !== ''">{{this.claimError}}</div>
@@ -244,7 +244,7 @@
                             WAX </span>
                         <ng-container *ngIf="nVotes < 16 && nVotesProxy == 0">
                             <a role="tooltip" aria-haspopup="true" class="tooltip tooltip-md tooltip-right">
-                                <fa-icon [icon]="['far','exclamation-circle']" class="error"></fa-icon>
+                                <fa-icon [icon]="['fas','exclamation-circle']" class="error"></fa-icon>
                                 <span
                                         class="tooltip-content">Tip: win more rewards by voting for at least 16 block producers or a proxy below.
 								</span>
@@ -267,7 +267,7 @@
                     <div *ngIf="enableAutoClaim && (!autoClaimStatus && claimSetupWarning === '')" class="black-white"
                          style="margin-top: 6px">
                         Do you want to set a custom permission to automatically claim your rewards?
-                        <button class="btn btn-info-outline" (click)="createClaimPermission()"
+                        <button class="btn btn-outline" (click)="createClaimPermission()"
                                 style="margin-left: 10px; font-weight: 700;">Set auto-claim
                         </button>
                         <mat-checkbox [checked]="enableLinkAuth" (change)="toggleLinkAuth()">
@@ -283,10 +283,10 @@
                     </div>
                     <div *ngIf="enableAutoClaim && autoClaimStatus" class="black-white" style="margin-top: 6px">
                         Auto-claim setup verified. All good.
-                        <button class="btn btn-info-outline" (click)="createClaimPermission()"
+                        <button class="btn btn-outline" (click)="createClaimPermission()"
                                 style="margin-left: 10px; font-weight: 700;">Renew claim key
                         </button>
-                        <button class="btn btn-info-outline" (click)="claimDirect(true)"
+                        <button class="btn btn-outline" (click)="claimDirect(true)"
                                 style="margin-left: 10px; font-weight: 700;">Force vote recast
                         </button>
 
@@ -294,7 +294,7 @@
                     <div *ngIf="enableAutoClaim  && (!autoClaimStatus && claimSetupWarning !== '')" class="black-white"
                          style="margin-top: 6px">
                         {{claimSetupWarning}}
-                        <button class="btn btn-info-outline" (click)="createClaimPermission()"
+                        <button class="btn btn-outline" (click)="createClaimPermission()"
                                 style="margin-left: 10px; font-weight: 700;">Renew claim key
                         </button>
                     </div>
@@ -316,7 +316,7 @@
             <button (click)="processLiberlandVotes()" class="btn btn-info special-font"
                     style="margin: 50px auto; text-align: center;width: 520px; max-width: 800px;height: 60px; font-size: 22px; ">
                 ACCESS THE VOTING PORTAL
-                <fa-icon [icon]="['far','external-link']"></fa-icon>
+                <fa-icon [icon]="['fas','external-link']"></fa-icon>
             </button>
         </div>
     </div>
@@ -368,7 +368,7 @@
                             <mat-form-field class="searchbar">
                                 <input type="text" matInput placeholder="Search..."
                                        (input)="dt.filterGlobal($event.target['value'], 'contains')">
-                                <fa-icon matSuffix [icon]="['far', 'search']" size="lg"></fa-icon>
+                                <fa-icon matSuffix [icon]="['fas', 'search']" size="lg"></fa-icon>
                             </mat-form-field>
                         </div>
                         <div class="clr-col-lg{{!voteService.hasList ? '' : '-3 clr-col-md-6'}} text-center mt-3"
@@ -378,7 +378,7 @@
                                     <input matInput #proxyName type="text" formControlName="proxyName"
                                            placeholder="Vote for {{voteService.voteType?'Proxy':'Producer(s)'}}"
                                            (keyup.enter)="validateProxy(proxyName.value)">
-                                    <fa-icon matSuffix [icon]="['far', 'search']" size="lg"></fa-icon>
+                                    <fa-icon matSuffix [icon]="['fas', 'search']" size="lg"></fa-icon>
                                     <mat-hint class="{{!isValidAccount?'error':'hint'}}" style="font-size: 12px;">
                                         <ng-container
                                                 *ngIf="isValidAccount && (aService.selected.getValue().details['voter_info']&&aService.selected.getValue().details['voter_info']['proxy']!=='')">
@@ -392,7 +392,7 @@
                                     </mat-hint>
                                 </mat-form-field>
 
-                                <button (click)="validateProxy(proxyName.value)" class="btn btn-info-outline"
+                                <button (click)="validateProxy(proxyName.value)" class="btn btn-outline"
                                         style="margin-top: 12px; margin-right: 25px; float:right;"
                                         [disabled]="nVotes > 30">
                                     CONFIRM VOTE{{voteService.voteType ? '' : '(S)'}}
@@ -400,7 +400,7 @@
                             </form>
                         </div>
                         <div class="clr-col-lg text-right mt-3" *ngIf="voteService.hasList">
-                            <button (click)="processVotes()" class="btn btn-info-outline"
+                            <button (click)="processVotes()" class="btn btn-outline"
                                     style="margin-top: 12px; margin-right: 25px" [disabled]="nVotes > 30">
                                 CONFIRM VOTE{{voteService.voteType ? '' : '(S)'}}
                             </button>
@@ -447,7 +447,7 @@
                         <td class="text-right" colspan="8">
                             <div class="clr-col-auto" style="margin: 0 auto; text-align: center;">
                                 <fa-layers class="mt-2 mb-1">
-                                    <fa-icon [icon]="['far', 'spinner']" [spin]="true" size="2x" class="highlight-primary"></fa-icon>
+                                    <fa-icon [icon]="['fas','spinner']" [spin]="true" size="2x" class="highlight-primary"></fa-icon>
                                 </fa-layers>
                             </div>
                         </td>
@@ -465,7 +465,7 @@
                             {{item.position}}
                         </td>
                         <td *ngIf="voteService.voteType" class="text-center" [pRowToggler]="item">
-                            <fa-icon *ngIf="item.reg === true || item.reg === 'Registered'" [icon]="['far', 'check']"
+                            <fa-icon *ngIf="item.reg === true || item.reg === 'Registered'" [icon]="['fas', 'check']"
                                      size="lg" class="highlight-primary"></fa-icon>
                         </td>
                         <td class="text-center" [pRowToggler]="item">
@@ -481,7 +481,7 @@
                             <ul>
                                 <li class="social-icon" *ngIf="item.website">
                                     <a (click)="extOpen(item.website)">
-                                        <fa-icon [icon]="['far', 'globe']" size="lg"></fa-icon>
+                                        <fa-icon [icon]="['fas', 'globe']" size="lg"></fa-icon>
                                     </a>
                                 </li>
                                 <li class="social-icon" *ngIf="item.social['steemit']">
@@ -650,11 +650,11 @@
 								<a class="btn btn-sm btn-link btn-primary-link" style="max-width: none;"
                                    (click)="voteService.reloadAllProxies()">
 									<fa-icon [spin]="voteService.busy"
-                                             [icon]="['far', 'sync']"></fa-icon>
+                                             [icon]="['fas', 'sync']"></fa-icon>
 									Reload All Proxies
 								</a>
 							</span>
-                        <button (click)="processVotes()" class="btn btn-info-outline"
+                        <button (click)="processVotes()" class="btn btn-outline"
                                 style="margin-top: 10px; margin-right: 25px; float:right;" [disabled]="nVotes > 30"
                                 pTooltip="Cannot cast more than 30 votes" [tooltipDisabled]="nVotes <= 30">
                             CONFIRM VOTE{{voteService.voteType ? '' : '(S)'}}

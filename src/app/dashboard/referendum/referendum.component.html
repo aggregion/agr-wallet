@@ -19,7 +19,7 @@
 						<mat-form-field class="searchbar">
 							<input type="text" matInput placeholder="Search..."
 								   (input)="filterProposals($event.target['value'])">
-							<fa-icon matSuffix [icon]="['far', 'search']" size="lg"></fa-icon>
+							<fa-icon matSuffix [icon]="['fas', 'search']" size="lg"></fa-icon>
 						</mat-form-field>
 					</div>
 					<div class="clr-col-lg text-right">
@@ -141,14 +141,14 @@
 									</div>
 									<div class="clr-col-lg-3" [ngStyle]="{'display':showOptions}"
 										 formArrayName="options">
-										<button type="button" class="btn btn-info-outline btn-icon btn-sm"
+										<button type="button" class="btn btn-outline btn-icon btn-sm"
 												style="width: 34px;" (click)="addOptiont()">
-											<fa-icon [icon]="['far', 'plus']"></fa-icon>
+											<fa-icon [icon]="['fas', 'plus']"></fa-icon>
 										</button>
 										&nbsp;
 										<button type="button" class="btn btn-danger-outline btn-icon btn-sm"
 												style="width: 34px;" (click)="removeOption()">
-											<fa-icon [icon]="['far', 'minus']"></fa-icon>
+											<fa-icon [icon]="['fas', 'minus']"></fa-icon>
 										</button>
 
 										<div style="float:left;clear:both"
@@ -163,7 +163,7 @@
 										</div>
 									</div>
 									<div class="clr-col-lg-2">
-										<button type="button" class="btn btn-block btn-outline btn-info-outline"
+										<button type="button" class="btn btn-block btn-outline btn-outline"
 												style="margin-top: 15px; padding:0px 17px !important;"
 												(click)="createProposalForm.valid?(proposalModal=true):null"
 												[disabled]="!createProposalForm.valid">
@@ -184,7 +184,7 @@
 			<ng-container>
 
 				<fa-layers class="mt-2 mb-1">
-					<fa-icon [icon]="['far', 'spinner']" [spin]="true" size="2x" style="color:#0094d2;"></fa-icon>
+					<fa-icon [icon]="['fas','spinner']" [spin]="true" size="2x" style="color:#0094d2;"></fa-icon>
 				</fa-layers>
 				<br>
 
@@ -240,21 +240,21 @@
 						</div>
 						<button
 							*ngIf="(!isExpired(p.proposal.expires_at)) && ((p.proposal.json_data.type !== 'options-v1') && (p.proposal.json_data.type !== 'multi-select-v1'))"
-							type="button" class="btn btn-outline btn-info-outline"
+							type="button" class="btn btn-outline btn-outline"
 							(click)="startVote(p,0, $event);"
 							style="margin-top: 15px; padding:0 17px !important;">
 							0 - No
 						</button>
 						<button
 							*ngIf="(!isExpired(p.proposal.expires_at)) && ((p.proposal.json_data.type !== 'options-v1') && (p.proposal.json_data.type !== 'multi-select-v1'))"
-							type="button" class="btn btn-outline btn-info-outline"
+							type="button" class="btn btn-outline btn-outline"
 							(click)="startVote(p,1, $event);"
 							style="margin-top: 15px; padding:0 17px !important;">
 							1 - Yes
 						</button>
 						<button
 							*ngIf="(!isExpired(p.proposal.expires_at)) && (p.proposal.json_data.type==='poll-yna-v1')"
-							type="button" class="btn btn-outline btn-info-outline"
+							type="button" class="btn btn-outline btn-outline"
 							(click)="startVote(p,2, $event);"
 							style="margin-top: 15px; padding:0 17px !important;">
 							2 - Abstain
@@ -275,7 +275,7 @@
 								</mat-select>
 							</mat-form-field>
 
-							<button type="button" class="btn btn-outline btn-info-outline"
+							<button type="button" class="btn btn-outline btn-outline"
 									(click)="startMultiVote(p, $event)"
 									style="margin-top: 9px;  padding:0px 17px !important;">
 								Vote
@@ -283,7 +283,7 @@
 						</div>
 
 						<button *ngIf="!isExpired(p.proposal.expires_at)" type="button"
-								class="btn btn-outline btn-info-outline"
+								class="btn btn-outline btn-outline"
 								(click)="startUnvote(p, $event)"
 								style="margin-top: 15px; padding:0px 17px !important;">
 							Unvote
@@ -360,21 +360,21 @@
 	<div class="modal-footer">
 		<button
 			*ngIf="(!isExpired(sMexpires_at)) && ((sMType !== 'options-v1') && (sMType !== 'multi-select-v1'))"
-			type="button" class="btn btn-outline btn-info-outline"
+			type="button" class="btn btn-outline btn-outline"
 			(click)="startVote(selProposal,0, $event);"
 			style="margin-top: 15px; padding:0px 17px !important;">
 			0 - No
 		</button>
 		<button
 			*ngIf="(!isExpired(sMexpires_at)) && ((sMType !== 'options-v1') && (sMType !== 'multi-select-v1'))"
-			type="button" class="btn btn-outline btn-info-outline"
+			type="button" class="btn btn-outline btn-outline"
 			(click)="startVote(selProposal,1, $event);"
 			style="margin-top: 15px; padding:0px 17px !important;">
 			1 - Yes
 		</button>
 		<button
 			*ngIf="(!isExpired(sMexpires_at)) && (sMType==='poll-yna-v1')"
-			type="button" class="btn btn-outline btn-info-outline"
+			type="button" class="btn btn-outline btn-outline"
 			(click)="startVote(selProposal,2, $event);"
 			style="margin-top: 15px; padding:0px 17px !important;">
 			2 - Abstain
@@ -395,7 +395,7 @@
 				</mat-select>
 			</mat-form-field>
 
-			<button type="button" class="btn btn-outline btn-info-outline"
+			<button type="button" class="btn btn-outline btn-outline"
 					(click)="startMultiVote(selProposal, $event)"
 					style="margin-top: 9px;  padding:0 17px !important;">
 				Vote
@@ -403,7 +403,7 @@
 		</div>
 
 		<button *ngIf="!isExpired(sMexpires_at)" type="button"
-				class="btn btn-outline btn-info-outline"
+				class="btn btn-outline btn-outline"
 				(click)="startUnvote(selProposal, $event)"
 				style="margin-top: 15px; padding:0px 17px !important;">
 			Unvote
@@ -463,11 +463,11 @@
 				</mat-hint>
 				<br clear="all"/>
 			</mat-form-field>
-			<button type="button" class="btn btn-info-outline" style="margin-top: 12px;padding: 5px;"
+			<button type="button" class="btn btn-outline" style="margin-top: 12px;padding: 5px;"
 					(click)="voteProposal()"
 					[disabled]="!confirmvoteForm.valid || busy">
 				Confirm
-				<fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+				<fa-icon [icon]="['fas','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
 			</button>
 
 		</form>
@@ -490,11 +490,11 @@
 				</mat-hint>
 				<br clear="all"/>
 			</mat-form-field>
-			<button type="button" class="btn btn-info-outline" style="margin-top: 12px;padding: 5px;"
+			<button type="button" class="btn btn-outline" style="margin-top: 12px;padding: 5px;"
 					(click)="unvoteProposal()"
 					[disabled]="!confirmunvoteForm.valid || busy">
 				Confirm
-				<fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+				<fa-icon [icon]="['fas','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
 			</button>
 
 		</form>
@@ -524,11 +524,11 @@
 				</mat-hint>
 				<br clear="all"/>
 			</mat-form-field>
-			<button type="button" class="btn btn-info-outline" style="margin-top: 12px; padding: 5px;"
+			<button type="button" class="btn btn-outline" style="margin-top: 12px; padding: 5px;"
 					(click)="pushProposal()"
 					[disabled]="!confirmProposalForm.valid || busy">
 				Confirm
-				<fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+				<fa-icon [icon]="['fas','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
 			</button>
 
 		</form>

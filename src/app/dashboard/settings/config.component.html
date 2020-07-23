@@ -55,12 +55,12 @@
                     </div>
                     <div class="clr-row" style="margin-left: 0;">
                         <div class="clr-col-auto" style="padding-left: 0;">
-                            <button class="btn btn-info-outline mt-1" (click)="endpointModal = true"
+                            <button class="btn btn-outline mt-1" (click)="endpointModal = true"
                                     style="font-weight: 700">Other
                             </button>
                         </div>
                         <div class="clr-col-auto">
-                            <button class="btn btn-info-outline mt-1" (click)="network.connect(true)"
+                            <button class="btn btn-outline mt-1" (click)="network.connect(true)"
                                     matTooltip="Automatically connects on the fastest endpoint for you"
                                     matTooltipClass="black-tooltip" matTooltipPosition="right"
                                     style="font-weight: 700">Auto
@@ -68,7 +68,7 @@
                         </div>
                         <div class="clr-col-auto" *ngIf="!network.networkingReady.getValue()">
                             <fa-layers class="mt-2 mb-1">
-                                <fa-icon [icon]="['far', 'spinner']" [spin]="true" size="2x"
+                                <fa-icon [icon]="['fas','spinner']" [spin]="true" size="2x"
                                          class="highlight-primary"></fa-icon>
                             </fa-layers>
                         </div>
@@ -86,7 +86,7 @@
                     Other Tools
                 </div>
                 <div class="card-block">
-                    <button class="btn btn-info-outline"
+                    <button class="btn btn-outline"
                             (click)="openKeyGenModal()"
                             style="font-weight: 700">
                         Key Generator
@@ -104,7 +104,7 @@
                     </a>
                 </div>
                 <div class="card-block">
-                    <button class="btn btn-info-outline" (click)="managerKeys = true"
+                    <button class="btn btn-outline" (click)="managerKeys = true"
                             style="font-weight: 700">Manager
                     </button>
                 </div>
@@ -119,7 +119,7 @@
                     Logout Options
                 </div>
                 <div class="card-block borderb">
-                    <button class="btn btn-info-outline" (click)="logoutModal = true"
+                    <button class="btn btn-outline" (click)="logoutModal = true"
                             style="font-weight: 700">Logout from
                         <span *ngIf="app.compilerVersion === 'DEFAULT'">all chains</span>
                         <span *ngIf="app.compilerVersion !== 'DEFAULT'">{{aService.activeChain['name']}}</span>
@@ -130,7 +130,7 @@
                     </div>
                 </div>
                 <div class="card-block" *ngIf="app.compilerVersion === 'DEFAULT'">
-                    <button class="btn btn-info-outline" (click)="logoutChainModal = true"
+                    <button class="btn btn-outline" (click)="logoutChainModal = true"
                             style="font-weight: 700">Logout from {{aService.activeChain['name']}}
                     </button>
                     <div class="info">*Your data will be cleared from this PC. Should you want to login again, you will
@@ -149,7 +149,7 @@
                     </a>
                 </div>
                 <div class="card-block">
-                    <button class="btn btn-info-outline" (click)="pinModal = true"
+                    <button class="btn btn-outline" (click)="pinModal = true"
                             style="font-weight: 700">SET PIN
                     </button>
                     <button class="btn btn-danger-outline" (click)="clearPinModal = true"
@@ -173,7 +173,7 @@
                 </div>
 
                 <div class="card-block">
-                    <button class="btn btn-info-outline" (click)="changePassModal = true"
+                    <button class="btn btn-outline" (click)="changePassModal = true"
                             style="font-weight: 700">CHANGE
                     </button>
                 </div>
@@ -211,16 +211,16 @@
                         </a>
                         <div class="info" *ngIf="backup.lastBackupTime !== ''">* Last backup on {{backup.lastBackupTime}}</div>
                     </div>
-                    <button class="btn btn-info-outline" (click)="exportBKModal = true"
+                    <button class="btn btn-outline" (click)="exportBKModal = true"
                             style="font-weight: 700">EXPORT
                     </button>
-                    <button class="btn btn-info-outline" (click)="importBKModal = true"
+                    <button class="btn btn-outline" (click)="importBKModal = true"
                             style="font-weight: 700">IMPORT
                     </button>
                     <div style="margin-top: 20px;">
-                        <button class="btn btn-info-outline" (click)="openPKModal()"
+                        <button class="btn btn-outline" (click)="openPKModal()"
                                 style="font-weight: 700">VIEW PRIVATE KEY
-                            <fa-icon [icon]="['far', 'skull-crossbones']" size="lg"></fa-icon>
+                            <fa-icon [icon]="['fas', 'skull-crossbones']" size="lg"></fa-icon>
                         </button>
                     </div>
                 </div>
@@ -243,7 +243,7 @@
     <div class="modal-footer">
         <button class="btn btn-danger-outline" (click)="logoutModal = false">Cancel</button>
         <div>
-            <button type="button" class="btn btn-info-outline" (click)="logout()">
+            <button type="button" class="btn btn-outline" (click)="logout()">
                 Yes
             </button>
             <div class="text-center text-faded mt-1" *ngIf="app.compilerVersion === 'DEFAULT'">*SimplEOS will <br> be
@@ -271,7 +271,7 @@
     <div class="modal-footer">
         <button class="btn btn-danger-outline" (click)="logoutChainModal = false">Cancel</button>
         <div>
-            <button type="button" class="btn btn-info-outline" (click)="logoutByCahin()">
+            <button type="button" class="btn btn-outline" (click)="logoutByCahin()">
                 Yes
             </button>
             <div class="text-center text-faded mt-1" *ngIf="app.compilerVersion === 'DEFAULT'">*SimplEOS will <br> be
@@ -291,9 +291,9 @@
         </mat-form-field>
     </div>
     <div class="modal-footer" style="padding: 0.5rem 0 0 0;">
-        <button type="button" class="btn btn-info-outline" (click)="connectCustom(customEndpoint.value)">
+        <button type="button" class="btn btn-outline" (click)="connectCustom(customEndpoint.value)">
             Connect
-            <fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+            <fa-icon [icon]="['fas','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
         </button>
     </div>
 </clr-modal>
@@ -306,9 +306,9 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-danger-outline" (click)="confirmModal = false">Cancel</button>
-        <button type="button" class="btn btn-info-outline" (click)="connectEndpoint()">
+        <button type="button" class="btn btn-outline" (click)="connectEndpoint()">
             Connect
-            <fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+            <fa-icon [icon]="['fas','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
         </button>
     </div>
 </clr-modal>
@@ -332,9 +332,9 @@
             <mat-form-field class="mt-3  pass-input">
                 <input matInput #pass type="password" placeholder="New password" (blur)="passCompare()"
                        [formControl]="passForm['controls'].matchingPassword['controls']['pass1']">
-                <fa-icon matSuffix *ngIf="pass.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
+                <fa-icon matSuffix *ngIf="pass.type === 'password'" [icon]="['fas', 'eye']" size="lg" class="copy"
                          (click)="pass.type = 'text'"></fa-icon>
-                <fa-icon matSuffix *ngIf="pass.type === 'text'" [icon]="['far', 'eye-slash']" size="lg" class="copy"
+                <fa-icon matSuffix *ngIf="pass.type === 'text'" [icon]="['fas', 'eye-slash']" size="lg" class="copy"
                          (click)="pass.type = 'password'"></fa-icon>
                 <mat-hint align="start">
                     Min 4 characters
@@ -346,9 +346,9 @@
             <mat-form-field style="margin-top: 19px" class="pass-input">
                 <input matInput #pass2 type="password" placeholder="Confirm password" (blur)="passCompare()"
                        [formControl]="passForm['controls'].matchingPassword['controls']['pass2']">
-                <fa-icon matSuffix *ngIf="pass2.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
+                <fa-icon matSuffix *ngIf="pass2.type === 'password'" [icon]="['fas', 'eye']" size="lg" class="copy"
                          (click)="pass2.type = 'text'"></fa-icon>
-                <fa-icon matSuffix *ngIf="pass2.type === 'text'" [icon]="['far', 'eye-slash']" size="lg" class="copy"
+                <fa-icon matSuffix *ngIf="pass2.type === 'text'" [icon]="['fas', 'eye-slash']" size="lg" class="copy"
                          (click)="pass2.type = 'password'"></fa-icon>
                 <mat-error *ngIf="!passmatch">
                     Passwords do not match!
@@ -358,7 +358,7 @@
     </div>
     <div class="modal-footer" style="padding: 0.5rem 0 0 0;">
         <button type="submit"
-                class="btn btn-info-outline"
+                class="btn btn-outline"
                 (click)="changePass()"
                 [disabled]="!passForm.valid">
             Confirm
@@ -374,9 +374,9 @@
         <form [formGroup]="pinForm">
             <mat-form-field class="mt-1">
                 <input matInput #pin type="password" placeholder="New pin" formControlName="pin">
-                <fa-icon matSuffix *ngIf="pin.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
+                <fa-icon matSuffix *ngIf="pin.type === 'password'" [icon]="['fas', 'eye']" size="lg" class="copy"
                          (click)="pin.type = 'text'"></fa-icon>
-                <fa-icon matSuffix *ngIf="pin.type === 'text'" [icon]="['far', 'eye-slash']" size="lg" class="copy"
+                <fa-icon matSuffix *ngIf="pin.type === 'text'" [icon]="['fas', 'eye-slash']" size="lg" class="copy"
                          (click)="pin.type = 'password'"></fa-icon>
                 <mat-hint align="start">
                     This pin can be anything you want
@@ -385,7 +385,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" (click)="setPIN()" class="btn btn-info-outline" [disabled]="!pinForm.valid">
+        <button type="button" (click)="setPIN()" class="btn btn-outline" [disabled]="!pinForm.valid">
             Set pin
         </button>
     </div>
@@ -401,7 +401,7 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-danger-outline" (click)="clearPinModal = false">Cancel</button>
-        <button type="button" class="btn btn-info-outline" (click)="clearPin()">
+        <button type="button" class="btn btn-outline" (click)="clearPin()">
             Yes
         </button>
     </div>
@@ -431,11 +431,11 @@
     </div>
     <div class="modal-footer" style="padding: 0.5rem 0 0 0;">
         <button type="button"
-                class="btn btn-info-outline"
+                class="btn btn-outline"
                 (click)="importBK()"
                 [disabled]="busy || infile === ''">
             Import
-            <fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+            <fa-icon [icon]="['fas','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
         </button>
     </div>
 </clr-modal>
@@ -448,16 +448,16 @@
         <form [formGroup]="exportForm">
             <mat-form-field class="mt-8">
                 <input matInput #passexport type="password" placeholder="Encrypt your file" formControlName="pass">
-                <fa-icon matSuffix *ngIf="passexport.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
+                <fa-icon matSuffix *ngIf="passexport.type === 'password'" [icon]="['fas', 'eye']" size="lg" class="copy"
                          (click)="passexport.type = 'text'"></fa-icon>
-                <fa-icon matSuffix *ngIf="passexport.type === 'text'" [icon]="['far', 'eye-slash']" size="lg"
+                <fa-icon matSuffix *ngIf="passexport.type === 'text'" [icon]="['fas', 'eye-slash']" size="lg"
                          class="copy"
                          (click)="passexport.type = 'password'"></fa-icon>
                 <mat-hint align="start">
                     This password can be anything you want
                 </mat-hint>
             </mat-form-field>
-            <button type="button" class="btn btn-info-outline" (click)="inputEXClick()" style="margin-left:10px;">
+            <button type="button" class="btn btn-outline" (click)="inputEXClick()" style="margin-left:10px;">
                 Choose directory
             </button>
             <br/>
@@ -469,11 +469,11 @@
     </div>
     <div class="modal-footer" style="padding: 0.5rem 0 0 0;">
         <button type="button"
-                class="btn btn-info-outline"
+                class="btn btn-outline"
                 (click)="exportBK()"
                 [disabled]="busy || exfile === ''">
             Export
-            <fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+            <fa-icon [icon]="['fas','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
         </button>
     </div>
 </clr-modal>
@@ -482,7 +482,7 @@
 <clr-modal #pkModal [(clrModalOpen)]="viewPKModal" [clrModalSize]="'md'" (clrModalOpenChange)="closePkModal();">
     <h3 class="modal-title" style="color: var(--text-error) !important">
         Caution
-        <fa-icon [icon]="['far', 'exclamation-triangle']"></fa-icon>
+        <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
     </h3>
     <div class="modal-body">
         <div *ngIf="claimKey">
@@ -490,7 +490,7 @@
             <mat-form-field style="width: 350px; margin-top: 25px;">
                 <input matInput placeholder="Claim private key"
                        [value]="claimPrivateKey" readonly>
-                <fa-icon matSuffix [icon]="[['fas','clone']]" size="lg" class="copy"
+                <fa-icon matSuffix [icon]="['fas','clone']" size="lg" class="copy"
                          (click)="cc(claimPrivateKey)"></fa-icon>
             </mat-form-field>
         </div>
@@ -504,9 +504,9 @@
                 <mat-form-field>
                     <input matInput type="password" placeholder="Password" formControlName="pass">
                 </mat-form-field>
-                <button type="button" class="btn btn-info-outline" style="margin-left:10px;" (click)="viewPK()">
+                <button type="button" class="btn btn-outline" style="margin-left:10px;" (click)="viewPK()">
                     YES, SHOW ME
-                    <fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+                    <fa-icon [icon]="['fas','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
                 </button>
             </form>
         </div>
@@ -517,7 +517,7 @@
                 <input matInput placeholder="Active private key"
                        [value]="tempPK" readonly>
                 <a matSuffix class="tooltip tooltip-xs tooltip-top-left">
-                    <fa-icon [icon]="[['fas','clone']]" size="lg" class="copy" (click)="cc(tempPK)"></fa-icon>
+                    <fa-icon [icon]="['fas','clone']" size="lg" class="copy" (click)="cc(tempPK)"></fa-icon>
                     <span class="tooltip-content">Copy</span>
                 </a>
             </mat-form-field>
@@ -559,7 +559,7 @@
                     <div style="font-weight: 600" class="highlight-primary">PUBLIC KEY:</div>
                     <div class="highlight">{{key}}
                         <button class="btn btn-sm btn-danger-outline" (click)="removeKey(key);">
-                            <fa-icon [icon]="['far','trash-alt']"></fa-icon>
+                            <fa-icon [icon]="['fas','trash-alt']"></fa-icon>
                             Remove key
                         </button>
                         <a role="tooltip" aria-haspopup="true" class="tooltip tooltip-lg tooltip-right">
@@ -576,7 +576,7 @@
                         <div fxFlex="29">{{a.account.name}}@{{a.permission}}</div>
                         <button (click)="removeAccount(a.account.name,true)" class="btn btn-sm btn-danger-outline"
                                 style="min-width: unset; padding: 0 5px; margin-left: 7px">
-                            <fa-icon [icon]="['far','trash-alt']"></fa-icon>
+                            <fa-icon [icon]="['fas','trash-alt']"></fa-icon>
                         </button>
                         <a role="tooltip" aria-haspopup="true" class="tooltip tooltip-lg tooltip-right">
                             <fa-icon [icon]="['fas','question-circle']" class="highlight-primary"

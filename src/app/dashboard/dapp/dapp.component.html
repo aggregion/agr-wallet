@@ -7,7 +7,7 @@
                 <mat-form-field class="C clr-col-lg-7">
                     <input type="text" #search formControlName="search" matInput placeholder="Search..."
                            (keyup.enter)="searchDapp($event.target.value)">
-                    <fa-icon matSuffix [icon]="['far', 'search']" size="lg"
+                    <fa-icon matSuffix [icon]="['fas', 'search']" size="lg"
                              (click)="searchDapp(searchForm.value.search)"></fa-icon>
                     <mat-error align="start" *ngIf="errormsg !== ''">
                         {{errormsg}}
@@ -23,7 +23,7 @@
             <ng-container>
 
                 <fa-layers class="mt-2 mb-1">
-                    <fa-icon [icon]="['far', 'spinner']" [spin]="true" size="2x" style="color:#0094d2;"></fa-icon>
+                    <fa-icon [icon]="['fas','spinner']" [spin]="true" size="2x" style="color:#0094d2;"></fa-icon>
                 </fa-layers>
                 <br>
 
@@ -84,18 +84,18 @@
         <!--h4 class="text-white mt-0">Voting power will be: <span class="highlight-primary">{{21212 | number}}%</span></h4-->
         <br/>
         <!--mat-button-toggle-group name="alignment">
-            <mat-button-toggle value="left" *ngFor="let action of abiSmartContractActions" class="btn btn-outline btn-info-outline"
+            <mat-button-toggle value="left" *ngFor="let action of abiSmartContractActions" class="btn btn-outline btn-outline"
                                (click)="getForm(action.type);">
                 <div style="text-transform: uppercase !important;">{{action.name}}</div>
             </mat-button-toggle>
         </mat-button-toggle-group-->
 
-        <button *ngFor="let action of abiSmartContractActions" type="button" class="btn btn-outline btn-info-outline"
+        <button *ngFor="let action of abiSmartContractActions" type="button" class="btn btn-outline btn-outline"
                 (click)="getForm(action.type,action.name);" [ngClass]="buttonActive===action.name?'active':''"
                 style="margin-top: 15px; padding:0px 17px !important;">
             {{action.name}}
         </button>
-        <fa-icon class="highlight-primary" [icon]="['far','spinner']" [spin]="true" *ngIf="busy" size="lg"></fa-icon>
+        <fa-icon class="highlight-primary" [icon]="['fas','spinner']" [spin]="true" *ngIf="busy" size="lg"></fa-icon>
 
         <br/>
         <div class="my-mat-class">
@@ -131,11 +131,11 @@
                                formControlName="pass">
                         <br clear="all"/>
                     </mat-form-field>
-                    <button type="button" class="btn btn-info-outline" style="margin-top: 12px; padding: 5px;"
+                    <button type="button" class="btn btn-outline" style="margin-top: 12px; padding: 5px;"
                             (click)="pushAction()"
                             [disabled]="!confirmForm.valid || busy">
                         Confirm
-                        <fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+                        <fa-icon [icon]="['fas','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
                     </button>
 
                 </form>

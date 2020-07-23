@@ -34,7 +34,7 @@
                     {{acc.name}}
                     <span class="highlight-primary connect-anim">
                         &nbsp;&nbsp;&nbsp;connect
-                        <fa-icon [icon]="['far', 'angle-right']"></fa-icon>
+                        <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
                     </span>
                 </div>
             </ng-container>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="alert-item static">
                     <div class="alert-icon-wrapper">
-                        <fa-icon [icon]="['far', 'skull-crossbones']" class="alert-icon skull-icon"></fa-icon>
+                        <fa-icon [icon]="['fas', 'skull-crossbones']" class="alert-icon skull-icon"></fa-icon>
                     </div>
                     <span class="alert-text">
 						<strong>
@@ -117,20 +117,20 @@
                             </mat-hint>
                         </mat-form-field>
 
-                        <button type="button" class="btn btn-info-outline"
+                        <button type="button" class="btn btn-outline"
                                 [disabled]="!confirmForm.valid || busy" (click)="signExternalAction()">
                             Confirm
-                            <fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+                            <fa-icon [icon]="['fas','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
                         </button>
                     </form>
                 </ng-container>
 
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" *ngIf="mode === 'ledger'">
                     <span class="text-faded">device: {{requiredLedgerInfo.device}} - slot: {{requiredLedgerInfo.slot}}</span>
-                    <button type="button" class="btn btn-info-outline"
+                    <button type="button" class="btn btn-outline"
                             style="margin-top: 12px;" (click)="signExternalAction()">
                         sign with ledger
-                        <fa-icon [icon]="['far','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
+                        <fa-icon [icon]="['fas','spinner']" [spin]="true" *ngIf="busy"></fa-icon>
                     </button>
                 </div>
             </div>
@@ -149,7 +149,7 @@
     <div style="position:relative; float:right; right:-5px; top:-13px; margin:5px; cursor:pointer;" (click)="update=false;">X</div>
     <div>There is a new version available!<br/> Want to update?</div>
     <div></div>
-    <button class="btn btn-info-outline btn-sm" style="margin-right: 5px;" (click)="performUpdate()">Yes
+    <button class="btn btn-outline btn-sm" style="margin-right: 5px;" (click)="performUpdate()">Yes
     </button>
     <a class="btn btn-link btn-primary-link btn-sm" (click)="openGithub()">View on Github</a>
 </div>

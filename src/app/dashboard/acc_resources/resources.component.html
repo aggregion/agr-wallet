@@ -62,7 +62,7 @@
                                 style="width: 212px;  clear:both; display: inline-block !important; margin-top: 8px">
                             <input type="text" placeholder="Account" matInput #accountBuy formControlName="accountBuy"
                                    [matAutocomplete]="auto1">
-                            <fa-icon matSuffix [icon]="['far', 'caret-down']"></fa-icon>
+                            <fa-icon matSuffix [icon]="['fas', 'caret-down']"></fa-icon>
                             <mat-autocomplete #auto1="matAutocomplete">
                                 <mat-option value="to this account">to this account</mat-option>
                                 <mat-option value="to another account">to another account</mat-option>
@@ -79,7 +79,7 @@
                             <mat-hint align="end">{{anotherAcc.value.length}} / 12</mat-hint>
                         </mat-form-field>
                         <br>
-                        <button class="btn btn-outline btn-info-outline" [disabled]="!ramMarketFormBuy.valid"
+                        <button class="btn btn-outline btn-outline" [disabled]="!ramMarketFormBuy.valid"
                                 (click)="fillBuy();" style="font-weight: 700;">Buy
                         </button>
                         <div class="progress dark" style="margin-top: 20px">
@@ -104,7 +104,7 @@
                             {{errormsgeos}}
                         </mat-error>
                         <br>
-                        <button class="btn btn-outline btn-info-outline" [disabled]="!ramMarketFormSell.valid"
+                        <button class="btn btn-outline btn-outline" [disabled]="!ramMarketFormSell.valid"
                                 (click)="fillSell();" style="font-weight: 700;">Sell
                         </button>
                     </form>
@@ -120,7 +120,7 @@
                                     class="tooltip-content">Used on the rare case when unstaking gets stuck. If your unstaking is taking more than 72 hours to complete, request the refund to free your funds.<br>
               				</span>
                         </a>
-                        <button class="btn btn-outline btn-info-outline"
+                        <button class="btn btn-outline btn-outline"
                                 style="margin:15px auto; font-weight: 700; display: flex;"
                                 (click)="newRefund()">Request
                         </button>
@@ -223,7 +223,7 @@
                                 {{errormsgD3}}
                             </mat-error>
 
-                            <button class="btn btn-outline btn-info-outline"
+                            <button class="btn btn-outline btn-outline"
                                     [disabled]="(!delegateForm.valid)&&(netAmountEos.value !== '0')&&(cpuAmountEos.value !== '0')"
                                     (click)="fillDelegateRequest();" style="font-weight: 700;">
                                 DELEGATE
@@ -255,7 +255,7 @@
                             <td>
                                 <button class="btn btn-icon btn-danger-outline deleteBtn btn-sm"
                                         (click)="fillUnDelegateRequest(item.to, item.net_weight, item.cpu_weight)">
-                                    <fa-icon [icon]="['far', 'times']"></fa-icon>
+                                    <fa-icon [icon]="['fas', 'times']"></fa-icon>
                                 </button>
                             </td>
                         </tr>

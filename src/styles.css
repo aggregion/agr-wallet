@@ -784,7 +784,7 @@ input:not([readonly]) {
 
 .copy:hover {
 	cursor: pointer;
-	color: var(--text-highlight);
+	color: #00a199;
 }
 
 /*Prime's accordion*/

@@ -31,13 +31,13 @@
                         <mat-form-field class="public-input">
                             <input matInput #pin2 type="password" autocomplete="off" placeholder="Pin"
                                    (keyup.enter)="unlock()" [(ngModel)]="pin" [autofocus]="true" >
-                            <button mat-button matSuffix mat-icon-button class="btn btn-info-outline btn-sm btn-max"
+                            <button mat-button matSuffix mat-icon-button class="btn btn-outline btn-sm btn-max"
                                     (click)="unlock()" [disabled]="pin2.value.length === 0">
                                 Unlock
                             </button>
                             <mat-hint *ngIf="wrongpass" class="error">
                                 Wrong password.<br>{{nAttempts}} attempts left!
-                                <fa-icon [icon]="['far','exclamation-circle']" class="error"
+                                <fa-icon [icon]="['fas','exclamation-circle']" class="error"
                                          matTooltip="Data will be cleared after the last attempt" matTooltipClass="black-tooltip" matTooltipPosition="right">
                                 </fa-icon>
                             </mat-hint>
@@ -49,7 +49,7 @@
                 <div class="text-on-cover" style="margin-top: 5px;">Forgot your pin?
                     <a class="btn btn-sm btn-link btn-accent-link" style="max-width: none; cursor: pointer;" (click)="logoutModal = true">
                         Clear all data and logout
-                        <fa-icon [icon]="['far', 'sign-out-alt']"></fa-icon>
+                        <fa-icon [icon]="['fas', 'sign-out-alt']"></fa-icon>
                     </a>
                 </div>
             </div>
@@ -69,7 +69,7 @@
     <div class="modal-footer">
         <button class="btn btn-danger-outline" (click)="logoutModal = false">Cancel</button>
         <div>
-            <button type="button" class="btn btn-info-outline" (click)="logout()">
+            <button type="button" class="btn btn-outline" (click)="logout()">
                 Yes
             </button>
             <div class="text-center text-faded mt-1" *ngIf="app.compilerVersion === 'DEFAULT'">>*SimplEOS will <br> be restarted</div>

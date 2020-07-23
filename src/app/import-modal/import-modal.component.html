@@ -22,10 +22,10 @@
                 <mat-form-field class="mt-3" style="width: 100%;">
                     <input #pkField matInput type="password" formControlName="private_key"
                            placeholder="{{network.activeChain['name']}} Active Private key">
-                    <fa-icon matSuffix *ngIf="pkField.type === 'password'" [icon]="['far', 'eye']" size="lg"
+                    <fa-icon matSuffix *ngIf="pkField.type === 'password'" [icon]="['fas', 'eye']" size="lg"
                              class="copy"
                              (click)="pkField.type = 'text'"></fa-icon>
-                    <fa-icon matSuffix *ngIf="pkField.type === 'text'" [icon]="['far', 'eye-slash']" size="lg"
+                    <fa-icon matSuffix *ngIf="pkField.type === 'text'" [icon]="['fas', 'eye-slash']" size="lg"
                              class="copy"
                              (click)="pkField.type = 'password'"></fa-icon>
                     <mat-hint align="start">
@@ -44,7 +44,7 @@
 
             <p *ngIf="busyVerifying">
                 Searching for accounts...
-                <fa-icon [icon]="['far','spinner']" [spin]="true"></fa-icon>
+                <fa-icon [icon]="['fas','spinner']" [spin]="true"></fa-icon>
             </p>
 
             <!--		standard accounts-->
@@ -63,7 +63,7 @@
             <p *ngIf="ledgerError !== ''" class="error">{{ledgerError}}</p>
 
             <fa-layers *ngIf="ledger.reading" class="highlight-primary fa-fw">
-                <fa-icon [icon]="['far','spinner']" size="2x" [spin]="true"></fa-icon>
+                <fa-icon [icon]="['fas','spinner']" size="2x" [spin]="true"></fa-icon>
             </fa-layers>
 
             <p *ngIf="ledger.reading">Reading slot: {{ledger.currentSlot}}</p>
@@ -110,7 +110,7 @@
             <mat-list role="list">
                 <mat-list-item role="listitem" matTooltip="click to copy" *ngFor="let key of ledger.ledgerPublicKeys">
                     <span style="font-family: 'SourceCodePro',monospace; font-size: smaller">{{key.address}}</span>
-                    <fa-icon [icon]="[['fas','clone']]" size="lg" class="ml-4 copy" (click)="cc(key.address)"></fa-icon>
+                    <fa-icon [icon]="['fas','clone']" size="lg" class="ml-4 copy" (click)="cc(key.address)"></fa-icon>
                 </mat-list-item>
             </mat-list>
         </ng-container>
@@ -134,9 +134,9 @@
             <mat-form-field class="mt-3" style="display: flex;">
                 <input matInput #pass type="password" placeholder="Password" (blur)="passCompare()"
                        [formControl]="passform['controls'].matchingPassword['controls']['pass1']">
-                <fa-icon matSuffix *ngIf="pass.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
+                <fa-icon matSuffix *ngIf="pass.type === 'password'" [icon]="['fas', 'eye']" size="lg" class="copy"
                          (click)="pass.type = 'text'"></fa-icon>
-                <fa-icon matSuffix *ngIf="pass.type === 'text'" [icon]="['far', 'eye-slash']" size="lg" class="copy"
+                <fa-icon matSuffix *ngIf="pass.type === 'text'" [icon]="['fas', 'eye-slash']" size="lg" class="copy"
                          (click)="pass.type = 'password'"></fa-icon>
                 <mat-hint align="start">
                     Min 4 characters
@@ -148,9 +148,9 @@
                        placeholder="Confirm password" (blur)="passCompare()"
                        [formControl]="passform['controls'].matchingPassword['controls']['pass2']">
 
-                <fa-icon matSuffix *ngIf="pass2.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
+                <fa-icon matSuffix *ngIf="pass2.type === 'password'" [icon]="['fas', 'eye']" size="lg" class="copy"
                          (click)="pass2.type = 'text'"></fa-icon>
-                <fa-icon matSuffix *ngIf="pass2.type === 'text'" [icon]="['far', 'eye-slash']" size="lg" class="copy"
+                <fa-icon matSuffix *ngIf="pass2.type === 'text'" [icon]="['fas', 'eye-slash']" size="lg" class="copy"
                          (click)="pass2.type = 'password'"></fa-icon>
 
                 <mat-error *ngIf="!passmatch">
@@ -174,9 +174,9 @@
         <mat-checkbox [(ngModel)]="lockscreen">Set lockscreen</mat-checkbox>
         <mat-form-field class="mt-3" *ngIf="lockscreen" style="display: flex;">
             <input matInput #pin1 type="password" placeholder="Lockscreen pin" [(ngModel)]="pin">
-            <fa-icon matSuffix *ngIf="pin1.type === 'password'" [icon]="['far', 'eye']" size="lg" class="copy"
+            <fa-icon matSuffix *ngIf="pin1.type === 'password'" [icon]="['fas', 'eye']" size="lg" class="copy"
                      (click)="pin1.type = 'text'"></fa-icon>
-            <fa-icon matSuffix *ngIf="pin1.type === 'text'" [icon]="['far', 'eye-slash']" size="lg" class="copy"
+            <fa-icon matSuffix *ngIf="pin1.type === 'text'" [icon]="['fas', 'eye-slash']" size="lg" class="copy"
                      (click)="pin1.type = 'password'"></fa-icon>
             <mat-hint align="start">
                 This pin can be anything you want

@@ -19,7 +19,7 @@
                 <input style="font-family: 'SourceCodePro',monospace" matInput placeholder="Public key" [(ngModel)]="pubKey">
             </label>
             <a matSuffix class="tooltip tooltip-xs tooltip-right">
-                <fa-icon  [icon]="[['fas','clone']]" size="lg" class="copy"
+                <fa-icon  [icon]="['fas','clone']" size="lg" class="copy"
                          (click)="copy(pubKey)"></fa-icon>
                 <span class="tooltip-content">Copy</span>
             </a>
@@ -33,7 +33,7 @@
                 <input style="font-family: 'SourceCodePro',monospace" matInput placeholder="Private key" [(ngModel)]="prvKey">
             </label>
             <a matSuffix class="tooltip tooltip-xs tooltip-right">
-                <fa-icon [icon]="[['fas','clone']]" size="lg" class="copy"
+                <fa-icon [icon]="['fas','clone']" size="lg" class="copy"
                      (click)="copy(prvKey)"></fa-icon>
                 <span class="tooltip-content">Copy</span>
             </a>
@@ -49,7 +49,7 @@
         </button>
 
         <fa-layers *ngIf="generating" class="highlight-primary fa-fw">
-            <fa-icon [icon]="['far','spinner']" size="2x" [spin]="true"></fa-icon>
+            <fa-icon [icon]="['fas','spinner']" size="2x" [spin]="true"></fa-icon>
         </fa-layers>
 
     </div>
@@ -58,7 +58,7 @@
         <div *ngIf="generated" style="clear:both;padding-top: 5px;">
             <mat-checkbox [(ngModel)]="agreeKeys">I have saved all my keys in a safe place</mat-checkbox>
         </div>
-        <button [disabled]="pubKey === '' || prvKey === '' || !agreeKeys" type="button" class="btn btn-info-outline"
+        <button [disabled]="pubKey === '' || prvKey === '' || !agreeKeys" type="button" class="btn btn-outline"
                 (click)="onFinish()">
             FINISH
         </button>
