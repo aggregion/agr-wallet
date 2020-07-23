@@ -1,15 +1,14 @@
 {
-	"name": "simpleos",
-	"version": "1.0.5",
-	"productName": "simpleos",
-	"appId": "io.eosrio.simpleos",
+	"name": "agr-wallet",
+	"version": "0.8.0",
+	"productName": "Aggregion Wallet",
 	"compilerVersion": "DEFAULT",
-	"description": "EOSIO Blockchain Interface & Wallet",
+	"description": "Blockchain Interface & Wallet",
 	"author": {
-		"name": "EOS Rio",
-		"email": "contact@eosrio.io"
+		"name": "agr",
+		"email": "1@1.ru"
 	},
-	"repository": "https://github.com/eosrio/simpleos",
+	"repository": "https://github.com/aggregion/agr-wallet/",
 	"license": "MIT",
 	"scripts": {
 		"config:default": "node configurations/build-simpleos.js",
