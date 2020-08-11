@@ -280,7 +280,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
         this.network.networkingReady.next(false);
         this.aService.lastAccount = this.aService.selected.getValue().name;
         this.busy = true;
-        await this.network.startup(null);
+        await this.network.startup(null, true);
         this.busy = false;
         this.confirmModal = false;
     }
@@ -290,7 +290,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
         this.network.networkingReady.next(false);
         this.aService.lastAccount = this.aService.selected.getValue().name;
         this.busy = true;
-        await this.network.startup(url);
+        await this.network.startup(url, false);
         this.busy = false;
         this.endpointModal = false;
     }

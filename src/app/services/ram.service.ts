@@ -32,39 +32,39 @@ export class RamService {
 		private aService: AccountsService,
 		private eosjs: Eosjs2Service
 	) {
-		this.socket = socketIo('https://hapi.eosrio.io/');
-		this.socket.on('ticker', (data) => {
-			if (data.price) {
-				if (this.aService.activeChain.name === 'EOS MAINNET') {
-					this.ramTicker.next(data);
-					this.ramPriceEOS = data.price;
-				}
-			}
-		});
-		setInterval(() => {
-			this.reload();
-		}, 60000);
+		// this.socket = socketIo('https://hapi.eosrio.io/');
+		// this.socket.on('ticker', (data) => {
+		// 	if (data.price) {
+		// 		if (this.aService.activeChain.name === 'EOS MAINNET') {
+		// 			this.ramTicker.next(data);
+		// 			this.ramPriceEOS = data.price;
+		// 		}
+		// 	}
+		// });
+		// setInterval(() => {
+		// 	this.reload();
+		// }, 60000);
 	}
 
 	reload() {
-		if (!this.restrictedChains.includes(this.aService.activeChain.name)) {
-			this.eosjs.getChainInfo().then((global) => {
-				if (global) {
-					this.max_ram_size = global.rows[0]['max_ram_size'];
-					this.total_ram_bytes_reserved = global.rows[0]['total_ram_bytes_reserved'];
-					this.total_ram_stake = global.rows[0]['total_ram_stake'];
-					this.eosjs.getRamMarketInfo().then((rammarket) => {
-						this.rm_base = rammarket.rows[0]['base']['balance'].split(' ')[0];
-						this.rm_quote = rammarket.rows[0]['quote']['balance'].split(' ')[0];
-						this.rm_supply = rammarket.rows[0]['supply'].split(' ')[0];
-						this.updatePrice();
-					});
-				}
-			});
-		}
+		// if (!this.restrictedChains.includes(this.aService.activeChain.name)) {
+		// 	this.eosjs.getChainInfo().then((global) => {
+		// 		if (global) {
+		// 			this.max_ram_size = global.rows[0]['max_ram_size'];
+		// 			this.total_ram_bytes_reserved = global.rows[0]['total_ram_bytes_reserved'];
+		// 			this.total_ram_stake = global.rows[0]['total_ram_stake'];
+		// 			this.eosjs.getRamMarketInfo().then((rammarket) => {
+		// 				this.rm_base = rammarket.rows[0]['base']['balance'].split(' ')[0];
+		// 				this.rm_quote = rammarket.rows[0]['quote']['balance'].split(' ')[0];
+		// 				this.rm_supply = rammarket.rows[0]['supply'].split(' ')[0];
+		// 				this.updatePrice();
+		// 			});
+		// 		}
+		// 	});
+		// }
 	}
 
 	updatePrice() {
-		this.ramPriceEOS = ((this.rm_quote) / this.rm_base) * 1024;
+		// this.ramPriceEOS = ((this.rm_quote) / this.rm_base) * 1024;
 	}
 }

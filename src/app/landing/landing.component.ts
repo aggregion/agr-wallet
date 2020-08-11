@@ -454,7 +454,7 @@ export class LandingComponent implements OnInit, OnDestroy {
 	}
 
 	customConnect() {
-		this.network.startup(this.endpoint).then(() => {
+		this.network.startup(this.endpoint, false).then(() => {
 			this.endpointModal = false;
 		}).catch(console.log);
 	}

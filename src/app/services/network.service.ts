@@ -246,7 +246,7 @@ export class NetworkService {
 
             if (this.selectedEndpoint.getValue()) {
                 console.log('Best Server Selected!', this.selectedEndpoint.getValue().url);
-                this.startup(null).catch(console.log);
+                this.startup(null, false).catch(console.log);
             } else {
                 this.networkingReady.next(false);
             }
@@ -295,11 +295,12 @@ export class NetworkService {
     callStartupConn(server) {
         if (this.connected === true) {
             this.selectedEndpoint.next(server);
-            this.startup(null).catch(console.log);
+            this.startup(null, false).catch(console.log);
         }
     }
 
-    async startup(url) {
+    async startup(url, force) {
+        debugger;
         if (this.isStarting) {
             console.log('startup was already running...');
             return;
@@ -318,7 +319,7 @@ export class NetworkService {
         this.networkingReady.next(false);
 
         // prevent double load after quick connection mode
-        if (endpoint !== this.lastEndpoint || this.autoMode === true) {
+        if (endpoint !== this.lastEndpoint || this.autoMode === true || force) {
 
             // define endpoint and initialize rpc
             this.eosjs.initRPC(endpoint, this.activeChain.id, this.activeChain.endpoints);

@@ -520,7 +520,6 @@ export class AccountsService {
         }
 
         for (const api of apis) {
-            debugger;
             if (!result) {
 
                 let url = api + '/history/get_actions?account=' + account + '&limit=' + limit + '&skip=' + skip;
