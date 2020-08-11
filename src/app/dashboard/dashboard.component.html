@@ -51,7 +51,7 @@
                     <!--Settings btn-->
                     <div class="text-center navbar-btn cog" [routerLink]="['config']">
                         <div>
-                            <fa-icon [icon]="['fal', 'cog']" size="2x"></fa-icon>
+                            <fa-icon [icon]="['fas', 'cog']" size="2x"></fa-icon>
                         </div>
                     </div>
 
@@ -130,10 +130,10 @@
 <!--                   [routerLink]="['dapp']">-->
 <!--                    <fa-icon [icon]="['fas', 'puzzle-piece']"></fa-icon>&nbsp;&nbsp;CONTRACTS (beta)-->
 <!--                </a>-->
-                <a *ngIf="network.activeChain.features['forum']" class="nav-link" routerLinkActive="active"
-                   [routerLink]="['referendum']">
-                    <fa-icon [icon]="['fas', 'box-ballot']"></fa-icon>&nbsp;&nbsp;REFERENDUM
-                </a>
+<!--                <a *ngIf="network.activeChain.features['forum']" class="nav-link" routerLinkActive="active"-->
+<!--                   [routerLink]="['referendum']">-->
+<!--                    <fa-icon [icon]="['fas', 'box-ballot']"></fa-icon>&nbsp;&nbsp;REFERENDUM-->
+<!--                </a>-->
             </section>
         </nav>
     </div>

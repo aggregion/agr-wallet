@@ -11,10 +11,11 @@ export const localConfig = {
       "displayName": "Aggregion",
       "network": "MAINNET",
       "firstApi": environment.production ? "https://185.137.232.118:8888" : "http://185.137.232.118:9999",
-      "historyApi": "https://api.eossweden.org/v2",
+      // "historyApi": "https://api.eossweden.org/v2",
+      "historyApi": "",
       "hyperionApis": [
-        "https://api.eossweden.org/v2",
-        "https://mainnet.eosn.io/v2"
+        // "https://api.eossweden.org/v2",
+        // "https://mainnet.eosn.io/v2"
       ],
       "forumTally": "https://s3.amazonaws.com/api.eosvotes.io/eosvotes/tallies/latest.json",
       "eosrioBP": "eosriobrazil",
