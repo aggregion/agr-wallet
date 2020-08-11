@@ -300,7 +300,6 @@ export class NetworkService {
     }
 
     async startup(url, force) {
-        debugger;
         if (this.isStarting) {
             console.log('startup was already running...');
             return;
