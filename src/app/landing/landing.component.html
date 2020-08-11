@@ -57,13 +57,13 @@
                                     <mat-select [value]="network.activeChain['id']"
                                                 (selectionChange)="changeChain($event)">
                                         <mat-optgroup *ngFor="let group of network.selectGroup"
-                                                      [label]="group.name">
+                                                      [label]="group.displayName">
                                             <mat-option *ngFor="let chain of group.chains" [value]="chain.id"
                                                         class="chain-option">
                                                 <img [src]="'./assets/chain-icons/' + chain.icon" width="28"
                                                      height="28"
                                                      class="chain-icon"/>
-                                                {{ chain.name }}
+                                                {{ chain.displayName }}
                                             </mat-option>
                                         </mat-optgroup>
                                     </mat-select>
@@ -218,13 +218,13 @@
                                                     (selectionChange)="changeChain($event)">
                                             <!--<fa-icon matSuffix [icon]="['fas', 'caret-down']"></fa-icon>-->
                                             <mat-optgroup *ngFor="let group of network.selectGroup"
-                                                          [label]="group.name">
+                                                          [label]="group.displayName">
                                                 <mat-option *ngFor="let chain of group.chains" [value]="chain.id"
                                                             class="chain-option">
                                                     <img [src]="'./assets/chain-icons/' + chain.icon" width="28"
                                                          height="28"
                                                          class="chain-icon"/>
-                                                    {{ chain.name }}
+                                                    {{ chain.displayName }}
                                                 </mat-option>
                                             </mat-optgroup>
                                         </mat-select>

@@ -163,11 +163,6 @@ import { KeygenModalComponent } from './keygen-modal/keygen-modal.component';
 import {A11yModule} from "@angular/cdk/a11y";
 import { CustomChainModalComponent } from './custom-chain-modal/custom-chain-modal.component';
 
-console.log(100, faEye, faClone);
-
-debugger;
-
-
 export function playerFactory() {
     return player;
 }

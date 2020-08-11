@@ -23,7 +23,7 @@ function angularBoot() {
 (async () => {
 
     if (!localStorage.getItem('simplEOS.activeChainID')) {
-        localStorage.setItem('simplEOS.activeChainID', '41c4c54a375c767f11654a907541633bdddf158a8f0c394f657980bc484c91c9');
+        localStorage.setItem('simplEOS.activeChainID', environment.production ? "6d2cd42cb31c1440e4601a7d557082f6642196792b247eab1350e64da48000b3" : "b3b5cc8cbf011f851f77831a31c2d1fc55de8ff677035a5e8ef16c84fa8fa93d");
     }
 
     const url = 'https://raw.githubusercontent.com/eosrio/simpleos/master/config.json';

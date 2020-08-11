@@ -19,7 +19,7 @@ export interface Endpoint {
 }
 
 const defaultCompilerIds = {
-    DEFAULT: '41c4c54a375c767f11654a907541633bdddf158a8f0c394f657980bc484c91c9',
+    DEFAULT: environment.production ? "6d2cd42cb31c1440e4601a7d557082f6642196792b247eab1350e64da48000b3" : "b3b5cc8cbf011f851f77831a31c2d1fc55de8ff677035a5e8ef16c84fa8fa93d",
     LIBERLAND: 'cc7d69ef6216ba33be85e9b256fbfbad4e103c14e0f115b281b2f954838c463a'
 };
 
@@ -136,7 +136,7 @@ export class NetworkService {
         this.createGroups();
 
         const savedChainId = localStorage.getItem('simplEOS.activeChainID');
-        const EOS_MAINNET_ID = '41c4c54a375c767f11654a907541633bdddf158a8f0c394f657980bc484c91c9';
+        const EOS_MAINNET_ID = environment.production ? "6d2cd42cb31c1440e4601a7d557082f6642196792b247eab1350e64da48000b3" : "b3b5cc8cbf011f851f77831a31c2d1fc55de8ff677035a5e8ef16c84fa8fa93d";
 
         if (savedChainId) {
             this.activeChain = this.defaultChains.find((chain) => chain.id === savedChainId);

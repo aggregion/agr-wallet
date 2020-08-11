@@ -3,14 +3,14 @@ import {environment} from './environments/environment';
 export const localConfig = {
   "chains": [
     {
-      "id": "41c4c54a375c767f11654a907541633bdddf158a8f0c394f657980bc484c91c9",
+      "id": environment.production ? "6d2cd42cb31c1440e4601a7d557082f6642196792b247eab1350e64da48000b3" : "b3b5cc8cbf011f851f77831a31c2d1fc55de8ff677035a5e8ef16c84fa8fa93d",
       "symbol": "AGR",
       "icon": "eos.png",
       "precision": 4,
       "name": "EOS MAINNET",
       "displayName": "Aggregion",
       "network": "MAINNET",
-      "firstApi": "https://mainnet-amzn1.blockchain.aggregion.com",
+      "firstApi": environment.production ? "https://185.137.232.118:8888" : "http://185.137.232.118:9999",
       "historyApi": "https://api.eossweden.org/v2",
       "hyperionApis": [
         "https://api.eossweden.org/v2",
@@ -40,26 +40,39 @@ export const localConfig = {
         "eosio.msig",
         "eosio.forum"
       ],
-      "endpoints": environment.production ?
-          [
-            {
-              "url": "https://mainnet-amzn1.blockchain.aggregion.com",
-              "owner": "aggregion",
-              "latency": 0
-            },
-            {
-              "url": "https://mainnet-node1.blockchain.aggregion.com",
-              "owner": "aggregion",
-              "latency": 0
-            }
-          ] :
-          [
-            {
-              "url": "https://mainnet-node1.blockchain.aggregion.com",
-              "owner": "aggregion",
-              "latency": 0
-            }
-          ],
+      "endpoints": environment.production ? [
+        {
+          "url": "",
+          "owner": "aggregion",
+          "latency": 0
+        }
+      ] : [
+        {
+          "url": "http://185.137.232.118:9999",
+          "owner": "aggregion",
+          "latency": 0
+        },
+      ],
+      // "endpoints": environment.production ?
+      //     [
+      //       {
+      //         "url": "185.137.232.118:9999",
+      //         "owner": "aggregion",
+      //         "latency": 0
+      //       },
+      //       {
+      //         "url": "https://mainnet-node1.blockchain.aggregion.com",
+      //         "owner": "aggregion",
+      //         "latency": 0
+      //       }
+      //     ] :
+      //     [
+      //       {
+      //         "url": "https://mainnet-node1.blockchain.aggregion.com",
+      //         "owner": "aggregion",
+      //         "latency": 0
+      //       }
+      //     ],
       "explorers": [
         {
           "name": "Aggregion.com",

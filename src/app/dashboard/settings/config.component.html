@@ -9,11 +9,11 @@
                     <mat-form-field class="chain-selector example-full-width" style="width: 207px;">
                         <mat-select [value]="network.activeChain['id']"
                                     (selectionChange)="changeChain($event)">
-                            <mat-optgroup *ngFor="let group of network.selectGroup" [label]="group.name">
+                            <mat-optgroup *ngFor="let group of network.selectGroup" [label]="group.displayName">
                                 <mat-option *ngFor="let chain of group.chains" [value]="chain.id" class="chain-option">
                                     <img [src]="'./assets/chain-icons/' + chain.icon" width="28" height="28"
                                          class="chain-icon"/>
-                                    {{ chain.name }}
+                                    {{ chain.displayName }}
                                 </mat-option>
                             </mat-optgroup>
                         </mat-select>
@@ -122,7 +122,7 @@
                     <button class="btn btn-outline" (click)="logoutModal = true"
                             style="font-weight: 700">Logout from
                         <span *ngIf="app.compilerVersion === 'DEFAULT'">all chains</span>
-                        <span *ngIf="app.compilerVersion !== 'DEFAULT'">{{aService.activeChain['name']}}</span>
+                        <span *ngIf="app.compilerVersion !== 'DEFAULT'">{{aService.activeChain['displayName']}}</span>
                     </button>
                     <div class="info">*All your data will be cleared from this PC. Should you want to login again, you
                         will
@@ -131,7 +131,7 @@
                 </div>
                 <div class="card-block" *ngIf="app.compilerVersion === 'DEFAULT'">
                     <button class="btn btn-outline" (click)="logoutChainModal = true"
-                            style="font-weight: 700">Logout from {{aService.activeChain['name']}}
+                            style="font-weight: 700">Logout from {{aService.activeChain['displayName']}}
                     </button>
                     <div class="info">*Your data will be cleared from this PC. Should you want to login again, you will
                         have to import your private key again.
@@ -261,7 +261,7 @@
         Are you <span class="highlight-primary">sure</span> ?
     </h3>
     <div class="modal-body" style="overflow-y: hidden;">
-        <p style="margin-bottom: 20px;">Your <span class="highlight-primary">{{aService.activeChain['name']}}</span>
+        <p style="margin-bottom: 20px;">Your <span class="highlight-primary">{{aService.activeChain['displayName']}}</span>
             data will be
             cleared . If you want to login again you will have to import
             your
