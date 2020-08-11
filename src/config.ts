@@ -42,7 +42,7 @@ export const localConfig = {
       ],
       "endpoints": environment.production ? [
         {
-          "url": "",
+          "url": "https://185.137.232.118:8888",
           "owner": "aggregion",
           "latency": 0
         }
