@@ -10,7 +10,7 @@ export const localConfig = {
       "name": "EOS MAINNET",
       "displayName": "Aggregion",
       "network": "MAINNET",
-      "firstApi": environment.production ? "https://185.137.232.118:8888" : "http://185.137.232.118:9999",
+      "firstApi": environment.production ? "https://mainnet-amzn1.blockchain.aggregion.com" : "http://185.137.232.118:9999",
       // "historyApi": "https://api.eossweden.org/v2",
       "historyApi": "",
       "hyperionApis": [
@@ -43,7 +43,7 @@ export const localConfig = {
       ],
       "endpoints": environment.production ? [
         {
-          "url": "https://185.137.232.118:8888",
+          "url": "https://mainnet-amzn1.blockchain.aggregion.com",
           "owner": "aggregion",
           "latency": 0
         }
