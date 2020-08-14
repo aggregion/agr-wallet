@@ -167,7 +167,7 @@ export class Eosjs2Service {
         }
     }
 
-    async getTableRows(_code: string, _scope: string, _table: string) {
+    async getTableRows(_code: string, _scope: string, _table: string, _limit?: number, _lower_bound?: number) {
         if (this.rpc) {
             try {
                 return this.rpc.get_table_rows({
@@ -175,6 +175,8 @@ export class Eosjs2Service {
                     code: _code,
                     scope: _scope,
                     table: _table,
+                    limit: _limit,
+                    lower_bound: _lower_bound,
                 });
             } catch (e) {
                 console.log(e);
@@ -638,7 +640,7 @@ export class Eosjs2Service {
     }
 
     getRamMarketInfo(): Promise<any> {
-        return this.getTableRows('eosio', 'eosio', 'rammarket');
+        return this.getTableRows('eosio', 'eosio', 'rammarket', -1, 0);
     }
 
     getDappMetaData(dapp): Promise<any> {
