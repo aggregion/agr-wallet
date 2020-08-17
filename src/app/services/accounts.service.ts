@@ -845,16 +845,16 @@ export class AccountsService {
     }
 
     async fetchEOSprice() {
-        if (this.activeChain['name'] === 'EOS MAINNET') {
-            try {
-                const priceresult = await this.eosjs.getMainnetTableRows('delphioracle', 'eosusd', 'datapoints');
-                this.usd_rate = priceresult.rows[0].median / 10000;
-                console.log(this.usd_rate);
-            } catch (e) {
-                console.log(e);
-                this.usd_rate = 0;
-            }
-        }
+        // if (this.activeChain['name'] === 'EOS MAINNET') {
+        //     try {
+        //         const priceresult = await this.eosjs.getMainnetTableRows('delphioracle', 'eosusd', 'datapoints');
+        //         this.usd_rate = priceresult.rows[0].median / 10000;
+        //         console.log(this.usd_rate);
+        //     } catch (e) {
+        //         console.log(e);
+        //         this.usd_rate = 0;
+        //     }
+        // }
         return null;
     }
 
