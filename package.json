@@ -1,6 +1,6 @@
 {
 	"name": "agr-wallet",
-	"version": "0.8.0",
+	"version": "0.9.0",
 	"productName": "Aggregion Wallet",
 	"compilerVersion": "DEFAULT",
 	"description": "Blockchain Interface & Wallet",
@@ -40,7 +40,7 @@
 	"private": true,
 	"main": "index.js",
 	"build": {
-		"appId": "simpleos",
+		"appId": "agg-wallet",
 		"directories": {
 			"output": "dist",
 			"buildResources": "build"
@@ -67,7 +67,7 @@
 			"sign": false
 		},
 		"linux": {
-			"executableName": "simpleos",
+			"executableName": "agg-wallet",
 			"target": [
 				"appImage",
 				"deb"
@@ -75,10 +75,10 @@
 			"icon": "icons/simpleos",
 			"category": "Network",
 			"desktop": {
-				"Name": "SimplEOS",
-				"GenericName": "SimplEOS Wallet",
-				"X-GNOME-FullName": "simpleos",
-				"Comment": "SimplEOS Blockchain Wallet",
+				"Name": "AGR Wallet",
+				"GenericName": "AGR Wallet",
+				"X-GNOME-FullName": "agg-wallet",
+				"Comment": "Aggregion Blockchain Wallet",
 				"Type": "Application",
 				"Terminal": "false",
 				"StartupNotify": "false",
@@ -101,7 +101,7 @@
 				"en-US"
 			],
 			"showNameOnTiles": true,
-			"identityName": "EOSRio.SimplEOS"
+			"identityName": "Aggregion.agg-wallet"
 		},
 		"nsis": {
 			"oneClick": true,
@@ -109,7 +109,7 @@
 		},
 		"protocols": [
 			{
-				"name": "simpleos",
+				"name": "agg-wallet",
 				"role": "Viewer",
 				"schemes": [
 					"simpleos"

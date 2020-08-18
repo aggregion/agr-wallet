@@ -3,22 +3,22 @@ const fs = require('fs');
 const conf = require('../package.json');
 
 conf.compilerVersion = "DEFAULT";
-conf.name = 'simpleos';
-conf.appId = "io.eosrio.simpleos";
-conf.productName = 'simpleos';
-conf.description = 'EOSIO Blockchain Interface & Wallet';
-conf.build.appId = 'simpleos';
+conf.name = 'agg-wallet';
+conf.appId = "com.aggregion.agg-wallet";
+conf.productName = 'agg-wallet';
+conf.description = 'Aggregion Blockchain Interface & Wallet';
+conf.build.appId = 'agg-wallet';
 
 // icons
 conf.build.win.icon = "icons/simpleos/icon.ico";
 conf.build.mac.icon = "icons/simpleos/icon.icns";
 conf.build.linux.icon = "icons/simpleos";
-conf.build.linux.executableName = "simpleos";
+conf.build.linux.executableName = "agg-wallet";
 conf.build.linux.desktop = {
-    "Name": "SimplEOS",
-    "GenericName": "SimplEOS Wallet",
-    "X-GNOME-FullName": "simpleos",
-    "Comment": "SimplEOS Blockchain Wallet",
+    "Name": "AGR Wallet",
+    "GenericName": "AGR Wallet",
+    "X-GNOME-FullName": "agg-wallet",
+    "Comment": "Aggregion Blockchain Wallet",
     "Type": "Application",
     "Terminal": "false",
     "StartupNotify": "false",
