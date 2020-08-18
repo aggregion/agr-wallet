@@ -5,7 +5,7 @@ export const localConfig = {
     {
       "id": environment.production ? "6d2cd42cb31c1440e4601a7d557082f6642196792b247eab1350e64da48000b3" : "b3b5cc8cbf011f851f77831a31c2d1fc55de8ff677035a5e8ef16c84fa8fa93d",
       "symbol": "AGR",
-      "icon": "eos.png",
+      "icon": "aggr.png",
       "precision": 4,
       "name": "EOS MAINNET",
       "displayName": "Aggregion",
