@@ -366,7 +366,7 @@ class LedgerManager {
                             const command = `chown $USER:root ${this.deviceDescriptor}`;
                             console.log(`Running "${command}" as root`);
                             sudo.exec(`chown $USER:root ${this.deviceDescriptor}`, {
-                                name: 'SimplEOS Wallet'
+                                name: 'Aggregion Wallet'
                             }, (error, stdout, stderr) => {
                                 if (error) {
                                     console.log(error, stdout, stderr);

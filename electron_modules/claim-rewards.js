@@ -175,7 +175,7 @@ class ClaimRewardsService {
 		this.appIcon = new Tray(path.join(__dirname, '../static/tray-icon.png'));
 		const trayMenu = Menu.buildFromTemplate([
 			{
-				label: 'SimplEOS Wallet', click: () => {
+				label: 'Aggregion Wallet', click: () => {
 					const spawn = require('child_process').spawn;
 					spawn(process.execPath, [], {
 						detached: true,
@@ -184,14 +184,14 @@ class ClaimRewardsService {
 				},
 			},
 			{
-				label: 'Quit SimplEOS Agent', click: () => {
+				label: 'Quit AggregionWallet Agent', click: () => {
 					this.appIcon['destroy']();
 					ClaimRewardsService.unlinkFile(this.lockAutoLaunchFile);
 					app.quit();
 				},
 			},
 		]);
-		this.appIcon['setToolTip']('simplEOS Agent');
+		this.appIcon['setToolTip']('Aggregion Agent');
 		this.appIcon['setContextMenu'](trayMenu);
 	}
 
