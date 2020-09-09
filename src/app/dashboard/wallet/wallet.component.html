@@ -177,7 +177,7 @@
 
                             <td class="text-center" style="width: 50px;">
                                 <fa-icon *ngIf="item.type === 'received' && item.user !== item.contract"
-                                         [icon]="['fal', 'arrow-alt-to-bottom']" size="lg"
+                                         [icon]="['fas', 'arrow-down']" size="lg"
                                          class="blue"></fa-icon>
                                 <fa-icon *ngIf="item.type === 'received' && item.user === item.contract "
                                          [icon]="['fas', 'parachute-box']" size="lg" class="blue"></fa-icon>
@@ -484,7 +484,7 @@
                             <td class="text-right expandable" style="width: 35px;">
                                 <!--										<a  href="#" [pRowToggler]="item">-->
                                 <fa-icon
-                                        [icon]="['fal', expanded ? 'chevron-circle-up' : 'chevron-circle-down']"
+                                        [icon]="['fas', expanded ? 'chevron-circle-up' : 'chevron-circle-down']"
                                         size="lg" class="highlight-primary">
                                 </fa-icon>
                                 <!--										</a>-->

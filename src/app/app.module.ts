@@ -58,6 +58,7 @@ import {faWeixin} from '@fortawesome/free-brands-svg-icons/faWeixin';
 // FAR - Regular Pro
 import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons/faSignOutAlt';
 import {faExclamationCircle} from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
+import {faArrowDown} from '@fortawesome/free-solid-svg-icons/faArrowDown';
 import {faUndo} from '@fortawesome/free-solid-svg-icons/faUndo';
 import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons/faQuestionCircle';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons/faSpinner';
@@ -280,6 +281,7 @@ export class AppModule {
         // far regular
         icons.push(...[
             faSignOutAlt,
+            faArrowDown,
             faExclamationCircle,
             faUndo,
             faQuestionCircle,

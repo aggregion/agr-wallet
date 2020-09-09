@@ -289,7 +289,7 @@ export class WalletComponent implements OnInit, AfterViewInit, OnDestroy {
         this.paginator.changePage(0);
         setTimeout(() => {
             this.shouldLazyLoad = true;
-        }, 200);
+        }, 500);
 
     }
 
