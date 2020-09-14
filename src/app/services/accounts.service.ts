@@ -587,7 +587,7 @@ export class AccountsService {
         }
         // fallback to native
         const _position = pos === 0 ? -1 : pos;
-        const _offset = pos === 0 ? -offset : -(offset - 1);
+        const _offset = -offset;
         this.eosjs.getAccountActions(account, _position, _offset).then((val) => {
             const actions = val['actions'];
             actions.reverse();

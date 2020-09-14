@@ -233,7 +233,7 @@ export class WalletComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (this.aService.actions.length > 0) {
                     const lastAction = this.aService.actions[this.aService.actions.length - 1];
                     if (lastAction.seq) {
-                        pos = lastAction.seq - 1 - (this.maxRows * (diff - 1));
+                        pos = lastAction.seq - (this.maxRows * (diff - 1));
                     }
                 }
             }
@@ -244,7 +244,7 @@ export class WalletComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (this.aService.actions.length > 0) {
                     const firstAction = this.aService.actions[0];
                     if (firstAction.seq) {
-                        pos = firstAction.seq + this.maxRows + (this.maxRows * (diff - 1));
+                        pos = firstAction.seq + this.maxRows + (this.maxRows * (diff - 1)) + 1;
                     }
                 }
             }
@@ -287,6 +287,7 @@ export class WalletComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.shouldLazyLoad = false;
         this.paginator.changePage(0);
+        this.lastPage = 0;
         setTimeout(() => {
             this.shouldLazyLoad = true;
         }, 500);
